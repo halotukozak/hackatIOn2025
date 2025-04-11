@@ -1,6 +1,6 @@
 package edu.agh.roomie.rest.model
 
-import edu.agh.roomie.scheme.InfoService
+import edu.agh.roomie.service.InfoService
 import kotlinx.serialization.Serializable
 
 @Serializable

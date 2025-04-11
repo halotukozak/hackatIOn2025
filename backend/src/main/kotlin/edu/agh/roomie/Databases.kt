@@ -1,7 +1,7 @@
 package edu.agh.roomie
 
 import edu.agh.roomie.rest.model.User
-import edu.agh.roomie.scheme.UserService
+import edu.agh.roomie.service.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

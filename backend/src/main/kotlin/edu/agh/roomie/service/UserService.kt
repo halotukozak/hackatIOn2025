@@ -1,9 +1,9 @@
-package edu.agh.roomie.scheme
+package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.User
 import edu.agh.roomie.rest.model.toShared
-import edu.agh.roomie.scheme.InfoService.InfosTable
-import edu.agh.roomie.scheme.PreferencesService.PreferencesTable
+import edu.agh.roomie.service.InfoService.InfosTable
+import edu.agh.roomie.service.PreferencesService.PreferencesTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
