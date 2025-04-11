@@ -1,4 +1,4 @@
-package edu.agh.edu.agh.roomie
+package edu.agh.roomie.rest
 
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*

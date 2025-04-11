@@ -1,9 +1,8 @@
 package edu.agh.roomie
 
-import edu.agh.edu.agh.roomie.configureHTTP
-import edu.agh.edu.agh.roomie.configureRouting
-import edu.agh.edu.agh.roomie.configureSecurity
-import edu.agh.edu.agh.roomie.configureSerialization
+import edu.agh.roomie.rest.configureHTTP
+import edu.agh.roomie.rest.configureRouting
+import edu.agh.roomie.rest.configureSecurity
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -13,7 +12,6 @@ fun main(args: Array<String>) {
 fun Application.module() {
   configureSecurity()
   configureHTTP()
-  configureSerialization()
   configureDatabases()
   configureRouting()
 }
