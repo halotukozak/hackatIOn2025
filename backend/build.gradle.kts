@@ -9,7 +9,7 @@ plugins {
   id("org.jetbrains.kotlin.plugin.serialization") version "2.1.20"
 }
 
-group = "edu.agh"
+group = "edu.agh.roomie"
 version = "0.0.1"
 
 application {
