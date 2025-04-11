@@ -5,7 +5,7 @@ Our application aims to assist students in finding compatible roommates by lever
 ## User info
 - Sleep schedule (scale: early bird to night owl)
 - Hobbies and interests (list of hobbies)
-- Smoking habits (scale: non-smoker to frequent smoker)
+- Smoking habits (yes/no)
 - Drinking habits (scale: non-drinker to frequent drinker)
 - Personality type (scale: introverted to extroverted)
 - Year of study (integer)
@@ -15,7 +15,7 @@ Our application aims to assist students in finding compatible roommates by lever
 ## Preferences info
 - Sleep schedule (scale: early bird to night owl)
 - Hobbies and interests (scale: not important to very important)
-- Smoking habits (scale: non-smoker to frequent smoker)
+- Smoking habits (yes/no)
 - Drinking habits (scale: non-drinker to frequent drinker)
 - Personality type (scale: introverted to extroverted)
 - Year of study (scale: first year to final year)
@@ -32,14 +32,14 @@ When two users mutually express interest, their contact information is shared, e
 
 ## Key Features
 
-- User registration and logging system
+- User registration and logging system.
 - Detailed onboarding questionnaire to gather user preferences and traits.
 - Compatibility scoring system to prioritize the best matches.
 - Swipe-based interaction for profile selection.
 - Mutual interest matching to share contact information.
 - Option to deactivate or remove profiles from the system.
-- Notifications preview
-- User info preview
+- Notifications preview.
+- User info preview.
 
 ## Technologies
 
