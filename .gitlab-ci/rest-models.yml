@@ -15,8 +15,15 @@ jobs:
       - name: Save Git state
         run: git diff > /tmp/git-before.diff
 
-      - name: Run Kotlin script
-        run: kotlinc -script backend/src/main/kotlin/edu/agh/roomie/scripts/exportRestModels.kts
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run Gradle task to generate TypeScript models
+        working-directory: ./backend
+        run: ./gradlew exportRestModels
 
       - name: Check for changes
         run: |
