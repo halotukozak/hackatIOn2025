@@ -2,7 +2,6 @@
 
 Our application aims to assist students in finding compatible roommates by leveraging a concept similar to popular dating apps like Tinder. During the onboarding process, users complete a detailed questionnaire to specify their preferences and personal traits. This helps ensure better compatibility between potential roommates. The questionnaire includes aspects such as:
 
-Every preference doesn't have to be entered or in case of preferences one can say it doesn't matter.
 ## User info
 - Sleep schedule (scale: early bird to night owl)
 - Hobbies and interests (list of hobbies)
