@@ -1,4 +1,4 @@
-package edu.agh
+package edu.agh.roomie
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.Serializable
