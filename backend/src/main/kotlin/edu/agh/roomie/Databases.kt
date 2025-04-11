@@ -1,23 +1,13 @@
 package edu.agh.roomie
 
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
+import edu.agh.roomie.rest.model.User
+import edu.agh.roomie.scheme.UserService
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.plugins.compression.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.defaultheaders.*
-import io.ktor.server.plugins.openapi.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.sessions.*
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
 
 fun Application.configureDatabases() {
   val database = Database.connect(
@@ -28,14 +18,13 @@ fun Application.configureDatabases() {
   )
   val userService = UserService(database)
   routing {
-    // Create user
+
     post("/users") {
-      val user = call.receive<ExposedUser>()
+      val user = call.receive<User>()
       val id = userService.create(user)
       call.respond(HttpStatusCode.Created, id)
     }
 
-    // Read user
     get("/users/{id}") {
       val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
       val user = userService.read(id)
@@ -44,21 +33,6 @@ fun Application.configureDatabases() {
       } else {
         call.respond(HttpStatusCode.NotFound)
       }
-    }
-
-    // Update user
-    put("/users/{id}") {
-      val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-      val user = call.receive<ExposedUser>()
-      userService.update(id, user)
-      call.respond(HttpStatusCode.OK)
-    }
-
-    // Delete user
-    delete("/users/{id}") {
-      val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-      userService.delete(id)
-      call.respond(HttpStatusCode.OK)
     }
   }
 }
