@@ -12,9 +12,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Save Git state
-        run: git diff > /tmp/git-before.diff
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -35,7 +32,3 @@ jobs:
           else
             echo "✅ No files changed."
           fi
-
-    artifacts:
-      paths:
-        - /tmp/git-before.diff
