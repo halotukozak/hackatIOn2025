@@ -1,0 +1,34 @@
+name: Run TypeScript Model Generation and Check for File Changes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run-ts-model-generation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Save Git state
+        run: git diff > /tmp/git-before.diff
+
+      - name: Run Kotlin script
+        run: kotlinc -script backend/src/main/kotlin/edu/agh/roomie/scripts/exportRestModels.kts
+
+      - name: Check for changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "❌ Files changed after running the script:"
+            git status --short
+            git diff
+            exit 1
+          else
+            echo "✅ No files changed."
+          fi
+
+    artifacts:
+      paths:
+        - /tmp/git-before.diff
