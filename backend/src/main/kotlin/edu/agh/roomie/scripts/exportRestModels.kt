@@ -1,3 +1,5 @@
+package edu.agh.roomie.scripts
+
 import dev.adamko.kxstsgen.KxsTsGenerator
 import edu.agh.roomie.rest.model.Info
 import edu.agh.roomie.rest.model.Preferences

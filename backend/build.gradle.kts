@@ -19,6 +19,19 @@ application {
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+tasks.register("exportRestModels") {
+  group = "application"
+  description = "Generates TypeScript models from Kotlin data classes"
+
+  doLast {
+    javaexec {
+      classpath = sourceSets["main"].runtimeClasspath
+      mainClass.set("edu.agh.roomie.scripts.ExportRestModelsKt")
+      workingDir = rootProject.projectDir.parentFile
+    }
+  }
+}
+
 repositories {
   mavenCentral()
 }
@@ -44,7 +57,7 @@ dependencies {
   implementation("io.ktor:ktor-server-netty")
   implementation("ch.qos.logback:logback-classic:$logback_version")
   implementation("io.ktor:ktor-server-config-yaml")
-  compileOnly("dev.adamko.kxstsgen:kxs-ts-gen-core:0.2.1")
+  implementation("dev.adamko.kxstsgen:kxs-ts-gen-core:0.2.1")
   testImplementation("io.ktor:ktor-server-test-host")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
