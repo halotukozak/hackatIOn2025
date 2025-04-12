@@ -1,8 +1,6 @@
 name: Run TypeScript Model Generation and Check for File Changes
 
-on:
-  push:
-  pull_request:
+on: [ push, pull_request ]
 
 jobs:
   run-ts-model-generation:
