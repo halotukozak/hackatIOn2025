@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getHobbies, getDepartments } from "../api.ts"
+import { getHobbies, getDepartments } from "../apis/preferences.ts"
 import StepOne from "./StepOne.tsx"
 import StepTwo from "./StepTwo.tsx"
 import StepThree from "./StepThree.tsx"
