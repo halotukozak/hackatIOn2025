@@ -6,6 +6,7 @@ import './index.css'
 import HomePage from "./HomePage.tsx";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
+import DiscoverPage from "./DiscoverPage";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/" element={<HomePage />} />
               <Route path="/log_in" element={<LoginPage />} />
               <Route path="/get_started" element={<RegisterPage />} />
+              <Route path="/discover" element={<DiscoverPage />} />
           </Routes>
       </BrowserRouter>
   </StrictMode>,
