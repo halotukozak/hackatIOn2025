@@ -18,7 +18,6 @@ data class Info(
   init {
     require(sleepSchedule.first in 0..23) { "sleepSchedule start must be between 0 and 23" }
     require(sleepSchedule.second in 0..23) { "sleepSchedule end must be between 0 and 23" }
-    require(sleepSchedule.first < sleepSchedule.second) { "sleepSchedule start must be less than end" }
     require(yearOfStudy > 0) { "yearOfStudy must be positive" }
   }
 }
