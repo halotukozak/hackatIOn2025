@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val exposed_version: String by project
 val h2_version: String by project
 val kotlin_version: String by project
@@ -26,6 +28,12 @@ tasks.register("exportRestModels", JavaExec::class) {
   mainClass.set("edu.agh.roomie.scripts.ExportRestModelsKt")
   // Default target directory is "../frontend/src/rest" relative to the project root
   args = listOf("../frontend/src/rest")
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+      freeCompilerArgs.addAll("-Xcontext-receivers")
+    }
 }
 
 repositories {
