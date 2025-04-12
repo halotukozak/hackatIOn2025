@@ -17,10 +17,13 @@ fun main(args: Array<String>) {
       Info.serializer(),
       Faculty.serializer(),
       Hobby.serializer(),
+    ),
+    "model.auth" to listOf(
       AdditionalInfoRequest.serializer(),
       LoginRequest.serializer(),
       RegisterRequest.serializer(),
-    ),
+      AuthResponse.serializer(),
+    )
   )
   val tsGenerator = KxsTsGenerator()
 

@@ -70,19 +70,3 @@ export enum Hobby {
   painting = "painting",
   photography = "photography",
 }
-
-export interface AdditionalInfoRequest {
-  userId: number;
-  info: Info;
-  preferences: Preferences;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  email: string;
-  password: string;
-}
