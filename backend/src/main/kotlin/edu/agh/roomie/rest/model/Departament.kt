@@ -23,3 +23,7 @@ enum class Departament(val fullname: String) {
   WI("Wydział Informatyki"),
   WTK("Wydział Technologii Kosmicznych"),
 }
+
+data object Departaments {
+  val all = Departament.entries.associate { it to it.fullname }
+}
