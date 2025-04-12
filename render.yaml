@@ -3,6 +3,7 @@ services:
     name: roomie-backend
     env: docker
     dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
