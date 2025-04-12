@@ -9,7 +9,7 @@ import {
 import Navbar from "./Navbar";
 
 const user1: User = {
-  name: "Emma",
+  name: "Emmalongname",
   surname: "Johnson",
   email: "emma@example.com",
   age: 21,
