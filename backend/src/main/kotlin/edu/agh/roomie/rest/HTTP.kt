@@ -12,12 +12,18 @@ import io.ktor.server.routing.*
 fun Application.configureHTTP() {
   install(Compression)
   install(CORS) {
+    anyHost() // or host("localhost:5174")
+
     allowMethod(HttpMethod.Options)
     allowMethod(HttpMethod.Put)
     allowMethod(HttpMethod.Delete)
     allowMethod(HttpMethod.Patch)
+    allowMethod(HttpMethod.Post) // ← add this
+
     allowHeader(HttpHeaders.Authorization)
+    allowHeader(HttpHeaders.ContentType) // ← add this
     allowHeader("MyCustomHeader")
-    anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+
+    allowCredentials = true // ← optional, if you're using cookies
   }
 }
