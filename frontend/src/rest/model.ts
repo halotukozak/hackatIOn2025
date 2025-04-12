@@ -9,12 +9,28 @@ export interface User {
 
 export interface Info {
   description: string;
-  smoke: boolean;
-  drink: boolean;
+  sleepSchedule: Pair;
+  hobbies: string;
+  smoke: number;
+  drink: number;
+  personalityType: number;
+  yearOfStudy: number;
+  faculty: string;
+  relationshipStatus: number;
 }
 
 export interface Preferences {
-  smoke: boolean;
-  drink: boolean;
-  level: number | null;
+  sleepScheduleMatters: boolean;
+  hobbiesMatters: boolean;
+  smokingImportance: number;
+  drinkImportance: number;
+  personalityTypeImportance: number;
+  yearOfStudyMatters: boolean;
+  facultyMatters: boolean;
+  relationshipStatusImportance: number;
+}
+
+export interface Pair {
+  first: number;
+  second: number;
 }
