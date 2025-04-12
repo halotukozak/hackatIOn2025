@@ -1,9 +1,6 @@
 package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.Faculty
-import edu.agh.roomie.rest.model.Hobby
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.toShared
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -17,6 +14,8 @@ class InfoService(database: Database) {
   class InfoEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<InfoEntity>(InfosTable)
 
+    var name by InfosTable.name
+    var surname by InfosTable.surname
     var age by InfosTable.age
     var description by InfosTable.description
     var sleepStart by InfosTable.sleepStart
@@ -31,6 +30,8 @@ class InfoService(database: Database) {
   }
 
   object InfosTable : IntIdTable() {
+    val name = varchar("name", length = 50)
+    val surname = varchar("surname", length = 50)
     val age = integer("age")
     val description = varchar("description", length = 255)
     val smoke = bool("smoke")
