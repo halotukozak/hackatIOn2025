@@ -2,6 +2,7 @@ package edu.agh.roomie.rest.endpoints
 
 import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.model.AuthResponse
+import edu.agh.roomie.rest.model.DeleteRequest
 import edu.agh.roomie.rest.model.LoginRequest
 import edu.agh.roomie.rest.model.RegisterRequest
 import io.ktor.http.*
@@ -45,6 +46,13 @@ fun Application.configureAuthRouting() = routing {
       } catch (e: Exception) {
         call.respond(HttpStatusCode.BadRequest, "Registration failed: ${e.message}")
       }
+    }
+
+    delete("/unregister") {
+      val deleteRequest = call.receive<DeleteRequest>()
+      userService.removeUser(deleteRequest.userId)
+      authService.removeToken(deleteRequest.userId.toString())
+      call.respond(HttpStatusCode.OK, "User unregistered successfully")
     }
   }
 }

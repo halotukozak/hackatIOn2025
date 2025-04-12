@@ -24,7 +24,7 @@ fun Application.configureInitialRouting() {
       post("/additional-data") {
         val additionalInfoRequest = call.receive<AdditionalInfoRequest>()
         val userId = additionalInfoRequest.userId
-        userService.createUserAdditionalData(
+        userService.upsertUserAdditionalData(
           userId,
           additionalInfoRequest.info,
           additionalInfoRequest.preferences,

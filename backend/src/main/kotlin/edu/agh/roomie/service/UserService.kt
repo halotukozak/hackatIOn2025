@@ -65,9 +65,12 @@ class UserService(database: Database) {
   }
 
   suspend fun getUserById(id: Int): User? = newSuspendedTransaction { UserEntity.findById(id)?.toShared() }
-  suspend fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) = newSuspendedTransaction {
+  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) = newSuspendedTransaction {
     UserEntity.findByIdAndUpdate(id) { user ->
+      user.info?.delete()
       user.info = InfoService.InfoEntity.new {
+        this.name = info.name
+        this.surname = info.surname
         this.age = info.age
         this.description = info.description
         this.sleepStart = info.sleepSchedule.first
@@ -80,6 +83,7 @@ class UserService(database: Database) {
         this.relationshipStatus = info.relationshipStatus
         this.faculty = info.faculty
       }
+      user.preferences?.delete()
       user.preferences = PreferencesService.PreferencesEntity.new {
         this.sleepScheduleMatters = preferences.sleepScheduleMatters
         this.hobbiesMatters = preferences.hobbiesMatters
@@ -91,5 +95,9 @@ class UserService(database: Database) {
         this.relationshipStatusImportance = preferences.relationshipStatusImportance
       }
     }
+  }
+
+  suspend fun removeUser(id: Int) = newSuspendedTransaction {
+    UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 }

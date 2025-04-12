@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Info(
+  val name: String,
+  val surname: String,
   val age: Int,
   val description: String,
   val sleepSchedule: Pair<Int, Int>,
@@ -24,6 +26,8 @@ data class Info(
 }
 
 fun InfoService.InfoEntity.toShared() = Info(
+  name = this.name,
+  surname = this.surname,
   age = this.age,
   description = this.description,
   sleepSchedule = Pair(this.sleepStart, this.sleepEnd),
