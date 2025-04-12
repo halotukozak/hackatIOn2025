@@ -34,7 +34,7 @@ export default function LoginPage() {
                 </button>
 
                 <p className="text-center text-sm">
-                    Don’t have an account? <a href="/register" className="link">Register</a>
+                    Don’t have an account? <a href="/sign_in" className="link">Register</a>
                 </p>
             </form>
         </div>
