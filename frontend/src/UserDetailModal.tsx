@@ -22,7 +22,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-2xl p-6 w-[95%] max-w-md shadow-xl relative">
+      <div className="bg-white rounded-2xl p-6 w-[95%] max-w-md max-h-[90vh] overflow-y-auto shadow-xl relative">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <div>
