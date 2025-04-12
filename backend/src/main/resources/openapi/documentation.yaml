@@ -4,73 +4,8 @@ info:
   description: "roomie API"
   version: "1.0.0"
 servers:
-- url: "http://0.0.0.0:8080"
+- url: "https://roomie"
 paths:
-  /registration/additional-data:
-    post:
-      description: ""
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              $ref: "#/components/schemas/AdditionalInfoRequest"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "User additional data updated successfully"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Failed to update user additional data"
-  /registration/available-departments:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Map_Faculty"
-  /registration/available-hobbies:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  type: "string"
-                  enum:
-                  - "basketball"
-                  - "football"
-                  - "volleyball"
-                  - "swimming"
-                  - "running"
-                  - "cycling"
-                  - "hiking"
-                  - "climbing"
-                  - "skiing"
-                  - "music"
-                  - "dance"
-                  - "cooking"
-                  - "painting"
-                  - "photography"
   /auth/login:
     post:
       description: ""
@@ -149,8 +84,138 @@ paths:
               examples:
                 Example#1:
                   value: ""
+  /registration/additional-data:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/AdditionalInfoRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User additional data updated successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Failed to update user additional data"
+  /registration/available-departments:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_Faculty"
+  /registration/available-hobbies:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  enum:
+                  - "basketball"
+                  - "football"
+                  - "volleyball"
+                  - "swimming"
+                  - "running"
+                  - "cycling"
+                  - "hiking"
+                  - "climbing"
+                  - "skiing"
+                  - "music"
+                  - "dance"
+                  - "cooking"
+                  - "painting"
+                  - "photography"
+  /user/{userId}:
+    get:
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user ID format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User not found"
 components:
   schemas:
+    LoginRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
+    AuthResponse:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+        userId:
+          type: "integer"
+          format: "int32"
+      required:
+      - "token"
+      - "userId"
+    RegisterRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
     Info:
       type: "object"
       properties:
@@ -277,34 +342,16 @@ components:
       properties: {}
     Map_Faculty:
       type: "string"
-    LoginRequest:
+    User:
       type: "object"
       properties:
         email:
           type: "string"
-        password:
-          type: "string"
+        info:
+          $ref: "#/components/schemas/Info"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
       required:
       - "email"
-      - "password"
-    AuthResponse:
-      type: "object"
-      properties:
-        token:
-          type: "string"
-        userId:
-          type: "integer"
-          format: "int32"
-      required:
-      - "token"
-      - "userId"
-    RegisterRequest:
-      type: "object"
-      properties:
-        email:
-          type: "string"
-        password:
-          type: "string"
-      required:
-      - "email"
-      - "password"
+      - "info"
+      - "preferences"
