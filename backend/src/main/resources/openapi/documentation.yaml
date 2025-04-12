@@ -4,7 +4,7 @@ info:
   description: "roomie API"
   version: "1.0.0"
 servers:
-- url: "http://0.0.0.0:8080"
+  - url: "http://0.0.0.0:8080"
 paths:
   /registration/additional-data:
     post:
@@ -57,20 +57,20 @@ paths:
                 items:
                   type: "string"
                   enum:
-                  - "basketball"
-                  - "football"
-                  - "volleyball"
-                  - "swimming"
-                  - "running"
-                  - "cycling"
-                  - "hiking"
-                  - "climbing"
-                  - "skiing"
-                  - "music"
-                  - "dance"
-                  - "cooking"
-                  - "painting"
-                  - "photography"
+                    - "basketball"
+                    - "football"
+                    - "volleyball"
+                    - "swimming"
+                    - "running"
+                    - "cycling"
+                    - "hiking"
+                    - "climbing"
+                    - "skiing"
+                    - "music"
+                    - "dance"
+                    - "cooking"
+                    - "painting"
+                    - "photography"
   /auth/login:
     post:
       description: ""
@@ -100,11 +100,11 @@ paths:
     post:
       description: ""
       parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        schema:
-          type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: false
+          schema:
+            type: "string"
       responses:
         "200":
           description: "OK"
@@ -167,20 +167,20 @@ components:
           items:
             type: "string"
             enum:
-            - "basketball"
-            - "football"
-            - "volleyball"
-            - "swimming"
-            - "running"
-            - "cycling"
-            - "hiking"
-            - "climbing"
-            - "skiing"
-            - "music"
-            - "dance"
-            - "cooking"
-            - "painting"
-            - "photography"
+              - "basketball"
+              - "football"
+              - "volleyball"
+              - "swimming"
+              - "running"
+              - "cycling"
+              - "hiking"
+              - "climbing"
+              - "skiing"
+              - "music"
+              - "dance"
+              - "cooking"
+              - "painting"
+              - "photography"
         smoke:
           type: "boolean"
         drink:
@@ -194,38 +194,38 @@ components:
         faculty:
           type: "string"
           enum:
-          - "WILiGZ"
-          - "WIMiIP"
-          - "WEAIIB"
-          - "WIET"
-          - "WIMiR"
-          - "WGGiOS"
-          - "WGGiIS"
-          - "WIMiC"
-          - "WO"
-          - "WMN"
-          - "WWNiG"
-          - "WZ"
-          - "WEiP"
-          - "WFiIS"
-          - "WMS"
-          - "WH"
-          - "WI"
-          - "WTK"
+            - "WILiGZ"
+            - "WIMiIP"
+            - "WEAIIB"
+            - "WIET"
+            - "WIMiR"
+            - "WGGiOS"
+            - "WGGiIS"
+            - "WIMiC"
+            - "WO"
+            - "WMN"
+            - "WWNiG"
+            - "WZ"
+            - "WEiP"
+            - "WFiIS"
+            - "WMS"
+            - "WH"
+            - "WI"
+            - "WTK"
         relationshipStatus:
           type: "integer"
           format: "int32"
       required:
-      - "age"
-      - "description"
-      - "sleepSchedule"
-      - "hobbies"
-      - "smoke"
-      - "drink"
-      - "personalityType"
-      - "yearOfStudy"
-      - "faculty"
-      - "relationshipStatus"
+        - "age"
+        - "description"
+        - "sleepSchedule"
+        - "hobbies"
+        - "smoke"
+        - "drink"
+        - "personalityType"
+        - "yearOfStudy"
+        - "faculty"
+        - "relationshipStatus"
     Preferences:
       type: "object"
       properties:
@@ -250,14 +250,14 @@ components:
           type: "integer"
           format: "int32"
       required:
-      - "sleepScheduleMatters"
-      - "hobbiesMatters"
-      - "smokingImportance"
-      - "drinkImportance"
-      - "personalityTypeImportance"
-      - "yearOfStudyMatters"
-      - "facultyMatters"
-      - "relationshipStatusImportance"
+        - "sleepScheduleMatters"
+        - "hobbiesMatters"
+        - "smokingImportance"
+        - "drinkImportance"
+        - "personalityTypeImportance"
+        - "yearOfStudyMatters"
+        - "facultyMatters"
+        - "relationshipStatusImportance"
     AdditionalInfoRequest:
       type: "object"
       properties:
@@ -269,12 +269,12 @@ components:
         preferences:
           $ref: "#/components/schemas/Preferences"
       required:
-      - "userId"
-      - "info"
-      - "preferences"
+        - "userId"
+        - "info"
+        - "preferences"
     Map:
       type: "object"
-      properties: {}
+      properties: { }
     Map_Faculty:
       type: "string"
     LoginRequest:
@@ -285,8 +285,8 @@ components:
         password:
           type: "string"
       required:
-      - "email"
-      - "password"
+        - "email"
+        - "password"
     AuthResponse:
       type: "object"
       properties:
@@ -296,8 +296,8 @@ components:
           type: "integer"
           format: "int32"
       required:
-      - "token"
-      - "userId"
+        - "token"
+        - "userId"
     RegisterRequest:
       type: "object"
       properties:
@@ -306,5 +306,5 @@ components:
         password:
           type: "string"
       required:
-      - "email"
-      - "password"
+        - "email"
+        - "password"
