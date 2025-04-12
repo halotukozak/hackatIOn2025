@@ -4,9 +4,12 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 import HomePage from "./HomePage.tsx";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+
+
 import DiscoverPage from "./DiscoverPage";
+import LoginPage from "./authentication/LoginPage.tsx";
+import PreferencesPage from "./preferences/PreferencesPage.tsx"
+import RegisterPage from "./authentication/RegisterPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,8 +17,9 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/log_in" element={<LoginPage />} />
-              <Route path="/get_started" element={<RegisterPage />} />
-              <Route path="/discover" element={<DiscoverPage />} />
+
+              <Route path="/sign_in" element={<RegisterPage />} />
+              <Route path="/get_started" element={<PreferencesPage />} />
           </Routes>
       </BrowserRouter>
   </StrictMode>,
