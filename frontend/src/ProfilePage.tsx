@@ -1,4 +1,4 @@
-// src/pages/ProfilePage.tsx
+import { useRef, useState } from "react";
 
 import Navbar from "./Navbar";
 import {
@@ -10,6 +10,7 @@ import {
   drinkLabels,
   smokeLabels,
 } from "./types/user";
+import { Link } from "react-router-dom";
 
 const mockUser: User = {
   name: "Jane",
@@ -32,6 +33,23 @@ const mockUser: User = {
 
 export default function ProfilePage() {
   const hobbies = mockUser.info.hobbies.split(", ");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [photo, setPhoto] = useState<string | null>(null);
+
+  const handlePhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-base-100">
@@ -39,9 +57,28 @@ export default function ProfilePage() {
       <div className="pt-20 px-6 max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-            {/* Image Placeholder */}
-            <span>👤</span>
+          {/* Clickable Profile Photo */}
+          <div
+            className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer border border-gray-300"
+            onClick={handlePhotoClick}
+            title="Click to change photo"
+          >
+            {photo ? (
+              <img
+                src={photo}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span>👤</span>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="hidden"
+            />
           </div>
           <div>
             <h1 className="text-2xl font-semibold">Your Profile</h1>
@@ -95,7 +132,11 @@ export default function ProfilePage() {
 
         {/* Buttons */}
         <div className="flex justify-between mt-4">
-          <button className="btn btn-outline btn-success">Edit Profile</button>
+          <Link to="/get_started">
+            <button className="btn btn-outline btn-success">
+              Edit Profile
+            </button>
+          </Link>
           <button className="btn btn-error text-white">Deactivate</button>
         </div>
       </div>

@@ -19,7 +19,7 @@ export default function Navbar() {
             <li>
               <Link
                 to="/discover"
-                className={`btn text-white ${
+                className={`btn ${
                   currentPath === "/discover" ? "btn-primary" : "btn-base-300"
                 }`}
               >

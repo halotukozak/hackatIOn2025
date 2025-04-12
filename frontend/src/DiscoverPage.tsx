@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Navbar from "./Navbar";
-// import React from "react";
 
 export default function DiscoverPage() {
   return (
