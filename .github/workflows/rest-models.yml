@@ -1,0 +1,32 @@
+name: Run TypeScript Model Generation and Check for File Changes
+
+on: [ push, pull_request ]
+
+jobs:
+  run-ts-model-generation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run Gradle task to generate TypeScript models
+        working-directory: ./backend
+        run: ./gradlew exportRestModels
+
+      - name: Check for changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "❌ REST models changed after running the script. Fix it before merge, my friend."
+            git status --short
+            git diff
+            exit 1
+          else
+            echo "✅ No files changed."
+          fi

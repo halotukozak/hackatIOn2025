@@ -1,4 +1,4 @@
-package edu.agh.roomie.scheme
+package edu.agh.roomie.service
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

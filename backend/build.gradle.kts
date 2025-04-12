@@ -19,6 +19,15 @@ application {
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+tasks.register("exportRestModels", JavaExec::class) {
+  group = "application"
+  description = "Generate TypeScript models from Kotlin data classes"
+  classpath = sourceSets["main"].runtimeClasspath
+  mainClass.set("edu.agh.roomie.scripts.ExportRestModelsKt")
+  // Default target directory is "../frontend/src/rest" relative to the project root
+  args = listOf("../frontend/src/rest")
+}
+
 repositories {
   mavenCentral()
 }
@@ -44,6 +53,7 @@ dependencies {
   implementation("io.ktor:ktor-server-netty")
   implementation("ch.qos.logback:logback-classic:$logback_version")
   implementation("io.ktor:ktor-server-config-yaml")
+  implementation("dev.adamko.kxstsgen:kxs-ts-gen-core:0.2.1")
   testImplementation("io.ktor:ktor-server-test-host")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

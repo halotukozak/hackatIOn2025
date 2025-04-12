@@ -1,6 +1,6 @@
 package edu.agh.roomie.rest.model
 
-import edu.agh.roomie.scheme.PreferencesService
+import edu.agh.roomie.service.PreferencesService
 import kotlinx.serialization.Serializable
 
 @Serializable

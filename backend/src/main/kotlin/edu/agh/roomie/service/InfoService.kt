@@ -1,4 +1,4 @@
-package edu.agh.roomie.scheme
+package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.Info
 import kotlinx.coroutines.Dispatchers
