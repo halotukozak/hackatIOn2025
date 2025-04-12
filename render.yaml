@@ -2,12 +2,7 @@ services:
   - type: web
     name: roomie-backend
     env: docker
-    dockerfilePath: ./backend/Dockerfile
     plan: free
-    healthCheckPath: /health
-    envVars:
-      - key: PORT
-        value: 8080
     buildCommand: ./gradlew run
 
   - type: web
