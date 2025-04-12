@@ -22,7 +22,7 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
             <div className="form-control">
                 <span className="label-text mb-2 block">Smoking Habits</span>
                 {['Non smoker', 'Occasional smoker', 'Regular smoker'].map((option) => (
-                    <label key={option} className="label cursor-pointer">
+                    <label key={option} className="label cursor-pointer block">
                         <input
                             type="radio"
                             name="smoking"
@@ -40,7 +40,7 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
             <div className="form-control">
                 <span className="label-text mb-2 block">Drinking Habits</span>
                 {['Non drinker', 'Social drinker', 'Regular drinker'].map((option) => (
-                    <label key={option} className="label cursor-pointer">
+                    <label key={option} className="label cursor-pointer block">
                         <input
                             type="radio"
                             name="drinking"

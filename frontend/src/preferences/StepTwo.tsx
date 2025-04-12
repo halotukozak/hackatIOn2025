@@ -1,16 +1,16 @@
 type StepTwoProps = {
+    departments: string[]
     form: {
         year: string;
         department: string;
-        faculty: string;
     };
     onChange: (field: string, value: string) => void;
     onNext: () => void;
     onBack: () => void;
 };
 
-export default function StepTwo({ form, onChange, onNext, onBack }: StepTwoProps) {
-    const isNextDisabled = !form.year || !form.department || !form.faculty;
+export default function StepTwo({ form, departments, onChange, onNext, onBack }: StepTwoProps) {
+    const isNextDisabled = !form.year || !form.department;
 
     return (
         <div className="w-full max-w-sm mx-auto p-4 space-y-4">
@@ -47,28 +47,9 @@ export default function StepTwo({ form, onChange, onNext, onBack }: StepTwoProps
                     required
                 >
                     <option value="">Select department</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Business">Business</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Arts">Arts</option>
-                </select>
-            </label>
-
-            {/* Faculty */}
-            <label className="form-control w-full">
-                <span className="label-text mb-1">Faculty</span>
-                <select
-                    className="select select-bordered w-full"
-                    value={form.faculty}
-                    onChange={(e) => onChange("faculty", e.target.value)}
-                    required
-                >
-                    <option value="">Select faculty</option>
-                    <option value="Science">Science</option>
-                    <option value="Humanities">Humanities</option>
-                    <option value="Law">Law</option>
-                    <option value="Health Sciences">Health Sciences</option>
+                    {Object.entries(departments).map(([abbr, name]) => (
+                        <option value={abbr}>{name}</option>
+                    ))}
                 </select>
             </label>
 

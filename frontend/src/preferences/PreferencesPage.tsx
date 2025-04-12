@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getHobbies, getDepartments } from "../api.ts"
 import StepOne from "./StepOne.tsx"
 import StepTwo from "./StepTwo.tsx"
 import StepThree from "./StepThree.tsx"
@@ -13,7 +14,6 @@ export default function ReferencesPage() {
         age: "",
         year: "",
         department: "",
-        faculty: "",
         sleepFrom: "",
         sleepTo: "",
         personality: 50,
@@ -23,6 +23,14 @@ export default function ReferencesPage() {
         interests: [],
         relationship: ""
     });
+
+    const [hobbies, setHobbies] = useState<string[]>([]);
+    const [departments, setDepartments] = useState<string[]>([]);
+
+    useEffect(() => {
+        getHobbies().then(setHobbies).catch(console.error);
+        getDepartments().then(setDepartments).catch(console.error);
+    }, []);
 
     const handleChange = (key: string, value: string | number | string[]) => {
         setForm((prev) => ({ ...prev, [key]: value }));
@@ -44,7 +52,7 @@ export default function ReferencesPage() {
                 )}
 
                 {step === 2 && (
-                    <StepTwo form={form} onChange={handleChange} onNext={() => setStep(3)} onBack={() => setStep(1)}/>
+                    <StepTwo form={form} departments={departments} onChange={handleChange} onNext={() => setStep(3)} onBack={() => setStep(1)}/>
                 )}
 
                 {step === 3 && (
@@ -56,7 +64,7 @@ export default function ReferencesPage() {
                 )}
 
                 {step == 5 && (
-                    <StepFive form={form} onChange={handleChange} onBack={() => setStep(4)} onSubmit={() => handleSubmit} />
+                    <StepFive form={form} hobbies={hobbies} onChange={handleChange} onBack={() => setStep(4)} onSubmit={() => handleSubmit} />
                 )}
             </form>
         </div>

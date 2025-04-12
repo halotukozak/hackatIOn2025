@@ -1,4 +1,5 @@
 type StepFiveProps = {
+    hobbies: string[];
     form: {
         interests: string[];
         relationship: string;
@@ -8,17 +9,7 @@ type StepFiveProps = {
     onSubmit: () => void;
 };
 
-const INTEREST_OPTIONS = [
-    "Music",
-    "Sports",
-    "Movies",
-    "Travel",
-    "Gaming",
-    "Reading",
-    "Cooking",
-];
-
-export default function StepFive({ form, onChange, onBack, onSubmit }: StepFiveProps) {
+export default function StepFive({ form, hobbies, onChange, onBack, onSubmit }: StepFiveProps) {
     const toggleInterest = (interest: string) => {
         const updated = form.interests.includes(interest)
             ? form.interests.filter((i) => i !== interest)
@@ -38,8 +29,8 @@ export default function StepFive({ form, onChange, onBack, onSubmit }: StepFiveP
             {/* Interests */}
             <div className="form-control">
                 <span className="label-text mb-2">Interests & Hobbies</span>
-                <div className="flex flex-wrap gap-2">
-                    {INTEREST_OPTIONS.map((interest) => (
+                <div className="grid grid-cols-2 gap-2">
+                    {hobbies.map((interest) => (
                         <label key={interest} className="cursor-pointer label">
                             <input
                                 type="checkbox"
