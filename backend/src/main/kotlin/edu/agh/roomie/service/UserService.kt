@@ -3,6 +3,7 @@ package edu.agh.roomie.service
 import edu.agh.roomie.rest.model.*
 import edu.agh.roomie.service.InfoService.InfosTable
 import edu.agh.roomie.service.PreferencesService.PreferencesTable
+import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -48,14 +49,14 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun register(request: RegisterRequest) = newSuspendedTransaction {
+  suspend fun register(request: RegisterRequest) = newSuspendedTransaction(Dispatchers.IO) {
     UserEntity.new {
       this.email = request.email
       this.password = hashPassword(request.password)
     }.id.value
   }
 
-  suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction {
+  suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction(Dispatchers.IO) {
     val user = UserEntity.findByEmail(email)
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
@@ -64,40 +65,43 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun getUserById(id: Int): User? = newSuspendedTransaction { UserEntity.findById(id)?.toShared() }
-  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) = newSuspendedTransaction {
-    UserEntity.findByIdAndUpdate(id) { user ->
-      user.info?.delete()
-      user.info = InfoService.InfoEntity.new {
-        this.name = info.name
-        this.surname = info.surname
-        this.age = info.age
-        this.description = info.description
-        this.sleepStart = info.sleepSchedule.first
-        this.sleepEnd = info.sleepSchedule.second
-        this.hobbies = info.hobbies.map { it.name }
-        this.smoke = info.smoke
-        this.drink = info.drink
-        this.personalityType = info.personalityType
-        this.yearOfStudy = info.yearOfStudy
-        this.relationshipStatus = info.relationshipStatus
-        this.faculty = info.faculty
-      }
-      user.preferences?.delete()
-      user.preferences = PreferencesService.PreferencesEntity.new {
-        this.sleepScheduleMatters = preferences.sleepScheduleMatters
-        this.hobbiesMatters = preferences.hobbiesMatters
-        this.smokingImportance = preferences.smokingImportance
-        this.drinkImportance = preferences.drinkImportance
-        this.personalityTypeImportance = preferences.personalityTypeImportance
-        this.yearOfStudyMatters = preferences.yearOfStudyMatters
-        this.facultyMatters = preferences.facultyMatters
-        this.relationshipStatusImportance = preferences.relationshipStatusImportance
+  suspend fun getUserById(id: Int): User? =
+    newSuspendedTransaction(Dispatchers.IO) { UserEntity.findById(id)?.toShared() }
+
+  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) =
+    newSuspendedTransaction(Dispatchers.IO) {
+      UserEntity.findByIdAndUpdate(id) { user ->
+        user.info?.delete()
+        user.info = InfoService.InfoEntity.new {
+          this.name = info.name
+          this.surname = info.surname
+          this.age = info.age
+          this.description = info.description
+          this.sleepStart = info.sleepSchedule.first
+          this.sleepEnd = info.sleepSchedule.second
+          this.hobbies = info.hobbies.map { it.name }
+          this.smoke = info.smoke
+          this.drink = info.drink
+          this.personalityType = info.personalityType
+          this.yearOfStudy = info.yearOfStudy
+          this.relationshipStatus = info.relationshipStatus
+          this.faculty = info.faculty
+        }
+        user.preferences?.delete()
+        user.preferences = PreferencesService.PreferencesEntity.new {
+          this.sleepScheduleMatters = preferences.sleepScheduleMatters
+          this.hobbiesMatters = preferences.hobbiesMatters
+          this.smokingImportance = preferences.smokingImportance
+          this.drinkImportance = preferences.drinkImportance
+          this.personalityTypeImportance = preferences.personalityTypeImportance
+          this.yearOfStudyMatters = preferences.yearOfStudyMatters
+          this.facultyMatters = preferences.facultyMatters
+          this.relationshipStatusImportance = preferences.relationshipStatusImportance
+        }
       }
     }
-  }
 
-  suspend fun removeUser(id: Int) = newSuspendedTransaction {
+  suspend fun removeUser(id: Int) = newSuspendedTransaction(Dispatchers.IO) {
     UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 }
