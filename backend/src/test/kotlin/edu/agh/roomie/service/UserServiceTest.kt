@@ -80,7 +80,8 @@ class UserServiceTest {
     // Create info and preferences for the user
     val info = createTestInfo()
     val preferences = createTestPreferences()
-    userService.upsertUserAdditionalData(userId, info, preferences)
+    userService.upsertUserAdditionalData(userId, info)
+    userService.upsertUserPreferences(userId, preferences)
 
     // When
     val user = userService.getUserById(userId)
@@ -104,7 +105,8 @@ class UserServiceTest {
     val preferences = createTestPreferences()
 
     // When
-    userService.upsertUserAdditionalData(userId, info, preferences)
+    userService.upsertUserAdditionalData(userId, info)
+    userService.upsertUserPreferences(userId, preferences)
 
     // Then
     val user = userService.getUserById(userId)
@@ -171,7 +173,8 @@ class UserServiceTest {
       // Add info and preferences to the user
       val info = createTestInfo()
       val preferences = createTestPreferences()
-      userService.upsertUserAdditionalData(userId, info, preferences)
+      userService.upsertUserAdditionalData(userId, info)
+      userService.upsertUserPreferences(userId, preferences)
 
       // Verify user exists before deletion
       val userBeforeDeletion = userService.getUserById(userId)
@@ -198,7 +201,8 @@ class UserServiceTest {
       // Add additional data
       val info = createTestInfo()
       val preferences = createTestPreferences()
-      userService.upsertUserAdditionalData(userId, info, preferences)
+      userService.upsertUserAdditionalData(userId, info)
+      userService.upsertUserPreferences(userId, preferences)
 
       // Verify user and additional data exist before deletion
       val userBeforeDeletion = userService.getUserById(userId)

@@ -76,7 +76,6 @@ export enum Hobby {
 export interface AdditionalInfoRequest {
   userId: number;
   info: Info;
-  preferences: Preferences;
 }
 
 export interface LoginRequest {
