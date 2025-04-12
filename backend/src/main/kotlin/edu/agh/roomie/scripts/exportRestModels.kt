@@ -15,8 +15,11 @@ fun main(args: Array<String>) {
       User.serializer(),
       Preferences.serializer(),
       Info.serializer(),
-      Departament.serializer(),
+      Faculty.serializer(),
       Hobby.serializer(),
+      AdditionalInfoRequest.serializer(),
+      LoginRequest.serializer(),
+      RegisterRequest.serializer(),
     ),
   )
   val tsGenerator = KxsTsGenerator()

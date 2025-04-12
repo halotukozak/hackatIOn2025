@@ -5,14 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Info(
+  val age: Int,
   val description: String,
   val sleepSchedule: Pair<Int, Int>,
   val hobbies: List<Hobby>,
-  val smoke: Int,
-  val drink: Int,
+  val smoke: Boolean,
+  val drink: Boolean,
   val personalityType: Int,
   val yearOfStudy: Int,
-  val faculty: Departament,
+  val faculty: Faculty,
   val relationshipStatus: Int,
 ) {
   init {
@@ -23,23 +24,14 @@ data class Info(
 }
 
 fun InfoService.InfoEntity.toShared() = Info(
+  age = this.age,
   description = this.description,
   sleepSchedule = Pair(this.sleepStart, this.sleepEnd),
-  hobbies = this.hobbies.split(",").filter { it.isNotEmpty() }.map { hobbyName -> 
-    try {
-      Hobby.valueOf(hobbyName.trim())
-    } catch (e: IllegalArgumentException) {
-      null
-    }
-  }.filterNotNull(),
+  hobbies = this.hobbies.map { Hobby.valueOf(it) },
   smoke = this.smoke,
   drink = this.drink,
   personalityType = this.personalityType,
   yearOfStudy = this.yearOfStudy,
-  faculty = try {
-    Departament.valueOf(this.faculty)
-  } catch (e: IllegalArgumentException) {
-    Departament.WI // Default value if the faculty is not found
-  },
+  faculty = this.faculty,
   relationshipStatus = this.relationshipStatus
 )

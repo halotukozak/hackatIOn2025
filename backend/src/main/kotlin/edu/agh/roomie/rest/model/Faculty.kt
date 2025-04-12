@@ -3,7 +3,7 @@ package edu.agh.roomie.rest.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class Departament(val fullname: String) {
+enum class Faculty(val fullname: String) {
   WILiGZ("Wydział Inżynierii Lądowej i Gospodarki Zasobami"),
   WIMiIP("Wydział Inżynierii Metali i Informatyki Przemysłowej"),
   WEAIIB("Wydział Elektrotechniki, Automatyki, Informatyki i Inżynierii Biomedycznej"),
@@ -24,6 +24,6 @@ enum class Departament(val fullname: String) {
   WTK("Wydział Technologii Kosmicznych"),
 }
 
-data object Departaments {
-  val all = Departament.entries.associate { it to it.fullname }
+data object Faculties {
+  val all = Faculty.entries.associate { it to it.fullname }
 }

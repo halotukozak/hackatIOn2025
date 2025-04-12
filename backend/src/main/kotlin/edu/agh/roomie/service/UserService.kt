@@ -1,10 +1,6 @@
 package edu.agh.roomie.service
 
-import edu.agh.roomie.rest.model.RegisterRequest
-import edu.agh.roomie.rest.model.User
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.Preferences
-import edu.agh.roomie.rest.model.toShared
+import edu.agh.roomie.rest.model.*
 import edu.agh.roomie.service.InfoService.InfosTable
 import edu.agh.roomie.service.PreferencesService.PreferencesTable
 import org.jetbrains.exposed.dao.IntEntity
@@ -33,23 +29,17 @@ class UserService(database: Database) {
       fun findByEmail(email: String): UserEntity? = find { UsersTable.email eq email }.singleOrNull()
     }
 
-    var name by UsersTable.name
-    var surname by UsersTable.surname
     var email by UsersTable.email
     var password by UsersTable.password
-    var age by UsersTable.age
-    var preferences by PreferencesService.PreferencesEntity referencedOn UsersTable.preferences
-    var info by InfoService.InfoEntity referencedOn UsersTable.info
+    var preferences by PreferencesService.PreferencesEntity optionalReferencedOn UsersTable.preferences
+    var info by InfoService.InfoEntity optionalReferencedOn UsersTable.info
   }
 
   object UsersTable : IntIdTable() {
-    val name = varchar("name", length = 50)
-    val surname = varchar("surname", length = 50)
     val email = varchar("email", length = 50)
     val password = varchar("password", length = 100)
-    val age = integer("age")
-    val preferences = reference("preferences", PreferencesTable)
-    val info = reference("info", InfosTable)
+    val preferences = reference("preferences", PreferencesTable).nullable()
+    val info = reference("info", InfosTable).nullable()
   }
 
   init {
@@ -58,51 +48,11 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun create(user: User, password: String? = null): Int = newSuspendedTransaction {
-    val user = UserEntity.new {
-      this.name = user.name
-      this.surname = user.surname
-      this.email = user.email
-      this.age = user.age
-      this.password = password?.let { hashPassword(it) } ?: ""
-    }
-    user.preferences = PreferencesService.PreferencesEntity.new {
-      this.sleepScheduleMatters = user.preferences.sleepScheduleMatters
-      this.hobbiesMatters = user.preferences.hobbiesMatters
-      this.smokingImportance = user.preferences.smokingImportance
-      this.drinkImportance = user.preferences.drinkImportance
-      this.personalityTypeImportance = user.preferences.personalityTypeImportance
-      this.yearOfStudyMatters = user.preferences.yearOfStudyMatters
-      this.facultyMatters = user.preferences.facultyMatters
-      this.relationshipStatusImportance = user.preferences.relationshipStatusImportance
-    }
-    val info = user.info
-
-    user.info = InfoService.InfoEntity.new {
-      this.description = info.description
-      this.sleepStart = 0 // Default value
-      this.sleepEnd = 0 // Default value
-      this.hobbies = info.hobbies
-      this.smoke = info.smoke
-      this.drink = info.drink
-      this.personalityType = info.personalityType
-      this.yearOfStudy = info.yearOfStudy
-      this.faculty = info.faculty
-      this.relationshipStatus = info.relationshipStatus
-    }
-    user.id.value
-  }
-
-  suspend fun register(request: RegisterRequest): Int = newSuspendedTransaction {
-    val user = User(
-      name = request.name,
-      surname = request.surname,
-      email = request.email,
-      age = request.age,
-      info = request.info,
-      preferences = request.preferences
-    )
-    create(user, request.password)
+  suspend fun register(request: RegisterRequest) = newSuspendedTransaction {
+    UserEntity.new {
+      this.email = request.email
+      this.password = hashPassword(request.password)
+    }.id.value
   }
 
   suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction {
@@ -114,14 +64,32 @@ class UserService(database: Database) {
     }
   }
 
-  fun read(id: Int): User? = UserEntity.findById(id)?.let { user ->
-    User(
-      name = user.name,
-      surname = user.surname,
-      email = user.email,
-      age = user.age,
-      info = user.info.toShared(),
-      preferences = user.preferences.toShared(),
-    )
+  suspend fun getUserById(id: Int): User? = newSuspendedTransaction { UserEntity.findById(id)?.toShared() }
+  suspend fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) = newSuspendedTransaction {
+    UserEntity.findByIdAndUpdate(id) { user ->
+      user.info = InfoService.InfoEntity.new {
+        this.age = info.age
+        this.description = info.description
+        this.sleepStart = info.sleepSchedule.first
+        this.sleepEnd = info.sleepSchedule.second
+        this.hobbies = info.hobbies.map { it.name }
+        this.smoke = info.smoke
+        this.drink = info.drink
+        this.personalityType = info.personalityType
+        this.yearOfStudy = info.yearOfStudy
+        this.relationshipStatus = info.relationshipStatus
+        this.faculty = info.faculty
+      }
+      user.preferences = PreferencesService.PreferencesEntity.new {
+        this.sleepScheduleMatters = preferences.sleepScheduleMatters
+        this.hobbiesMatters = preferences.hobbiesMatters
+        this.smokingImportance = preferences.smokingImportance
+        this.drinkImportance = preferences.drinkImportance
+        this.personalityTypeImportance = preferences.personalityTypeImportance
+        this.yearOfStudyMatters = preferences.yearOfStudyMatters
+        this.facultyMatters = preferences.facultyMatters
+        this.relationshipStatusImportance = preferences.relationshipStatusImportance
+      }
+    }
   }
 }

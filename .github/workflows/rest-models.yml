@@ -16,6 +16,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Check Koltin compilation
+        working-directory: ./backend
+        run: ./gradlew test
+
       - name: Run Gradle task to generate TypeScript models
         working-directory: ./backend
         run: ./gradlew exportRestModels
