@@ -38,16 +38,14 @@ object FakeUserGenerator {
         )
     }
 
-    private fun generateFakePreferences(): Preferences {
-        return Preferences(
-            sleepScheduleMatters = Random.nextBoolean(),
-            hobbiesMatters = Random.nextBoolean(),
-            smokingImportance = Random.nextInt(0, 6),
-            drinkImportance = Random.nextInt(0, 6),
-            personalityTypeImportance = Random.nextInt(0, 6),
-            yearOfStudyMatters = Random.nextBoolean(),
-            facultyMatters = Random.nextBoolean(),
-            relationshipStatusImportance = Random.nextInt(0, 6)
-        )
-    }
+    private fun generateFakePreferences(): Preferences = Preferences(
+        sleepScheduleMatters = Random.nextBoolean(),
+        hobbiesMatters = Random.nextBoolean(),
+        smokingImportance = Random.nextInt(0, 6),
+        drinkImportance = Random.nextInt(0, 6),
+        personalityTypeImportance = Random.nextInt(0, 6),
+        yearOfStudyMatters = Random.nextBoolean(),
+        facultyMatters = Random.nextBoolean(),
+        relationshipStatusImportance = Random.nextInt(0, 6)
+    )
 }
