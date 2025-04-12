@@ -23,7 +23,7 @@ jobs:
       - name: Check for changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            echo "❌ Files changed after running the script:"
+            echo "❌ REST models changed after running the script. Fix it before merge, my friend."
             git status --short
             git diff
             exit 1
