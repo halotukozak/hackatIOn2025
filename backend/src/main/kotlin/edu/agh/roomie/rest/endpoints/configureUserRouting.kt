@@ -30,13 +30,12 @@ fun Application.configureUserRouting() = routing {
           val fakeUser = FakeUserGenerator.generateFakeUser(userId)
           call.respond(HttpStatusCode.OK, fakeUser)
         }
-      }
     }
 
     // Endpoint to generate multiple fake users
     get("/fake") {
       val count = call.request.queryParameters["count"]?.toIntOrNull() ?: 10
-      val fakeUsers = List(count) { index -> 
+      val fakeUsers = List(count) { index ->
         FakeUserGenerator.generateFakeUser(1000 + index)
       }
       call.respond(HttpStatusCode.OK, fakeUsers)

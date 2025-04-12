@@ -4,8 +4,86 @@ info:
   description: "roomie API"
   version: "1.0.0"
 servers:
-  - url: "http://0.0.0.0:8080"
+- url: "https://roomie"
 paths:
+  /auth/login:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid credentials"
+  /auth/logout:
+    post:
+      description: ""
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Logged out successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid token"
+  /auth/register:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
   /registration/additional-data:
     post:
       description: ""
@@ -57,100 +135,87 @@ paths:
                 items:
                   type: "string"
                   enum:
-                    - "basketball"
-                    - "football"
-                    - "volleyball"
-                    - "swimming"
-                    - "running"
-                    - "cycling"
-                    - "hiking"
-                    - "climbing"
-                    - "skiing"
-                    - "music"
-                    - "dance"
-                    - "cooking"
-                    - "painting"
-                    - "photography"
-  /auth/login:
-    post:
-      description: ""
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              $ref: "#/components/schemas/LoginRequest"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "401":
-          description: "Unauthorized"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Invalid credentials"
-  /auth/logout:
-    post:
+                  - "basketball"
+                  - "football"
+                  - "volleyball"
+                  - "swimming"
+                  - "running"
+                  - "cycling"
+                  - "hiking"
+                  - "climbing"
+                  - "skiing"
+                  - "music"
+                  - "dance"
+                  - "cooking"
+                  - "painting"
+                  - "photography"
+  /user/{userId}:
+    get:
       description: ""
       parameters:
-        - name: "Authorization"
-          in: "header"
-          required: false
-          schema:
-            type: "string"
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user ID format"
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Logged out successfully"
-        "400":
-          description: "Bad Request"
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
           content:
             '*/*':
               schema:
                 type: "string"
               examples:
                 Example#1:
-                  value: "Invalid token"
-  /auth/register:
-    post:
-      description: ""
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              $ref: "#/components/schemas/RegisterRequest"
-        required: true
-      responses:
-        "201":
-          description: "Created"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: ""
+                  value: "User not found"
 components:
   schemas:
+    LoginRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
+    AuthResponse:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+        userId:
+          type: "integer"
+          format: "int32"
+      required:
+      - "token"
+      - "userId"
+    RegisterRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
     Info:
       type: "object"
       properties:
@@ -167,20 +232,20 @@ components:
           items:
             type: "string"
             enum:
-              - "basketball"
-              - "football"
-              - "volleyball"
-              - "swimming"
-              - "running"
-              - "cycling"
-              - "hiking"
-              - "climbing"
-              - "skiing"
-              - "music"
-              - "dance"
-              - "cooking"
-              - "painting"
-              - "photography"
+            - "basketball"
+            - "football"
+            - "volleyball"
+            - "swimming"
+            - "running"
+            - "cycling"
+            - "hiking"
+            - "climbing"
+            - "skiing"
+            - "music"
+            - "dance"
+            - "cooking"
+            - "painting"
+            - "photography"
         smoke:
           type: "boolean"
         drink:
@@ -194,38 +259,38 @@ components:
         faculty:
           type: "string"
           enum:
-            - "WILiGZ"
-            - "WIMiIP"
-            - "WEAIIB"
-            - "WIET"
-            - "WIMiR"
-            - "WGGiOS"
-            - "WGGiIS"
-            - "WIMiC"
-            - "WO"
-            - "WMN"
-            - "WWNiG"
-            - "WZ"
-            - "WEiP"
-            - "WFiIS"
-            - "WMS"
-            - "WH"
-            - "WI"
-            - "WTK"
+          - "WILiGZ"
+          - "WIMiIP"
+          - "WEAIIB"
+          - "WIET"
+          - "WIMiR"
+          - "WGGiOS"
+          - "WGGiIS"
+          - "WIMiC"
+          - "WO"
+          - "WMN"
+          - "WWNiG"
+          - "WZ"
+          - "WEiP"
+          - "WFiIS"
+          - "WMS"
+          - "WH"
+          - "WI"
+          - "WTK"
         relationshipStatus:
           type: "integer"
           format: "int32"
       required:
-        - "age"
-        - "description"
-        - "sleepSchedule"
-        - "hobbies"
-        - "smoke"
-        - "drink"
-        - "personalityType"
-        - "yearOfStudy"
-        - "faculty"
-        - "relationshipStatus"
+      - "age"
+      - "description"
+      - "sleepSchedule"
+      - "hobbies"
+      - "smoke"
+      - "drink"
+      - "personalityType"
+      - "yearOfStudy"
+      - "faculty"
+      - "relationshipStatus"
     Preferences:
       type: "object"
       properties:
@@ -250,14 +315,14 @@ components:
           type: "integer"
           format: "int32"
       required:
-        - "sleepScheduleMatters"
-        - "hobbiesMatters"
-        - "smokingImportance"
-        - "drinkImportance"
-        - "personalityTypeImportance"
-        - "yearOfStudyMatters"
-        - "facultyMatters"
-        - "relationshipStatusImportance"
+      - "sleepScheduleMatters"
+      - "hobbiesMatters"
+      - "smokingImportance"
+      - "drinkImportance"
+      - "personalityTypeImportance"
+      - "yearOfStudyMatters"
+      - "facultyMatters"
+      - "relationshipStatusImportance"
     AdditionalInfoRequest:
       type: "object"
       properties:
@@ -269,42 +334,24 @@ components:
         preferences:
           $ref: "#/components/schemas/Preferences"
       required:
-        - "userId"
-        - "info"
-        - "preferences"
+      - "userId"
+      - "info"
+      - "preferences"
     Map:
       type: "object"
-      properties: { }
+      properties: {}
     Map_Faculty:
       type: "string"
-    LoginRequest:
+    User:
       type: "object"
       properties:
         email:
           type: "string"
-        password:
-          type: "string"
+        info:
+          $ref: "#/components/schemas/Info"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
       required:
-        - "email"
-        - "password"
-    AuthResponse:
-      type: "object"
-      properties:
-        token:
-          type: "string"
-        userId:
-          type: "integer"
-          format: "int32"
-      required:
-        - "token"
-        - "userId"
-    RegisterRequest:
-      type: "object"
-      properties:
-        email:
-          type: "string"
-        password:
-          type: "string"
-      required:
-        - "email"
-        - "password"
+      - "email"
+      - "info"
+      - "preferences"
