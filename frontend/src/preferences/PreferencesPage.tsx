@@ -56,7 +56,7 @@ export default function ReferencesPage() {
                 )}
 
                 {step === 3 && (
-                    <StepThree form={form} onChange={handleChange} onNext={() => setStep(4)} onBack={() => setStep(4)}/>
+                    <StepThree form={form} onChange={handleChange} onNext={() => setStep(4)} onBack={() => setStep(2)}/>
                 )}
 
                 {step === 4 && (
