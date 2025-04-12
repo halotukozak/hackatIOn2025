@@ -10,12 +10,14 @@ import {
 type UserDetailModalProps = {
   user: User;
   isOpen: boolean;
+  showActionButton: boolean;
   onClose: () => void;
 };
 
 const UserDetailModal: React.FC<UserDetailModalProps> = ({
   user,
   isOpen,
+  showActionButton,
   onClose,
 }) => {
   if (!isOpen) return null;
@@ -39,7 +41,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
         </div>
 
         {/* Image Placeholder */}
-        <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
+        <div className="w-full aspect-video bg-gray-200 rounded-lg flex items-center justify-center mb-4">
           <span className="text-gray-400">[Image Placeholder]</span>
         </div>
 
@@ -86,15 +88,16 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-center gap-6 mt-4">
-          <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">
-            <XMarkIcon className="h-6 w-6  hover:text-red-500" />
-          </button>
-          <button className="btn btn-circle btn-success text-white">
-            <HeartIcon className="h-6 w-6 text-white-500" />
-          </button>
-        </div>
-
+        {showActionButton && (
+          <div className="flex justify-center gap-6 mt-4">
+            <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">
+              <XMarkIcon className="h-6 w-6 hover:text-red-500" />
+            </button>
+            <button className="btn btn-circle btn-success text-white">
+              <HeartIcon className="h-6 w-6 text-white-500" />
+            </button>
+          </div>
+        )}
         <div className="flex justify-center mt-6">
           <button
             onClick={onClose}
