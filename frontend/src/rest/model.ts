@@ -5,6 +5,8 @@ export interface User {
 }
 
 export interface Info {
+  name: string;
+  surname: string;
   age: number;
   description: string;
   sleepSchedule: Pair;
@@ -85,4 +87,8 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   password: string;
+}
+
+export interface DeleteRequest {
+  userId: number;
 }
