@@ -11,7 +11,7 @@ fun Application.configureInitialRouting() {
   routing {
     route("/registration") {
       get("/available-hobbies") {
-        call.respond(HttpStatusCode.OK, Hobby.entries)
+        call.respond(HttpStatusCode.OK, Hobby.entries.toList())
       }
       get("/available-departments") {
         call.respond(HttpStatusCode.OK, Departaments.all)
