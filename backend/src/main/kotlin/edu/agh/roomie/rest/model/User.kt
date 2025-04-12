@@ -12,6 +12,6 @@ data class User(
 
 fun UserService.UserEntity.toShared() = User(
   email = this.email,
-  info = this.info.toShared(),
-  preferences = this.preferences.toShared(),
+  info = this.info!!.toShared(),
+  preferences = this.preferences!!.toShared(),
 )
