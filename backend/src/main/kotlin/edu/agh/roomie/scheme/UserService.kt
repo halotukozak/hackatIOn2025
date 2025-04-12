@@ -1,6 +1,8 @@
 package edu.agh.roomie.scheme
 
 import edu.agh.roomie.rest.model.User
+import edu.agh.roomie.rest.model.Info
+import edu.agh.roomie.rest.model.Preferences
 import edu.agh.roomie.rest.model.toShared
 import edu.agh.roomie.scheme.InfoService.InfosTable
 import edu.agh.roomie.scheme.PreferencesService.PreferencesTable
@@ -48,14 +50,28 @@ class UserService(database: Database) {
       this.age = user.age
     }
     user.preferences = PreferencesService.PreferencesEntity.new {
-      this.description = user.preferences.description
-      this.smoke = user.preferences.smoke
-      this.drink = user.preferences.drink
+      this.sleepScheduleMatters = user.preferences.sleepScheduleMatters
+      this.hobbiesMatters = user.preferences.hobbiesMatters
+      this.smokingImportance = user.preferences.smokingImportance
+      this.drinkImportance = user.preferences.drinkImportance
+      this.personalityTypeImportance = user.preferences.personalityTypeImportance
+      this.yearOfStudyMatters = user.preferences.yearOfStudyMatters
+      this.facultyMatters = user.preferences.facultyMatters
+      this.relationshipStatusImportance = user.preferences.relationshipStatusImportance
     }
+    val info = user.info
+
     user.info = InfoService.InfoEntity.new {
-      this.description = user.info.description
-      this.smoke = user.info.smoke
-      this.drink = user.info.drink
+      this.description = info.description
+      this.sleepStart = 0 // Default value
+      this.sleepEnd = 0 // Default value
+      this.hobbies = info.hobbies
+      this.smoke = info.smoke
+      this.drink = info.drink
+      this.personalityType = info.personalityType
+      this.yearOfStudy = info.yearOfStudy
+      this.faculty = info.faculty
+      this.relationshipStatus = info.relationshipStatus
     }
     user.id.value
   }
@@ -71,4 +87,3 @@ class UserService(database: Database) {
     )
   }
 }
-
