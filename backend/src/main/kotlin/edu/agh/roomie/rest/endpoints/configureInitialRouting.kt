@@ -21,6 +21,10 @@ fun Application.configureInitialRouting() {
       get("/available-departments") {
         call.respond(HttpStatusCode.OK, Departament.entries)
       }
+
+//      post("/additional-data"){
+//        val additionalInfoRequest = ca
+//      }
     }
   }
 }
