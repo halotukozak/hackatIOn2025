@@ -6,6 +6,9 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.plugins.swagger.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -15,6 +18,9 @@ fun Application.configureRouting() {
     exception<Throwable> { call, cause ->
       call.respondText(text = "500: $cause", status = HttpStatusCode.InternalServerError)
     }
+  }
+  install(ContentNegotiation) {
+    json()
   }
   routing {
     swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")

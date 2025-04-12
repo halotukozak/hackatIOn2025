@@ -1,25 +1,39 @@
 export interface User {
-  name: string;
-  surname: string;
   email: string;
-  age: number;
   info: Info;
   preferences: Preferences;
 }
 
 export interface Info {
+  age: number;
   description: string;
+  sleepSchedule: Pair;
+  hobbies: Hobby[];
   smoke: boolean;
   drink: boolean;
+  personalityType: number;
+  yearOfStudy: number;
+  faculty: Faculty;
+  relationshipStatus: number;
 }
 
 export interface Preferences {
-  smoke: boolean;
-  drink: boolean;
-  level: number | null;
+  sleepScheduleMatters: boolean;
+  hobbiesMatters: boolean;
+  smokingImportance: number;
+  drinkImportance: number;
+  personalityTypeImportance: number;
+  yearOfStudyMatters: boolean;
+  facultyMatters: boolean;
+  relationshipStatusImportance: number;
 }
 
-export enum Departament {
+export interface Pair {
+  first: number;
+  second: number;
+}
+
+export enum Faculty {
   WILiGZ = "WILiGZ",
   WIMiIP = "WIMiIP",
   WEAIIB = "WEAIIB",
@@ -55,4 +69,20 @@ export enum Hobby {
   cooking = "cooking",
   painting = "painting",
   photography = "photography",
+}
+
+export interface AdditionalInfoRequest {
+  userId: number;
+  info: Info;
+  preferences: Preferences;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
 }

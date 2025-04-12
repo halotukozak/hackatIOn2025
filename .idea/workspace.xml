@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="136894d1-7116-4c6d-a41d-1a8acac867e4" name="Changes" comment="feat: add OpenAPI documentation and update routing for Swagger UI">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/roomie.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="136894d1-7116-4c6d-a41d-1a8acac867e4" name="Changes" comment="Merge branch 'refs/heads/main' into 34-user-registration-followup&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt&#10;#&#9;frontend/src/rest/model.ts">
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -7129,27 +7119,27 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "assignee": "halotukozak"
+      &quot;assignee&quot;: &quot;halotukozak&quot;
     }
   ],
-  "lastFilter": {
-    "assignee": "halotukozak"
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;halotukozak&quot;
   }
-}]]></component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOOXzx3c6SWSvl",
-        "number": 25
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOXzx3c6SWSvl&quot;,
+        &quot;number&quot;: 25
       },
-      "lastSeen": 1744450350701
+      &quot;lastSeen&quot;: 1744450350701
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/halotukozak/hackatIOn2025.git&quot;,
@@ -7199,7 +7189,7 @@
     "OpenAPI/Swagger Code Generator.documentation.yaml.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#25 on 13-authenticaiton",
+    "git-widget-placeholder": "34-user-registration-followup",
     "last_opened_file_path": "/Users/bartlomiejkozak/University/roomie",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -7232,55 +7222,7 @@
       <recent name="edu.agh.roomie.scheme" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.ExportRestModelsKt">
-    <configuration name="ApplicationTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;edu.agh.ApplicationTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="ConfigureInitialRoutingKtTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;edu.agh.roomie.rest.ConfigureInitialRoutingKtTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Kotlin.ExportRestModelsKt (1)">
     <configuration name="backend [exportRestModels]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -7306,6 +7248,46 @@
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="ExportRestModelsKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.scripts.ExportRestModelsKt" />
+      <module name="roomie.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="scripts" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="scripts" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ApplicationKt (1)" type="KtorApplicationConfigurationType" factoryName="Ktor" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.ApplicationKt" />
+      <module name="roomie.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.agh.roomie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="alternativeJrePath" />
+      <option name="alternativeJrePathEnabled" value="false" />
+      <option name="includeProvidedScope" value="false" />
+      <option name="mainClass" value="edu.agh.roomie.ApplicationKt" />
+      <option name="passParentEnvs" value="true" />
+      <option name="programParameters" />
+      <option name="shortenCommandLine" />
+      <option name="vmParameters" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ApplicationKt" type="KtorApplicationConfigurationType" factoryName="Ktor" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.ApplicationKt" />
       <module name="edu.agh.roomie.roomie.main" />
@@ -7329,21 +7311,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.ApplicationTest" />
-      <item itemvalue="Gradle.ConfigureInitialRoutingKtTest" />
       <item itemvalue="Gradle.backend [exportRestModels]" />
       <item itemvalue="HTTP Request.generated-requests | #1" />
       <item itemvalue="Kotlin.ExportRestModelsKt" />
+      <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
       <item itemvalue="Ktor.EngineMain" />
+      <item itemvalue="Ktor.ApplicationKt (1)" />
       <item itemvalue="Ktor.ApplicationKt" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Ktor.ApplicationKt (1)" />
+        <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
+        <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Ktor.ApplicationKt" />
         <item itemvalue="Gradle.backend [exportRestModels]" />
-        <item itemvalue="Ktor.ApplicationKt" />
-        <item itemvalue="Gradle.backend [exportRestModels]" />
-        <item itemvalue="Ktor.ApplicationKt" />
       </list>
     </recent_temporary>
   </component>
@@ -7518,7 +7500,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744449836642</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Merge branch 'refs/heads/main' into 34-user-registration-followup&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt&#10;#&#9;frontend/src/rest/model.ts">
+      <option name="closed" value="true" />
+      <created>1744457576427</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1744457576427</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -7553,7 +7543,10 @@
     <MESSAGE value="feat: update Gradle wrapper to version 8.10 and improve error handling in scripts" />
     <MESSAGE value="feat: convert Hobby.entries to list for consistent response format" />
     <MESSAGE value="feat: add OpenAPI documentation and update routing for Swagger UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add OpenAPI documentation and update routing for Swagger UI" />
+    <MESSAGE value="feat: update user registration flow and enhance additional data handling" />
+    <MESSAGE value="feat: restructure User model and add request interfaces for additional info and authentication" />
+    <MESSAGE value="Merge branch 'refs/heads/main' into 34-user-registration-followup&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt&#10;#&#9;frontend/src/rest/model.ts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'refs/heads/main' into 34-user-registration-followup&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt&#10;#&#9;frontend/src/rest/model.ts" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
