@@ -1,9 +1,7 @@
 package edu.agh.roomie.scripts
 
 import dev.adamko.kxstsgen.KxsTsGenerator
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.Preferences
-import edu.agh.roomie.rest.model.User
+import edu.agh.roomie.rest.model.*
 import kotlin.io.path.Path
 
 // Generate TypeScript types from Kotlin data classes
@@ -17,6 +15,8 @@ fun main(args: Array<String>) {
       User.serializer(),
       Preferences.serializer(),
       Info.serializer(),
+      Departament.serializer(),
+      Hobby.serializer(),
     ),
   )
   val tsGenerator = KxsTsGenerator()
