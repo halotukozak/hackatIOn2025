@@ -10,16 +10,24 @@ class PreferencesService(database: Database) {
   class PreferencesEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<PreferencesEntity>(PreferencesTable)
 
-    var description by PreferencesTable.description
-    var smoke by PreferencesTable.smoke
-    var drink by PreferencesTable.drink
-    var level by PreferencesTable.level
+    var sleepScheduleMatters by PreferencesTable.sleepScheduleMatters
+    var hobbiesMatters by PreferencesTable.hobbiesMatters
+    var smokingImportance by PreferencesTable.smokingImportance
+    var drinkImportance by PreferencesTable.drinkImportance
+    var personalityTypeImportance by PreferencesTable.personalityTypeImportance
+    var yearOfStudyMatters by PreferencesTable.yearOfStudyMatters
+    var facultyMatters by PreferencesTable.facultyMatters
+    var relationshipStatusImportance by PreferencesTable.relationshipStatusImportance
   }
 
   object PreferencesTable : IntIdTable() {
-    val description = varchar("description", length = 255)
-    val smoke = bool("smoke")
-    val drink = bool("drink")
-    val level = integer("level")
+    val sleepScheduleMatters = bool("sleep_schedule_matters")
+    val hobbiesMatters = bool("hobbies_matters")
+    val smokingImportance = integer("smoking_importance")
+    val drinkImportance = integer("drink_importance")
+    val personalityTypeImportance = integer("personality_type_importance")
+    val yearOfStudyMatters = bool("year_of_study_matters")
+    val facultyMatters = bool("faculty_matters")
+    val relationshipStatusImportance = integer("relationship_status_importance")
   }
 }

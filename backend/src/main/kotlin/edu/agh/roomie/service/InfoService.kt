@@ -1,5 +1,6 @@
 package edu.agh.roomie.service
 
+import edu.agh.roomie.rest.model.Departament
 import edu.agh.roomie.rest.model.Info
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.IntEntity
@@ -17,14 +18,28 @@ class InfoService(database: Database) {
     companion object : IntEntityClass<InfoEntity>(InfosTable)
 
     var description by InfosTable.description
+    var sleepStart by InfosTable.sleepStart
+    var sleepEnd by InfosTable.sleepEnd
+    var hobbies by InfosTable.hobbies
     var smoke by InfosTable.smoke
     var drink by InfosTable.drink
+    var personalityType by InfosTable.personalityType
+    var yearOfStudy by InfosTable.yearOfStudy
+    var faculty by InfosTable.faculty
+    var relationshipStatus by InfosTable.relationshipStatus
   }
 
   object InfosTable : IntIdTable() {
     val description = varchar("description", length = 255)
-    val smoke = bool("smoke")
-    val drink = bool("drink")
+    val sleepStart = integer("sleepStart")
+    val sleepEnd = integer("sleepEnd")
+    val hobbies = varchar("hobbies", length = 1000)
+    val smoke = integer("smoke")
+    val drink = integer("drink")
+    val personalityType = integer("personality_type")
+    val yearOfStudy = integer("year_of_study")
+    val faculty = varchar("faculty", length = 255)
+    val relationshipStatus = integer("relationship_status")
   }
 
   init {
@@ -36,15 +51,47 @@ class InfoService(database: Database) {
   suspend fun create(user: Info): Int = dbQuery {
     InfosTable.insert {
       it[description] = user.description
+      it[sleepStart] = user.sleepSchedule.first
+      it[sleepEnd] = user.sleepSchedule.second
+      it[hobbies] = user.hobbies.joinToString(",") { it.name }
       it[smoke] = user.smoke
       it[drink] = user.drink
+      it[personalityType] = user.personalityType
+      it[yearOfStudy] = user.yearOfStudy
+      it[faculty] = user.faculty.name
+      it[relationshipStatus] = user.relationshipStatus
     }[InfosTable.id].value
   }
 
   suspend fun read(id: Int): Info? = dbQuery {
     InfosTable.selectAll()
       .where { InfosTable.id eq id }
-      .map { Info(it[InfosTable.description], it[InfosTable.smoke], it[InfosTable.drink]) }
+      .map { 
+        Info(
+          description = it[InfosTable.description],
+          sleepSchedule = Pair (
+            it[InfosTable.sleepStart],
+            it[InfosTable.sleepEnd]
+          ),
+          hobbies = it[InfosTable.hobbies].split(",").filter { hobbyName -> hobbyName.isNotEmpty() }.mapNotNull { hobbyName ->
+            try {
+              edu.agh.roomie.rest.model.Hobby.valueOf(hobbyName.trim())
+            } catch (e: IllegalArgumentException) {
+              null
+            }
+          },
+          smoke = it[InfosTable.smoke],
+          drink = it[InfosTable.drink],
+          personalityType = it[InfosTable.personalityType],
+          yearOfStudy = it[InfosTable.yearOfStudy],
+          faculty = try {
+            Departament.valueOf(it[InfosTable.faculty])
+          } catch (e: IllegalArgumentException) {
+            Departament.WI // Default value if the faculty is not found
+          },
+          relationshipStatus = it[InfosTable.relationshipStatus]
+        ) 
+      }
       .singleOrNull()
   }
 
@@ -52,8 +99,15 @@ class InfoService(database: Database) {
     dbQuery {
       InfosTable.update({ InfosTable.id eq id }) {
         it[description] = info.description
+        it[sleepStart] = info.sleepSchedule.first
+        it[sleepEnd] = info.sleepSchedule.second
+        it[hobbies] = info.hobbies.joinToString(",") { it.name }
         it[smoke] = info.smoke
         it[drink] = info.drink
+        it[personalityType] = info.personalityType
+        it[yearOfStudy] = info.yearOfStudy
+        it[faculty] = info.faculty.name
+        it[relationshipStatus] = info.relationshipStatus
       }
     }
   }
@@ -65,4 +119,3 @@ class InfoService(database: Database) {
   private suspend fun <T> dbQuery(block: suspend () -> T): T =
     newSuspendedTransaction(Dispatchers.IO) { block() }
 }
-
