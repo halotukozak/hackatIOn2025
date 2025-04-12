@@ -2,7 +2,6 @@ services:
   - type: web
     name: roomie-backend
     env: docker
-    dockerEn
     dockerfilePath: ./backend/Dockerfile
     plan: free
     healthCheckPath: /health
