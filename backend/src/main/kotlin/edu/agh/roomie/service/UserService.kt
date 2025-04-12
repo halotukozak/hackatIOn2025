@@ -52,10 +52,12 @@ class UserService(database: Database) {
     }
   }
 
-  fun register(request: RegisterRequest) = UserEntity.new {
-    this.email = request.email
-    this.password = hashPassword(request.password)
-  }.id.value
+  suspend fun register(request: RegisterRequest) = newSuspendedTransaction {
+    UserEntity.new {
+      this.email = request.email
+      this.password = hashPassword(request.password)
+    }.id.value
+  }
 
   suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction {
     val user = UserEntity.findByEmail(email)
@@ -67,24 +69,26 @@ class UserService(database: Database) {
   }
 
   fun getUserById(id: Int): User? = UserEntity.findById(id)?.toShared()
-  fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) =
-    UserEntity.findByIdAndUpdate(id) { user ->
-      user.info = InfoService.InfoEntity.new {
-        this.age = info.age
-        this.description = info.description
-        this.sleepStart = info.sleepSchedule.first
-        this.sleepEnd = info.sleepSchedule.second
-        this.faculty = info.faculty
-      }
-      user.preferences = PreferencesService.PreferencesEntity.new {
-        this.sleepScheduleMatters = preferences.sleepScheduleMatters
-        this.hobbiesMatters = preferences.hobbiesMatters
-        this.smokingImportance = preferences.smokingImportance
-        this.drinkImportance = preferences.drinkImportance
-        this.personalityTypeImportance = preferences.personalityTypeImportance
-        this.yearOfStudyMatters = preferences.yearOfStudyMatters
-        this.facultyMatters = preferences.facultyMatters
-        this.relationshipStatusImportance = preferences.relationshipStatusImportance
+  suspend fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) =
+    newSuspendedTransaction {
+      UserEntity.findByIdAndUpdate(id) { user ->
+        user.info = InfoService.InfoEntity.new {
+          this.age = info.age
+          this.description = info.description
+          this.sleepStart = info.sleepSchedule.first
+          this.sleepEnd = info.sleepSchedule.second
+          this.faculty = info.faculty
+        }
+        user.preferences = PreferencesService.PreferencesEntity.new {
+          this.sleepScheduleMatters = preferences.sleepScheduleMatters
+          this.hobbiesMatters = preferences.hobbiesMatters
+          this.smokingImportance = preferences.smokingImportance
+          this.drinkImportance = preferences.drinkImportance
+          this.personalityTypeImportance = preferences.personalityTypeImportance
+          this.yearOfStudyMatters = preferences.yearOfStudyMatters
+          this.facultyMatters = preferences.facultyMatters
+          this.relationshipStatusImportance = preferences.relationshipStatusImportance
+        }
       }
     }
 }
