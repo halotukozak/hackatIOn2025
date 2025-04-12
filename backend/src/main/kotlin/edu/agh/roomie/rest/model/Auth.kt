@@ -26,3 +26,8 @@ data class AuthResponse(
   val token: String,
   val userId: Int
 )
+
+@Serializable
+data class DeleteRequest(
+  val userId: Int
+)

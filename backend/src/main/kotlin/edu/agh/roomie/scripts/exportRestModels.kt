@@ -20,6 +20,7 @@ fun main(args: Array<String>) {
       AdditionalInfoRequest.serializer(),
       LoginRequest.serializer(),
       RegisterRequest.serializer(),
+      DeleteRequest.serializer()
     ),
   )
   val tsGenerator = KxsTsGenerator()

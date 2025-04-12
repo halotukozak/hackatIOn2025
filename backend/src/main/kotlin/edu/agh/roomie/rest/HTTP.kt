@@ -4,10 +4,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.defaultheaders.*
-import io.ktor.server.plugins.openapi.*
-import io.ktor.server.plugins.swagger.*
-import io.ktor.server.routing.*
 
 fun Application.configureHTTP() {
   install(Compression)
@@ -15,15 +11,14 @@ fun Application.configureHTTP() {
     anyHost() // or host("localhost:5174")
 
     allowMethod(HttpMethod.Options)
+    allowMethod(HttpMethod.Get)
     allowMethod(HttpMethod.Put)
-    allowMethod(HttpMethod.Delete)
     allowMethod(HttpMethod.Patch)
-    allowMethod(HttpMethod.Post) // ← add this
-
+    allowMethod(HttpMethod.Post)
+    allowMethod(HttpMethod.Delete)
     allowHeader(HttpHeaders.Authorization)
-    allowHeader(HttpHeaders.ContentType) // ← add this
-    allowHeader("MyCustomHeader")
+    allowHeader(HttpHeaders.ContentType)
 
-    allowCredentials = true // ← optional, if you're using cookies
+    allowCredentials = true
   }
 }
