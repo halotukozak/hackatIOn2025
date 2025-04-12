@@ -25,9 +25,9 @@ class PreferencesService(database: Database) {
     val hobbiesMatters = bool("hobbies_matters")
     val smokingImportance = integer("smoking_importance")
     val drinkImportance = integer("drink_importance")
-    val personalityTypeImportance = integer("personality_type_importance") // Scale: 1 (not important) to 5 (very important)
-    val yearOfStudyMatters = bool("year_of_study_matters") // Scale: 1 (not important) to 5 (very important)
+    val personalityTypeImportance = integer("personality_type_importance")
+    val yearOfStudyMatters = bool("year_of_study_matters")
     val facultyMatters = bool("faculty_matters")
-    val relationshipStatusImportance = integer("relationship_status_importance") // Scale: 1 (not important) to 5 (very important)
+    val relationshipStatusImportance = integer("relationship_status_importance")
   }
 }
