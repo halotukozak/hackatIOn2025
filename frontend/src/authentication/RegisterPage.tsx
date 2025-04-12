@@ -1,18 +1,32 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { register } from "../apis/authentication";
 
 export default function RegisterPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirm, setConfirm] = useState("");
+    const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (password !== confirm) {
+
+        const form = e.currentTarget;
+        const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+        const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+        const password_confirmation = (form.elements.namedItem("password_confirmation") as HTMLInputElement).value;
+
+        if (password !== password_confirmation) {
             alert("Passwords do not match!");
             return;
         }
-        console.log("Registering:", { email, password });
+
+        try {
+            await register(email, password);
+            navigate("/get_started");
+        } catch (err) {
+            console.error("Registration error:", err);
+            alert("Registration failed");
+        }
+
+
+        console.log("Registering:", {email, password});
     };
 
     return (
@@ -21,29 +35,26 @@ export default function RegisterPage() {
                 <h2 className="text-2xl font-bold text-center">Register</h2>
 
                 <input
+                    name="email"
                     type="email"
                     placeholder="Email"
                     className="input input-bordered w-full"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     required
                 />
 
                 <input
+                    name="password"
                     type="password"
                     placeholder="Password"
                     className="input input-bordered w-full"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     required
                 />
 
                 <input
+                    name="password_confirmation"
                     type="password"
                     placeholder="Confirm Password"
                     className="input input-bordered w-full"
-                    value={confirm}
-                    onChange={(e) => setConfirm(e.target.value)}
                     required
                 />
 
