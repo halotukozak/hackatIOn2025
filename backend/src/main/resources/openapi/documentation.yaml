@@ -43,7 +43,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/Map_Departament"
+                $ref: "#/components/schemas/Map_Faculty"
   /registration/available-hobbies:
     get:
       description: ""
@@ -157,7 +157,41 @@ components:
         age:
           type: "integer"
           format: "int32"
-        departament:
+        description:
+          type: "string"
+        sleepSchedule:
+          type: "integer"
+          format: "int32"
+        hobbies:
+          type: "array"
+          items:
+            type: "string"
+            enum:
+            - "basketball"
+            - "football"
+            - "volleyball"
+            - "swimming"
+            - "running"
+            - "cycling"
+            - "hiking"
+            - "climbing"
+            - "skiing"
+            - "music"
+            - "dance"
+            - "cooking"
+            - "painting"
+            - "photography"
+        smoke:
+          type: "boolean"
+        drink:
+          type: "boolean"
+        personalityType:
+          type: "integer"
+          format: "int32"
+        yearOfStudy:
+          type: "integer"
+          format: "int32"
+        faculty:
           type: "string"
           enum:
           - "WILiGZ"
@@ -178,32 +212,52 @@ components:
           - "WH"
           - "WI"
           - "WTK"
-        description:
-          type: "string"
-        smoke:
-          type: "boolean"
-        drink:
-          type: "boolean"
-      required:
-      - "age"
-      - "departament"
-      - "description"
-      - "smoke"
-      - "drink"
-    Preferences:
-      type: "object"
-      properties:
-        smoke:
-          type: "boolean"
-        drink:
-          type: "boolean"
-        level:
+        relationshipStatus:
           type: "integer"
           format: "int32"
       required:
+      - "age"
+      - "description"
+      - "sleepSchedule"
+      - "hobbies"
       - "smoke"
       - "drink"
-      - "level"
+      - "personalityType"
+      - "yearOfStudy"
+      - "faculty"
+      - "relationshipStatus"
+    Preferences:
+      type: "object"
+      properties:
+        sleepScheduleMatters:
+          type: "boolean"
+        hobbiesMatters:
+          type: "boolean"
+        smokingImportance:
+          type: "integer"
+          format: "int32"
+        drinkImportance:
+          type: "integer"
+          format: "int32"
+        personalityTypeImportance:
+          type: "integer"
+          format: "int32"
+        yearOfStudyMatters:
+          type: "boolean"
+        facultyMatters:
+          type: "boolean"
+        relationshipStatusImportance:
+          type: "integer"
+          format: "int32"
+      required:
+      - "sleepScheduleMatters"
+      - "hobbiesMatters"
+      - "smokingImportance"
+      - "drinkImportance"
+      - "personalityTypeImportance"
+      - "yearOfStudyMatters"
+      - "facultyMatters"
+      - "relationshipStatusImportance"
     AdditionalInfoRequest:
       type: "object"
       properties:
@@ -221,7 +275,7 @@ components:
     Map:
       type: "object"
       properties: {}
-    Map_Departament:
+    Map_Faculty:
       type: "string"
     LoginRequest:
       type: "object"
