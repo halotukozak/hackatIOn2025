@@ -7,6 +7,6 @@ RUN gradle build --no-daemon
 # Run stage
 FROM openjdk:17-slim
 WORKDIR /backend
-COPY --from=build /build/libs/*.jar app.jar
+COPY --from=build /backend/build/libs/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

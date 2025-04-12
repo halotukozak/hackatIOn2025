@@ -12,7 +12,6 @@ services:
 
   - type: web
     name: roomie-frontend
-    env: docker
     plan: free
     healthCheckPath: /
     envVars:
