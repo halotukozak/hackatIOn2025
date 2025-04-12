@@ -1,7 +1,11 @@
 package edu.agh.roomie
 
+import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.configureHTTP
 import edu.agh.roomie.rest.configureRouting
+import edu.agh.roomie.rest.configureSecurity
+import edu.agh.roomie.service.AuthService
+import edu.agh.roomie.service.UserService
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -9,7 +13,16 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-  configureHTTP()
-  configureDatabases()
-  configureRouting()
+
+  val database = configureDatabases()
+  with(
+    Dependencies(
+      database = database,
+      userService = UserService(database),
+      authService = AuthService()
+    )
+  ) {
+    configureHTTP()
+    configureRouting()
+  }
 }
