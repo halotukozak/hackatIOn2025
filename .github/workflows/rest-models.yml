@@ -17,8 +17,9 @@ jobs:
           java-version: '21'
 
       - name: Run Gradle task to generate TypeScript models
-        working-directory: ./backend
-        run: ./gradlew exportRestModels
+        run: |
+          cd backend
+          ./gradlew exportRestModels
 
       - name: Check for changes
         run: |
