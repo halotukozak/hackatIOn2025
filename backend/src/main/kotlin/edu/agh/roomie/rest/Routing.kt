@@ -2,6 +2,7 @@ package edu.agh.roomie.rest
 
 import edu.agh.roomie.rest.endpoints.configureAuthRouting
 import edu.agh.roomie.rest.endpoints.configureInitialRouting
+import edu.agh.roomie.rest.endpoints.configureMatchRouting
 import edu.agh.roomie.rest.endpoints.configureUserRouting
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -29,4 +30,5 @@ fun Application.configureRouting() {
   configureInitialRouting()
   configureAuthRouting()
   configureUserRouting()
+  configureMatchRouting()
 }

@@ -4,6 +4,7 @@ import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.configureHTTP
 import edu.agh.roomie.rest.configureRouting
 import edu.agh.roomie.service.AuthService
+import edu.agh.roomie.service.MatchService
 import edu.agh.roomie.service.UserService
 import io.ktor.server.application.*
 
@@ -18,7 +19,8 @@ fun Application.module() {
     Dependencies(
       database = database,
       userService = UserService(database),
-      authService = AuthService()
+      authService = AuthService(),
+      matchService = MatchService(database),
     )
   ) {
     configureHTTP()
