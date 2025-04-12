@@ -5,6 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="136894d1-7116-4c6d-a41d-1a8acac867e4" name="Changes" comment="Merge branch 'refs/heads/main' into 34-user-registration-followup&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt&#10;#&#9;backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt&#10;#&#9;frontend/src/rest/model.ts">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/rest-models.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/rest-models.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/User.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -7114,7 +7119,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="27-swagger-openapi" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -7149,6 +7154,9 @@
   <component name="HttpClientEndpointsTabState">
     <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;0f17dcc0c99548f3b89e617b5c9d3c58c78cc76a&quot; value=&quot;###&amp;#10;GET http://0.0.0.0:8080/&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
   </component>
+  <component name="HttpClientSelectedEnvironments">
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" environment="test" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -7174,6 +7182,7 @@
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Load Gradle Dependencies.executor": "Run",
     "Gradle.Upgrade Gradle wrapper.executor": "Run",
+    "Gradle.UserServiceTest.executor": "Run",
     "Gradle.backend [exportRestModels].executor": "Run",
     "HTTP Request.generated-requests | #1.executor": "Run",
     "Kotlin script (Beta).dupa.kts.executor": "Run",
@@ -7189,7 +7198,7 @@
     "OpenAPI/Swagger Code Generator.documentation.yaml.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "34-user-registration-followup",
+    "git-widget-placeholder": "45-save-preferences-to-db",
     "last_opened_file_path": "/Users/bartlomiejkozak/University/roomie",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -7222,27 +7231,29 @@
       <recent name="edu.agh.roomie.scheme" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.ExportRestModelsKt (1)">
-    <configuration name="backend [exportRestModels]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.UserServiceTest">
+    <configuration name="UserServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="exportRestModels" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;edu.agh.roomie.service.UserServiceTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
@@ -7311,7 +7322,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.backend [exportRestModels]" />
+      <item itemvalue="Gradle.UserServiceTest" />
       <item itemvalue="HTTP Request.generated-requests | #1" />
       <item itemvalue="Kotlin.ExportRestModelsKt" />
       <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
@@ -7321,11 +7332,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.UserServiceTest" />
         <item itemvalue="Ktor.ApplicationKt (1)" />
         <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Ktor.ApplicationKt" />
-        <item itemvalue="Gradle.backend [exportRestModels]" />
       </list>
     </recent_temporary>
   </component>
