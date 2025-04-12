@@ -21,8 +21,8 @@ fun Application.configureMatchRouting() = routing {
                 return@post
             }
 
-            val user = userService.read(userId)
-            val swipedUser = userService.read(swipedUserId)
+            val user = userService.getUserById(userId)
+            val swipedUser = userService.getUserById(swipedUserId)
 
             if (user == null || swipedUser == null) {
                 call.respond(HttpStatusCode.NotFound, "One or both users not found")
@@ -51,11 +51,11 @@ fun Application.configureMatchRouting() = routing {
             val matchedUserIds = matchService.getMatches(userId)
 
             val matchedUsers = matchedUserIds.mapNotNull { matchedUserId ->
-                userService.read(matchedUserId)?.let { user ->
+                userService.getUserById(matchedUserId)?.let { user ->
                     MatchResponse(
                         userId = matchedUserId,
-                        name = user.name,
-                        surname = user.surname
+                        name = "Jan", // Nie ma jeszcze imion w bazie : (
+                        surname = "Kowalski",
                     )
                 }
             }
