@@ -10,12 +10,12 @@ export interface User {
 export interface Info {
   description: string;
   sleepSchedule: Pair;
-  hobbies: string;
+  hobbies: Hobby[];
   smoke: number;
   drink: number;
   personalityType: number;
   yearOfStudy: number;
-  faculty: string;
+  faculty: Departament;
   relationshipStatus: number;
 }
 

@@ -1,5 +1,6 @@
 package edu.agh.roomie.service
 
+import edu.agh.roomie.rest.model.Departament
 import edu.agh.roomie.rest.model.Info
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.IntEntity
@@ -52,12 +53,12 @@ class InfoService(database: Database) {
       it[description] = user.description
       it[sleepStart] = user.sleepSchedule.first
       it[sleepEnd] = user.sleepSchedule.second
-      it[hobbies] = user.hobbies
+      it[hobbies] = user.hobbies.joinToString(",") { it.name }
       it[smoke] = user.smoke
       it[drink] = user.drink
       it[personalityType] = user.personalityType
       it[yearOfStudy] = user.yearOfStudy
-      it[faculty] = user.faculty
+      it[faculty] = user.faculty.name
       it[relationshipStatus] = user.relationshipStatus
     }[InfosTable.id].value
   }
@@ -72,12 +73,22 @@ class InfoService(database: Database) {
             it[InfosTable.sleepStart],
             it[InfosTable.sleepEnd]
           ),
-          hobbies = it[InfosTable.hobbies],
+          hobbies = it[InfosTable.hobbies].split(",").filter { hobbyName -> hobbyName.isNotEmpty() }.mapNotNull { hobbyName ->
+            try {
+              edu.agh.roomie.rest.model.Hobby.valueOf(hobbyName.trim())
+            } catch (e: IllegalArgumentException) {
+              null
+            }
+          },
           smoke = it[InfosTable.smoke],
           drink = it[InfosTable.drink],
           personalityType = it[InfosTable.personalityType],
           yearOfStudy = it[InfosTable.yearOfStudy],
-          faculty = it[InfosTable.faculty],
+          faculty = try {
+            Departament.valueOf(it[InfosTable.faculty])
+          } catch (e: IllegalArgumentException) {
+            Departament.WI // Default value if the faculty is not found
+          },
           relationshipStatus = it[InfosTable.relationshipStatus]
         ) 
       }
@@ -90,12 +101,12 @@ class InfoService(database: Database) {
         it[description] = info.description
         it[sleepStart] = info.sleepSchedule.first
         it[sleepEnd] = info.sleepSchedule.second
-        it[hobbies] = info.hobbies
+        it[hobbies] = info.hobbies.joinToString(",") { it.name }
         it[smoke] = info.smoke
         it[drink] = info.drink
         it[personalityType] = info.personalityType
         it[yearOfStudy] = info.yearOfStudy
-        it[faculty] = info.faculty
+        it[faculty] = info.faculty.name
         it[relationshipStatus] = info.relationshipStatus
       }
     }

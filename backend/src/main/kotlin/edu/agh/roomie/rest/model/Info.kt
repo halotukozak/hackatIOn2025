@@ -7,12 +7,12 @@ import kotlinx.serialization.Serializable
 data class Info(
   val description: String,
   val sleepSchedule: Pair<Int, Int>,
-  val hobbies: String,
+  val hobbies: List<Hobby>,
   val smoke: Int,
   val drink: Int,
   val personalityType: Int,
   val yearOfStudy: Int,
-  val faculty: String,
+  val faculty: Departament,
   val relationshipStatus: Int,
 ) {
   init {
@@ -26,11 +26,21 @@ data class Info(
 fun InfoService.InfoEntity.toShared() = Info(
   description = this.description,
   sleepSchedule = Pair(this.sleepStart, this.sleepEnd),
-  hobbies = this.hobbies,
+  hobbies = this.hobbies.split(",").filter { it.isNotEmpty() }.map { hobbyName -> 
+    try {
+      Hobby.valueOf(hobbyName.trim())
+    } catch (e: IllegalArgumentException) {
+      null
+    }
+  }.filterNotNull(),
   smoke = this.smoke,
   drink = this.drink,
   personalityType = this.personalityType,
   yearOfStudy = this.yearOfStudy,
-  faculty = this.faculty,
+  faculty = try {
+    Departament.valueOf(this.faculty)
+  } catch (e: IllegalArgumentException) {
+    Departament.WI // Default value if the faculty is not found
+  },
   relationshipStatus = this.relationshipStatus
 )
