@@ -15,7 +15,7 @@ type MatchViewProps = {
 const MatchListView: React.FC<MatchViewProps> = ({user, match}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
-            <div className=" w-full relative" onClick={() => setIsModalOpen(true)}>
+            <div className=" w-full" onClick={() => {if (!isModalOpen) setIsModalOpen(true);}}>
                 <div className="w-full bg-white shadow-lg rounded-lg flex flex-col p-2">
                     <div className="flex justify-between">
                         <div className="flex space-x-4 flex-col">
@@ -42,11 +42,12 @@ const MatchListView: React.FC<MatchViewProps> = ({user, match}) => {
                             </div>
                         )}
                         {match === MatchStatus.Received && (
-                            <div className="flex justify-center gap-4 ">
-                                <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">
+                            <div className="flex justify-center gap-4 -mt-5">
+                                <button onClick={(e) => {e.stopPropagation(); console.log("Decline")}}
+                                    className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">
                                     <XMarkIcon className="h-6 w-6  hover:text-red-500" />
                                 </button>
-                                <button className="btn btn-circle btn-success text-white">
+                                <button onClick={(e) => {e.stopPropagation(); console.log("Accept")}} className="btn btn-circle btn-success text-white">
                                     <CheckIcon className="h-6 w-6 text-white-500" />
                                 </button>
                             </div>

@@ -15,7 +15,7 @@ type ListViewProps = {
 const ListView: React.FC<ListViewProps> = ({user}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
-        <div className=" w-full" onClick={() => setIsModalOpen(true)}>
+        <div className=" w-full" onClick={() => {if (!isModalOpen) setIsModalOpen(true);}}>
         <div className="w-full bg-white shadow-lg rounded-lg flex flex-col p-2 relative">
             <div className="flex justify-between">
                 <div className="flex space-x-4 flex-col">
