@@ -3,18 +3,20 @@ package edu.agh.roomie.rest.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RegisterRequest(
-  val name: String,
-  val surname: String,
-  val email: String,
-  val password: String,
-  val age: Int,
+data class AdditionalInfoRequest(
+  val userId : Int,
   val info: Info,
-  val preferences: Preferences
+  val preferences: Preferences,
 )
 
 @Serializable
 data class LoginRequest(
+  val email: String,
+  val password: String
+)
+
+@Serializable
+data class RegisterRequest(
   val email: String,
   val password: String
 )
