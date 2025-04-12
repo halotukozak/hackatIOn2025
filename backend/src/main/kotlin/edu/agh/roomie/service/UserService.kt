@@ -101,3 +101,4 @@ class UserService(database: Database) {
     UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 }
+
