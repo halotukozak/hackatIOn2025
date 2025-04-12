@@ -27,9 +27,7 @@ fun InfoService.InfoEntity.toShared() = Info(
   age = this.age,
   description = this.description,
   sleepSchedule = Pair(this.sleepStart, this.sleepEnd),
-  hobbies = this.hobbies.split(",").filter { it.isNotEmpty() }.map { it.trim() }.mapNotNull { hobbyName ->
-    runCatching { Hobby.valueOf(hobbyName) }.getOrNull()
-  },
+  hobbies = this.hobbies.map { Hobby.valueOf(it) },
   smoke = this.smoke,
   drink = this.drink,
   personalityType = this.personalityType,
