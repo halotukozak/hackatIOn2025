@@ -1,6 +1,6 @@
 package edu.agh.roomie.rest
 
-import edu.agh.roomie.rest.model.Departament
+import edu.agh.roomie.rest.model.Departaments
 import edu.agh.roomie.rest.model.Hobby
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -14,7 +14,7 @@ fun Application.configureInitialRouting() {
         call.respond(HttpStatusCode.OK, Hobby.entries)
       }
       get("/available-departments") {
-        call.respond(HttpStatusCode.OK, Departament.entries)
+        call.respond(HttpStatusCode.OK, Departaments.all)
       }
     }
   }
