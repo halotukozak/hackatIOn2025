@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {UserIcon} from "@heroicons/react/24/solid";
-import React from "react";
+// import React from "react";
 
 export default function DiscoverPage() {
     // const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
