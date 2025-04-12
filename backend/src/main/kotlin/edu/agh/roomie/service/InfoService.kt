@@ -1,9 +1,6 @@
 package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.Faculty
-import edu.agh.roomie.rest.model.Hobby
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.toShared
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -42,7 +39,7 @@ class InfoService(database: Database) {
     val faculty = enumeration<Faculty>("departament")
     val sleepStart = integer("sleepStart")
     val sleepEnd = integer("sleepEnd")
-    val hobbies = varchar("hobbies", length = 1000)
+    val hobbies = array<String>("hobbies")
     val personalityType = integer("personality_type")
     val yearOfStudy = integer("year_of_study")
     val relationshipStatus = integer("relationship_status")
@@ -53,16 +50,5 @@ class InfoService(database: Database) {
       SchemaUtils.create(InfosTable)
     }
   }
-
-  fun create(info: Info) = InfoEntity.new {
-    this.age = info.age
-    this.description = info.description
-    this.smoke = info.smoke
-    this.drink = info.drink
-    this.faculty = info.faculty
-  }
-
-  fun read(id: Int): Info? =
-    InfoEntity.findById(id)?.toShared()
 }
 
