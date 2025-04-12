@@ -9,7 +9,6 @@ services:
     envVars:
       - key: PORT
         value: 8080
-#    buildCommand: ./gradlew run
 
   - type: web
     name: roomie-frontend
