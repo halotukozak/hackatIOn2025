@@ -13,10 +13,10 @@ services:
   - type: web
     name: roomie-frontend
     env: docker
-    dockerfilePath: ./frontend/Dockerfile
     plan: free
     healthCheckPath: /
     envVars:
       - key: PORT
         value: 80
-    buildCommand: npm install && npm run build
+    buildCommand: npm install
+    runCommand: npm start
