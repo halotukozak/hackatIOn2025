@@ -20,7 +20,7 @@ export default function Navbar() {
               <Link
                 to="/discover"
                 className={`btn text-white ${
-                  currentPath === "/discover" ? "bg-[#00693C]" : "btn-base-300"
+                  currentPath === "/discover" ? "btn-primary" : "btn-base-300"
                 }`}
               >
                 Discover
