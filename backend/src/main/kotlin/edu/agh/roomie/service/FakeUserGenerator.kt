@@ -23,6 +23,8 @@ object FakeUserGenerator {
         val randomHobbies = Hobby.entries.shuffled().take(Random.nextInt(1, 5))
 
         return Info(
+            name = faker.name.firstName(),
+            surname = faker.name.lastName(),
             age = Random.nextInt(18, 30),
             description = List(Random.nextInt(2, 5)) { faker.lorem.words() }.joinToString(" "),
             sleepSchedule = Pair(Random.nextInt(21, 24), Random.nextInt(5, 9)),

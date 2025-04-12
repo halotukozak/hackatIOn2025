@@ -102,7 +102,3 @@ class UserService(database: Database) {
   }
 }
 
-  suspend fun removeUser(id: Int) = newSuspendedTransaction {
-    UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
-  }
-}
