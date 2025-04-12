@@ -19,17 +19,13 @@ application {
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
-tasks.register("exportRestModels") {
+tasks.register("exportRestModels", JavaExec::class) {
   group = "application"
-  description = "Generates TypeScript models from Kotlin data classes"
-
-  doLast {
-    javaexec {
-      classpath = sourceSets["main"].runtimeClasspath
-      mainClass.set("edu.agh.roomie.scripts.ExportRestModelsKt")
-      workingDir = rootProject.projectDir.parentFile
-    }
-  }
+  description = "Generate TypeScript models from Kotlin data classes"
+  classpath = sourceSets["main"].runtimeClasspath
+  mainClass.set("edu.agh.roomie.scripts.ExportRestModelsKt")
+  // Default target directory is "../frontend/src/rest" relative to the project root
+  args = listOf("../frontend/src/rest")
 }
 
 repositories {
