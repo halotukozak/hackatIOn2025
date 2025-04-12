@@ -1,6 +1,6 @@
 package edu.agh.roomie.service
 
-import edu.agh.roomie.rest.model.Departament
+import edu.agh.roomie.rest.model.Faculty
 import edu.agh.roomie.rest.model.Info
 import edu.agh.roomie.rest.model.toShared
 import org.jetbrains.exposed.dao.IntEntity
@@ -18,9 +18,15 @@ class InfoService(database: Database) {
 
     var age by InfosTable.age
     var description by InfosTable.description
+    var sleepStart by InfosTable.sleepStart
+    var sleepEnd by InfosTable.sleepEnd
+    var hobbies by InfosTable.hobbies
     var smoke by InfosTable.smoke
     var drink by InfosTable.drink
-    var departament by InfosTable.departament
+    var personalityType by InfosTable.personalityType
+    var yearOfStudy by InfosTable.yearOfStudy
+    var relationshipStatus by InfosTable.relationshipStatus
+    var faculty by InfosTable.faculty
   }
 
   object InfosTable : IntIdTable() {
@@ -28,7 +34,13 @@ class InfoService(database: Database) {
     val description = varchar("description", length = 255)
     val smoke = bool("smoke")
     val drink = bool("drink")
-    val departament = enumeration<Departament>("departament")
+    val faculty = enumeration<Faculty>("departament")
+    val sleepStart = integer("sleepStart")
+    val sleepEnd = integer("sleepEnd")
+    val hobbies = varchar("hobbies", length = 1000)
+    val personalityType = integer("personality_type")
+    val yearOfStudy = integer("year_of_study")
+    val relationshipStatus = integer("relationship_status")
   }
 
   init {
@@ -42,7 +54,7 @@ class InfoService(database: Database) {
     this.description = info.description
     this.smoke = info.smoke
     this.drink = info.drink
-    this.departament = info.departament
+    this.faculty = info.faculty
   }
 
   fun read(id: Int): Info? =

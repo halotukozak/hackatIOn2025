@@ -6,19 +6,34 @@ export interface User {
 
 export interface Info {
   age: number;
-  departament: Departament;
   description: string;
+  sleepSchedule: Pair;
+  hobbies: Hobby[];
   smoke: boolean;
   drink: boolean;
+  personalityType: number;
+  yearOfStudy: number;
+  faculty: Faculty;
+  relationshipStatus: number;
 }
 
 export interface Preferences {
-  smoke: boolean;
-  drink: boolean;
-  level: number;
+  sleepScheduleMatters: boolean;
+  hobbiesMatters: boolean;
+  smokingImportance: number;
+  drinkImportance: number;
+  personalityTypeImportance: number;
+  yearOfStudyMatters: boolean;
+  facultyMatters: boolean;
+  relationshipStatusImportance: number;
 }
 
-export enum Departament {
+export interface Pair {
+  first: number;
+  second: number;
+}
+
+export enum Faculty {
   WILiGZ = "WILiGZ",
   WIMiIP = "WIMiIP",
   WEAIIB = "WEAIIB",

@@ -65,20 +65,26 @@ class UserService(database: Database) {
       null
     }
   }
+
   fun getUserById(id: Int): User? = UserEntity.findById(id)?.toShared()
   fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) =
     UserEntity.findByIdAndUpdate(id) { user ->
       user.info = InfoService.InfoEntity.new {
         this.age = info.age
         this.description = info.description
-        this.smoke = info.smoke
-        this.drink = info.drink
-        this.departament = info.departament
+        this.sleepStart = info.sleepSchedule.first
+        this.sleepEnd = info.sleepSchedule.second
+        this.faculty = info.faculty
       }
       user.preferences = PreferencesService.PreferencesEntity.new {
-        this.smoke = preferences.smoke
-        this.drink = preferences.drink
-        this.level = preferences.level
+        this.sleepScheduleMatters = preferences.sleepScheduleMatters
+        this.hobbiesMatters = preferences.hobbiesMatters
+        this.smokingImportance = preferences.smokingImportance
+        this.drinkImportance = preferences.drinkImportance
+        this.personalityTypeImportance = preferences.personalityTypeImportance
+        this.yearOfStudyMatters = preferences.yearOfStudyMatters
+        this.facultyMatters = preferences.facultyMatters
+        this.relationshipStatusImportance = preferences.relationshipStatusImportance
       }
     }
 }

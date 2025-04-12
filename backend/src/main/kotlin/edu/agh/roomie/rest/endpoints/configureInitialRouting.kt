@@ -2,7 +2,7 @@ package edu.agh.roomie.rest.endpoints
 
 import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.model.AdditionalInfoRequest
-import edu.agh.roomie.rest.model.Departaments
+import edu.agh.roomie.rest.model.Faculties
 import edu.agh.roomie.rest.model.Hobby
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,7 +18,7 @@ fun Application.configureInitialRouting() {
         call.respond(HttpStatusCode.OK, Hobby.entries.toList())
       }
       get("/available-departments") {
-        call.respond(HttpStatusCode.OK, Departaments.all)
+        call.respond(HttpStatusCode.OK, Faculties.all)
       }
 
       post("/additional-data") {

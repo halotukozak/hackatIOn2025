@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="136894d1-7116-4c6d-a41d-1a8acac867e4" name="Changes" comment="feat: add OpenAPI documentation and update routing for Swagger UI">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/rest-models.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/rest-models.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run/EngineMain.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/EngineMain.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/Application.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/endpoints/configureInitialRouting.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Auth.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Auth.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Info.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/Preferences.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/rest/model/User.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/scripts/exportRestModels.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/scripts/exportRestModels.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/InfoService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/edu/agh/roomie/service/UserService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/openapi/documentation.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -7126,7 +7117,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="34-user-registration-followup" />
+        <entry key="$PROJECT_DIR$" value="27-swagger-openapi" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -7234,31 +7225,7 @@
       <recent name="edu.agh.roomie.scheme" />
     </key>
   </component>
-  <component name="RunManager" selected="Ktor.ApplicationKt (1)">
-    <configuration name="ConfigureInitialRoutingKtTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;edu.agh.roomie.rest.ConfigureInitialRoutingKtTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Kotlin.ExportRestModelsKt (1)">
     <configuration name="backend [exportRestModels]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -7283,6 +7250,13 @@
     </configuration>
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
+    </configuration>
+    <configuration name="ExportRestModelsKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.scripts.ExportRestModelsKt" />
+      <module name="roomie.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="scripts" />
@@ -7340,19 +7314,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.ConfigureInitialRoutingKtTest" />
       <item itemvalue="Gradle.backend [exportRestModels]" />
       <item itemvalue="HTTP Request.generated-requests | #1" />
       <item itemvalue="Kotlin.ExportRestModelsKt" />
+      <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
       <item itemvalue="Ktor.EngineMain" />
       <item itemvalue="Ktor.ApplicationKt (1)" />
       <item itemvalue="Ktor.ApplicationKt" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Ktor.ApplicationKt (1)" />
-        <item itemvalue="Ktor.ApplicationKt" />
-        <item itemvalue="Gradle.backend [exportRestModels]" />
+        <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Ktor.ApplicationKt" />
         <item itemvalue="Gradle.backend [exportRestModels]" />
       </list>
@@ -7529,15 +7503,7 @@
       <option name="project" value="LOCAL" />
       <updated>1744449836642</updated>
     </task>
-    <task id="LOCAL-00020" summary="feat: add OpenAPI documentation and update routing for Swagger UI">
-      <option name="closed" value="true" />
-      <created>1744454272453</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1744454272453</updated>
-    </task>
-    <option name="localTasksCounter" value="21" />
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -7572,7 +7538,9 @@
     <MESSAGE value="feat: update Gradle wrapper to version 8.10 and improve error handling in scripts" />
     <MESSAGE value="feat: convert Hobby.entries to list for consistent response format" />
     <MESSAGE value="feat: add OpenAPI documentation and update routing for Swagger UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add OpenAPI documentation and update routing for Swagger UI" />
+    <MESSAGE value="feat: update user registration flow and enhance additional data handling" />
+    <MESSAGE value="feat: restructure User model and add request interfaces for additional info and authentication" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: restructure User model and add request interfaces for additional info and authentication" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
