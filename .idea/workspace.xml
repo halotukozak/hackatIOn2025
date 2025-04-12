@@ -7129,27 +7129,27 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "assignee": "halotukozak"
+      &quot;assignee&quot;: &quot;halotukozak&quot;
     }
   ],
-  "lastFilter": {
-    "assignee": "halotukozak"
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;halotukozak&quot;
   }
-}]]></component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOOXzx3c6SWSvl",
-        "number": 25
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOXzx3c6SWSvl&quot;,
+        &quot;number&quot;: 25
       },
-      "lastSeen": 1744450350701
+      &quot;lastSeen&quot;: 1744450350701
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/halotukozak/hackatIOn2025.git&quot;,
@@ -7175,46 +7175,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.ApplicationTest.executor": "Run",
-    "Gradle.Build backend.executor": "Run",
-    "Gradle.Build scripts.executor": "Run",
-    "Gradle.ConfigureInitialRoutingKtTest.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.Load Gradle Dependencies.executor": "Run",
-    "Gradle.Upgrade Gradle wrapper.executor": "Run",
-    "Gradle.backend [exportRestModels].executor": "Run",
-    "HTTP Request.generated-requests | #1.executor": "Run",
-    "Kotlin script (Beta).dupa.kts.executor": "Run",
-    "Kotlin script (Beta).exportREST.kts.executor": "Run",
-    "Kotlin script (Beta).exportRestModels.kts.executor": "Run",
-    "Kotlin.ExportRESTKt.executor": "Run",
-    "Kotlin.ExportRestModelsKt (1).executor": "Run",
-    "Kotlin.ExportRestModelsKt (2).executor": "Run",
-    "Kotlin.ExportRestModelsKt.executor": "Run",
-    "Ktor.ApplicationKt (1).executor": "Run",
-    "Ktor.ApplicationKt.executor": "Run",
-    "Ktor.EngineMain.executor": "Run",
-    "OpenAPI/Swagger Code Generator.documentation.yaml.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#25 on 13-authenticaiton",
-    "last_opened_file_path": "/Users/bartlomiejkozak/University/roomie",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "project.kotlinCompiler",
-    "ts.external.directory.path": "/Users/bartlomiejkozak/Applications/IntelliJ IDEA Ultimate.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.ApplicationTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build backend.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build scripts.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ConfigureInitialRoutingKtTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Upgrade Gradle wrapper.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backend [exportRestModels].executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin script (Beta).dupa.kts.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin script (Beta).exportREST.kts.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin script (Beta).exportRestModels.kts.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ExportRESTKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ExportRestModelsKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ExportRestModelsKt (2).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.ExportRestModelsKt.executor&quot;: &quot;Run&quot;,
+    &quot;Ktor.ApplicationKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Ktor.ApplicationKt.executor&quot;: &quot;Run&quot;,
+    &quot;Ktor.EngineMain.executor&quot;: &quot;Run&quot;,
+    &quot;OpenAPI/Swagger Code Generator.documentation.yaml.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#25 on 13-authenticaiton&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bartlomiejkozak/University/roomie&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.kotlinCompiler&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/bartlomiejkozak/Applications/IntelliJ IDEA Ultimate.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -7232,55 +7232,7 @@
       <recent name="edu.agh.roomie.scheme" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.ExportRestModelsKt">
-    <configuration name="ApplicationTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;edu.agh.ApplicationTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="ConfigureInitialRoutingKtTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;edu.agh.roomie.rest.ConfigureInitialRoutingKtTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Ktor.ApplicationKt (1)">
     <configuration name="backend [exportRestModels]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -7306,6 +7258,46 @@
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="ExportRestModelsKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.scripts.ExportRestModelsKt" />
+      <module name="roomie.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="scripts" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="scripts" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ApplicationKt (1)" type="KtorApplicationConfigurationType" factoryName="Ktor" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.ApplicationKt" />
+      <module name="roomie.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.agh.roomie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="alternativeJrePath" />
+      <option name="alternativeJrePathEnabled" value="false" />
+      <option name="includeProvidedScope" value="false" />
+      <option name="mainClass" value="edu.agh.roomie.ApplicationKt" />
+      <option name="passParentEnvs" value="true" />
+      <option name="programParameters" />
+      <option name="shortenCommandLine" />
+      <option name="vmParameters" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ApplicationKt" type="KtorApplicationConfigurationType" factoryName="Ktor" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="edu.agh.roomie.ApplicationKt" />
       <module name="edu.agh.roomie.roomie.main" />
@@ -7329,18 +7321,18 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.ApplicationTest" />
-      <item itemvalue="Gradle.ConfigureInitialRoutingKtTest" />
       <item itemvalue="Gradle.backend [exportRestModels]" />
       <item itemvalue="HTTP Request.generated-requests | #1" />
       <item itemvalue="Kotlin.ExportRestModelsKt" />
+      <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
       <item itemvalue="Ktor.EngineMain" />
+      <item itemvalue="Ktor.ApplicationKt (1)" />
       <item itemvalue="Ktor.ApplicationKt" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Ktor.ApplicationKt" />
-        <item itemvalue="Gradle.backend [exportRestModels]" />
+        <item itemvalue="Ktor.ApplicationKt (1)" />
+        <item itemvalue="Kotlin.ExportRestModelsKt (1)" />
         <item itemvalue="Ktor.ApplicationKt" />
         <item itemvalue="Gradle.backend [exportRestModels]" />
         <item itemvalue="Ktor.ApplicationKt" />
