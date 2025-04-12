@@ -41,7 +41,7 @@ export default function DiscoverPage() {
                     <div className="flex justify-between">
                         <div className="flex space-x-4 flex-col">
                             <div className="flex space-x-4">
-                                <UserIcon className="w-15 h-15 grow rounded-full border-2 border-neutral-content mb-4 justify-stretch" />
+                                <UserIcon className="w-16 h-16 grow rounded-full border-2 border-neutral-content mb-4 justify-stretch" />
                             {/*<img  src="https://via.placeholder.com/150"*/}
                             {/*    className="w-15 h-15 rounded-full border-2 border-neutral-content mb-4 justify-left"/>*/}
                             <div className="flex w-full items-center mb-4">
