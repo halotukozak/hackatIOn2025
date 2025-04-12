@@ -11,7 +11,7 @@ paths:
       description: ""
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: "#/components/schemas/LoginRequest"
         required: true
@@ -64,7 +64,7 @@ paths:
       description: ""
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: "#/components/schemas/RegisterRequest"
         required: true
@@ -89,7 +89,7 @@ paths:
       description: ""
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: "#/components/schemas/AdditionalInfoRequest"
         required: true
@@ -158,6 +158,11 @@ paths:
         required: true
         schema:
           type: "integer"
+      - name: "fake"
+        in: "query"
+        required: false
+        schema:
+          type: "boolean"
       responses:
         "400":
           description: "Bad Request"
@@ -174,15 +179,28 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/User"
-        "404":
-          description: "Not Found"
+  /user/fake:
+    get:
+      description: "Endpoint to generate multiple fake users"
+      parameters:
+      - name: "count"
+        in: "query"
+        required: false
+        schema:
+          type: "integer"
+      responses:
+        "200":
+          description: "OK"
           content:
             '*/*':
               schema:
-                type: "string"
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/User"
               examples:
                 Example#1:
-                  value: "User not found"
+                  description: ""
+                  value: []
 components:
   schemas:
     LoginRequest:

@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
 
   val database = configureDatabases()
-  with(
+  with
     Dependencies(
       database = database,
       userService = UserService(database),
