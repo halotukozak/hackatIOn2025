@@ -1,15 +1,11 @@
 package edu.agh.roomie.rest.endpoints
 
-import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.model.AdditionalInfoRequest
-import edu.agh.roomie.rest.model.Faculty
 import edu.agh.roomie.rest.model.Hobby
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.Preferences
 import edu.agh.roomie.rest.model.RegisterRequest
-import edu.agh.roomie.service.AuthService
-import edu.agh.roomie.service.MatchService
-import edu.agh.roomie.service.UserService
+import edu.agh.roomie.rest.endpoints.TestUtils.performGet
+import edu.agh.roomie.rest.endpoints.TestUtils.performPost
+import edu.agh.roomie.rest.endpoints.TestUtils.verifyResponse
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -23,73 +19,12 @@ import io.ktor.serialization.kotlinx.json.*
 import org.jetbrains.exposed.sql.Database
 import kotlin.test.*
 
-class InitialRoutingTest {
-    private lateinit var database: Database
-    private lateinit var userService: UserService
-    private lateinit var authService: AuthService
-    private lateinit var matchService: MatchService
-    private lateinit var dependencies: Dependencies
-
-    @BeforeTest
-    fun setUp() {
-        // Set up an in-memory H2 database for testing
-        database = Database.connect(
-            url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-            driver = "org.h2.Driver"
-        )
-
-        // Initialize services
-        userService = UserService(database)
-        authService = AuthService()
-        matchService = MatchService(database)
-
-        // Create dependencies
-        dependencies = Dependencies(
-            database = database,
-            userService = userService,
-            authService = authService,
-            matchService = matchService
-        )
-    }
-
-    // Helper methods to create test data
-    private fun createTestInfo(): Info {
-        return Info(
-            name = "Test",
-            surname = "User",
-            age = 25,
-            description = "Test description",
-            sleepSchedule = Pair(22, 6),
-            hobbies = listOf(Hobby.music, Hobby.cooking),
-            smoke = false,
-            drink = true,
-            personalityType = 1,
-            yearOfStudy = 3,
-            faculty = Faculty.WI,
-            relationshipStatus = 1
-        )
-    }
-
-    private fun createTestPreferences(): Preferences {
-        return Preferences(
-            sleepScheduleMatters = true,
-            hobbiesMatters = true,
-            smokingImportance = 3,
-            drinkImportance = 2,
-            personalityTypeImportance = 1,
-            yearOfStudyMatters = false,
-            facultyMatters = true,
-            relationshipStatusImportance = 0
-        )
-    }
+class InitialRoutingTest : BaseRoutingTest() {
 
     @Test
     fun testGetAvailableHobbiesEndpoint() = testApplication {
         // Configure the test application
-        application {
-            install(ContentNegotiation) {
-                json()
-            }
+        configureTestApplication {
             routing {
                 with(dependencies) {
                     route("/registration") {
@@ -105,19 +40,15 @@ class InitialRoutingTest {
         val response = client.get("/registration/available-hobbies")
 
         // Verify response
-        assertEquals(HttpStatusCode.OK, response.status)
-        val responseText = response.bodyAsText()
-        assertTrue(responseText.contains("music"))
-        assertTrue(responseText.contains("cooking"))
+        TestUtils.verifyResponseStatus(response, HttpStatusCode.OK)
+        TestUtils.verifyResponseContains(response, "music")
+        TestUtils.verifyResponseContains(response, "cooking")
     }
 
     @Test
     fun testGetAvailableDepartmentsEndpoint() = testApplication {
         // Configure the test application
-        application {
-            install(ContentNegotiation) {
-                json()
-            }
+        configureTestApplication {
             routing {
                 with(dependencies) {
                     route("/registration") {
@@ -133,18 +64,13 @@ class InitialRoutingTest {
         val response = client.get("/registration/available-departments")
 
         // Verify response
-        assertEquals(HttpStatusCode.OK, response.status)
-        val responseText = response.bodyAsText()
-        assertTrue(responseText.contains("WI"))
+        TestUtils.verifyResponse(response, HttpStatusCode.OK, "WI")
     }
 
     @Test
     fun testPostAdditionalDataEndpoint() = testApplication {
         // Configure the test application
-        application {
-            install(ContentNegotiation) {
-                json()
-            }
+        configureTestApplication {
             routing {
                 with(dependencies) {
                     route("/registration") {
@@ -174,43 +100,40 @@ class InitialRoutingTest {
         val preferences = createTestPreferences()
 
         // Test posting additional data
-        val response = client.post("/registration/additional-data") {
-            contentType(ContentType.Application.Json)
-            setBody("""
-                {
-                    "userId": $userId,
-                    "info": {
-                        "name": "Test",
-                        "surname": "User",
-                        "age": 25,
-                        "description": "Test description",
-                        "sleepSchedule": {"first": 22, "second": 6},
-                        "hobbies": ["music", "cooking"],
-                        "smoke": false,
-                        "drink": true,
-                        "personalityType": 1,
-                        "yearOfStudy": 3,
-                        "faculty": "WI",
-                        "relationshipStatus": 1
-                    },
-                    "preferences": {
-                        "sleepScheduleMatters": true,
-                        "hobbiesMatters": true,
-                        "smokingImportance": 3,
-                        "drinkImportance": 2,
-                        "personalityTypeImportance": 1,
-                        "yearOfStudyMatters": false,
-                        "facultyMatters": true,
-                        "relationshipStatusImportance": 0
-                    }
+        val requestBody = """
+            {
+                "userId": $userId,
+                "info": {
+                    "name": "Test",
+                    "surname": "User",
+                    "age": 25,
+                    "description": "Test description",
+                    "sleepSchedule": {"first": 22, "second": 6},
+                    "hobbies": ["music", "cooking"],
+                    "smoke": false,
+                    "drink": true,
+                    "personalityType": 1,
+                    "yearOfStudy": 3,
+                    "faculty": "WI",
+                    "relationshipStatus": 1
+                },
+                "preferences": {
+                    "sleepScheduleMatters": true,
+                    "hobbiesMatters": true,
+                    "smokingImportance": 3,
+                    "drinkImportance": 2,
+                    "personalityTypeImportance": 1,
+                    "yearOfStudyMatters": false,
+                    "facultyMatters": true,
+                    "relationshipStatusImportance": 0
                 }
-            """.trimIndent())
-        }
+            }
+        """.trimIndent()
+
+        val response = client.performPost("/registration/additional-data", requestBody)
 
         // Verify response
-        assertEquals(HttpStatusCode.OK, response.status)
-        val responseText = response.bodyAsText()
-        assertTrue(responseText.contains("User additional data updated successfully"))
+        TestUtils.verifyResponse(response, HttpStatusCode.OK, "User additional data updated successfully")
 
         // Verify data was updated
         val user = userService.getUserById(userId)
