@@ -1,0 +1,159 @@
+openapi: "3.1.0"
+info:
+  title: "roomie API"
+  description: "roomie API"
+  version: "1.0.0"
+servers:
+- url: "https://roomie"
+paths:
+  /users:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                type: "integer"
+                format: "int32"
+  /users/{id}:
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /callback:
+    get:
+      description: ""
+      responses:
+        "302":
+          description: "Found <br> Redirect"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "/hello"
+  /login:
+    get:
+      description: ""
+      responses:
+        "302":
+          description: "Found <br> Redirect"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "/callback"
+  /protected/route/basic:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+  /protected/route/form:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+components:
+  schemas:
+    Info:
+      type: "object"
+      properties:
+        description:
+          type: "string"
+        smoke:
+          type: "boolean"
+        drink:
+          type: "boolean"
+      required:
+      - "description"
+      - "smoke"
+      - "drink"
+    Preferences:
+      type: "object"
+      properties:
+        smoke:
+          type: "boolean"
+        drink:
+          type: "boolean"
+        level:
+          type: "integer"
+          format: "int32"
+      required:
+      - "smoke"
+      - "drink"
+    User:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        surname:
+          type: "string"
+        email:
+          type: "string"
+        age:
+          type: "integer"
+          format: "int32"
+        info:
+          $ref: "#/components/schemas/Info"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
+      required:
+      - "name"
+      - "surname"
+      - "email"
+      - "age"
+      - "info"
+      - "preferences"
