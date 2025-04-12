@@ -10,6 +10,7 @@ import DiscoverPage from "./DiscoverPage.tsx";
 import LoginPage from "./authentication/LoginPage.tsx";
 import PreferencesPage from "./preferences/PreferencesPage.tsx"
 import RegisterPage from "./authentication/RegisterPage.tsx";
+import DetailsPage from "./DetailsPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/sign_in" element={<RegisterPage />} />
               <Route path="/get_started" element={<PreferencesPage />} />
               <Route path="/discover" element={<DiscoverPage /> }/>
+              <Route path="/profile" element={<DetailsPage /> }/>
           </Routes>
       </BrowserRouter>
   </StrictMode>,
