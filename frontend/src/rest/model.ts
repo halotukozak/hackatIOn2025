@@ -1,13 +1,12 @@
 export interface User {
-  name: string;
-  surname: string;
   email: string;
-  age: number;
   info: Info;
   preferences: Preferences;
 }
 
 export interface Info {
+  age: number;
+  departament: Departament;
   description: string;
   smoke: boolean;
   drink: boolean;
@@ -16,7 +15,7 @@ export interface Info {
 export interface Preferences {
   smoke: boolean;
   drink: boolean;
-  level: number | null;
+  level: number;
 }
 
 export enum Departament {
@@ -55,4 +54,20 @@ export enum Hobby {
   cooking = "cooking",
   painting = "painting",
   photography = "photography",
+}
+
+export interface AdditionalInfoRequest {
+  userId: number;
+  info: Info;
+  preferences: Preferences;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
 }
