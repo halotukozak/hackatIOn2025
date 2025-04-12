@@ -4,10 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdditionalInfoRequest(
-  val age: Int,
+  val userId : Int,
   val info: Info,
   val preferences: Preferences,
-  val departament: Departament,
 )
 
 @Serializable

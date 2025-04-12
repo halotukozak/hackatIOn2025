@@ -3,7 +3,6 @@ package edu.agh.roomie
 import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.configureHTTP
 import edu.agh.roomie.rest.configureRouting
-import edu.agh.roomie.rest.configureSecurity
 import edu.agh.roomie.service.AuthService
 import edu.agh.roomie.service.UserService
 import io.ktor.server.application.*

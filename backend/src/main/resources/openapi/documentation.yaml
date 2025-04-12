@@ -6,14 +6,132 @@ info:
 servers:
 - url: "https://roomie"
 paths:
-  /users:
+  /registration/additional-data:
     post:
       description: ""
       requestBody:
         content:
           '*/*':
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/AdditionalInfoRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User additional data updated successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Failed to update user additional data"
+  /registration/available-departments:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_Departament"
+  /registration/available-hobbies:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  enum:
+                  - "basketball"
+                  - "football"
+                  - "volleyball"
+                  - "swimming"
+                  - "running"
+                  - "cycling"
+                  - "hiking"
+                  - "climbing"
+                  - "skiing"
+                  - "music"
+                  - "dance"
+                  - "cooking"
+                  - "painting"
+                  - "photography"
+  /auth/login:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid credentials"
+  /auth/logout:
+    post:
+      description: ""
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Logged out successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid token"
+  /auth/register:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
         required: true
       responses:
         "201":
@@ -21,86 +139,11 @@ paths:
           content:
             '*/*':
               schema:
-                type: "integer"
-                format: "int32"
-  /users/{id}:
-    get:
-      description: ""
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "integer"
-      responses:
-        "500":
-          description: "Internal Server Error"
-          content:
-            text/plain:
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: ""
-        "200":
-          description: "OK"
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: "Bad Request"
           content:
             '*/*':
-              schema:
-                $ref: "#/components/schemas/User"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                type: "object"
-  /callback:
-    get:
-      description: ""
-      responses:
-        "302":
-          description: "Found <br> Redirect"
-          content:
-            text/plain:
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "/hello"
-  /login:
-    get:
-      description: ""
-      responses:
-        "302":
-          description: "Found <br> Redirect"
-          content:
-            text/plain:
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "/callback"
-  /protected/route/basic:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            text/plain:
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: ""
-  /protected/route/form:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            text/plain:
               schema:
                 type: "string"
               examples:
@@ -111,6 +154,30 @@ components:
     Info:
       type: "object"
       properties:
+        age:
+          type: "integer"
+          format: "int32"
+        departament:
+          type: "string"
+          enum:
+          - "WILiGZ"
+          - "WIMiIP"
+          - "WEAIIB"
+          - "WIET"
+          - "WIMiR"
+          - "WGGiOS"
+          - "WGGiIS"
+          - "WIMiC"
+          - "WO"
+          - "WMN"
+          - "WWNiG"
+          - "WZ"
+          - "WEiP"
+          - "WFiIS"
+          - "WMS"
+          - "WH"
+          - "WI"
+          - "WTK"
         description:
           type: "string"
         smoke:
@@ -118,6 +185,8 @@ components:
         drink:
           type: "boolean"
       required:
+      - "age"
+      - "departament"
       - "description"
       - "smoke"
       - "drink"
@@ -134,16 +203,11 @@ components:
       required:
       - "smoke"
       - "drink"
-    User:
+      - "level"
+    AdditionalInfoRequest:
       type: "object"
       properties:
-        name:
-          type: "string"
-        surname:
-          type: "string"
-        email:
-          type: "string"
-        age:
+        userId:
           type: "integer"
           format: "int32"
         info:
@@ -151,9 +215,42 @@ components:
         preferences:
           $ref: "#/components/schemas/Preferences"
       required:
-      - "name"
-      - "surname"
-      - "email"
-      - "age"
+      - "userId"
       - "info"
       - "preferences"
+    Map:
+      type: "object"
+      properties: {}
+    Map_Departament:
+      type: "string"
+    LoginRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
+    AuthResponse:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+        userId:
+          type: "integer"
+          format: "int32"
+      required:
+      - "token"
+      - "userId"
+    RegisterRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"

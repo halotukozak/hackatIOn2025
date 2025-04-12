@@ -7,10 +7,10 @@ import kotlinx.serialization.Serializable
 data class Preferences(
   val smoke: Boolean,
   val drink: Boolean,
-  val level: Int?,
+  val level: Int,
 ) {
   init {
-    require(level == null || level in 1..<5) { "level must be between 1 and 5 or empty" }
+    require(level in 1..<5) { "level must be between 1 and 5 or empty" }
   }
 }
 
