@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 // import Reactfrom "react";
 import ListView from "./ListView";
 import {
@@ -9,7 +8,6 @@ import {
   RelationshipStatus,
 } from "./types/user";
 import Navbar from "./Navbar";
-// import React from "react";
 
 const user1: User = {
   name: "Emma",
@@ -50,6 +48,8 @@ const user2: User = {
 };
 
 export default function DiscoverPage() {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar />
@@ -59,7 +59,6 @@ export default function DiscoverPage() {
         </h1>
       </div>
       <div className="flex flex-col justify-center px-2 space-y-4">
-        <ListView user={user1} />
         <ListView user={user2} />
         <ListView user={user1} />
         <ListView user={user1} />

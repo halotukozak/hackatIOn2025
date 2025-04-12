@@ -1,25 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
 import { UserIcon } from "@heroicons/react/24/solid";
 import {
     User,
     personalityLabels,
 } from "./types/user";
+import UserDetailModal from "./UserDetailModal.tsx";
 // import React from "react";
 
 type ListViewProps = {
     user: User;
 };
 
-const ListView: React.FC<ListViewProps> = ({user}) => {
 
+const ListView: React.FC<ListViewProps> = ({user}) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
+        <div>
+        <button className=" w-full" onClick={() => setIsModalOpen(true)}>
         <div className="w-full bg-white shadow-lg rounded-lg flex flex-col p-2 relative">
             <div className="flex justify-between">
                 <div className="flex space-x-4 flex-col">
                     <div className="flex space-x-4">
                         <UserIcon className="w-16 h-16 grow rounded-full border-2 border-neutral-content mb-4 justify-stretch" />
-                        {/*<img  src="https://via.placeholder.com/150"*/}
-                        {/*    className="w-15 h-15 rounded-full border-2 border-neutral-content mb-4 justify-left"/>*/}
                         <div className="flex w-full items-center mb-4">
                             <div>
                                 <h2 className="text-xl font-semibold">{user.name}, {user.age}</h2>
@@ -42,6 +44,14 @@ const ListView: React.FC<ListViewProps> = ({user}) => {
                     <p className="text-ml text-gray-600">{personalityLabels[user.info.personalityType]}</p>
                 </div>
             </div>
+        </div>
+        </button>
+
+    <UserDetailModal
+        user={user}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+    />
         </div>
     );
 };

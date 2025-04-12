@@ -9,7 +9,7 @@ import DiscoverPage from "./DiscoverPage.tsx";
 import LoginPage from "./authentication/LoginPage.tsx";
 import PreferencesPage from "./preferences/PreferencesPage.tsx";
 import RegisterPage from "./authentication/RegisterPage.tsx";
-import DetailsPage from "./DetailsPage.tsx";
+// import DetailsPage from "./DetailsPage.tsx";
 import MatchesPage from "./MatchesPage.tsx";
 import ProfilePage from "./ProfilePage.tsx";
 
