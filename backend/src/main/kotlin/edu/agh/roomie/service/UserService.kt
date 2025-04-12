@@ -29,21 +29,17 @@ class UserService(database: Database) {
       fun findByEmail(email: String): UserEntity? = find { UsersTable.email eq email }.singleOrNull()
     }
 
-    var name by UsersTable.name
-    var surname by UsersTable.surname
     var email by UsersTable.email
     var password by UsersTable.password
-    var preferences by PreferencesService.PreferencesEntity referencedOn UsersTable.preferences
-    var info by InfoService.InfoEntity referencedOn UsersTable.info
+    var preferences by PreferencesService.PreferencesEntity optionalReferencedOn UsersTable.preferences
+    var info by InfoService.InfoEntity optionalReferencedOn UsersTable.info
   }
 
   object UsersTable : IntIdTable() {
-    val name = varchar("name", length = 50)
-    val surname = varchar("surname", length = 50)
     val email = varchar("email", length = 50)
     val password = varchar("password", length = 100)
-    val preferences = reference("preferences", PreferencesTable)
-    val info = reference("info", InfosTable)
+    val preferences = reference("preferences", PreferencesTable).nullable()
+    val info = reference("info", InfosTable).nullable()
   }
 
   init {
