@@ -53,7 +53,7 @@ export default function DiscoverPage() {
                             </div>
 
                         </div>
-                        <div className="badge whitespace-nowrap text-nowrap bg-green-200 text-green-700 justify-right">87% Match</div>
+                        <div className="badge whitespace-nowrap text-nowrap bg-green-200 text-green-700 justify-end">87% Match</div>
                     </div>
                     <div className="flex space-x-4 justify-between">
                         <div className="flex space-x-2">
