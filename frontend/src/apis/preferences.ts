@@ -1,14 +1,15 @@
 import {Info, Faculty, Hobby, Preferences} from "../rest/model.ts";
+import {base_url} from "./base.ts";
 
 
 export const getHobbies = async (): Promise<Hobby[]> => {
-    const res = await fetch("http://127.0.0.1:8080/registration/available-hobbies");
+    const res = await fetch(base_url() + "/registration/available-hobbies");
     if (!res.ok) throw new Error("Failed to fetch hobbies");
     return res.json();
 };
 
 export const getDepartments = async (): Promise<Faculty[]> => {
-    const res = await fetch("http://127.0.0.1:8080/registration/available-departments");
+    const res = await fetch(base_url() + "/registration/available-departments");
     if (!res.ok) throw new Error("Failed to fetch departments");
     return res.json();
 };
@@ -43,10 +44,10 @@ export async function setInfo(form: {
         personalityType: form.personality,
         yearOfStudy: +form.year,
         faculty: form.department as Faculty,
-        relationshipStatus: +form.relationship
+        relationshipStatus: form.relationship != "3" ? +form.relationship : null
     }
 
-    const res = await fetch("http://localhost:8080/registration/additional-info", {
+    const res = await fetch(base_url() + "/registration/additional-info", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({userId: localStorage.getItem("user_id"), info: info}),
@@ -78,7 +79,7 @@ export async function setPreferences(form: {
         relationshipStatusImportance: form.relationshipPreference ? +form.relationshipPreference : null
     }
 
-    const res = await fetch("http://localhost:8080/registration/additional-preferences", {
+    const res = await fetch(base_url() + "/registration/additional-preferences", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({userId: localStorage.getItem("user_id"), preferences: preferences}),

@@ -15,7 +15,7 @@ export default function StepThree({ form, onChange, onNext, onBack }: StepThreeP
 
     return (
         <div className="w-full max-w-sm mx-auto p-4 space-y-4">
-            <h1 className="text-2xl font-bold text-center">Create Your Profile</h1>
+            <h1 className="text-2xl font-bold text-center">Choose Your Preferences</h1>
             <p className="text-sm text-center text-gray-500">Step 3 of 5: Lifestyle</p>
 
             <progress className="progress progress-primary w-full" value={60} max={100}></progress>

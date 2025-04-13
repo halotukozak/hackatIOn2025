@@ -6,10 +6,11 @@ import {
   RelationshipStatus,
 } from "../types/user";
 import { User } from "../rest/model";
+import {base_url} from "./base.ts";
 
 // Convert backend raw user data to strongly typed User object
 
-export function parseRelationship(relationship: number): RelationshipStatus {
+export function parseRelationship(relationship: number | null): RelationshipStatus {
   if (relationship == null) {
     return RelationshipStatus.ItsComplicated;
   }
@@ -54,7 +55,7 @@ export function parseUserFromBackend(raw: User): UserShow {
 // Fetch and parse a fake user from backend
 export const getUserById = async (userId: number): Promise<UserShow> => {
   try {
-    const res = await fetch(`http://0.0.0.0:8080/user/${userId}`);
+    const res = await fetch(base_url() + `/user/${userId}`);
 
     if (!res.ok) {
       throw new Error(`Failed to fetch user: ${res.status}`);
@@ -70,7 +71,7 @@ export const getUserById = async (userId: number): Promise<UserShow> => {
 
 export const getAllUsers = async (): Promise<UserShow[]> => {
   try {
-    const res = await fetch("http://127.0.0.1:8080/users");
+    const res = await fetch(base_url() + "/users");
 
     if (!res.ok) {
       throw new Error(`Failed to fetch users: ${res.status}`);
