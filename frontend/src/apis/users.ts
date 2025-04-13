@@ -10,7 +10,7 @@ import {base_url} from "./base.ts";
 
 // Convert backend raw user data to strongly typed User object
 
-export function parseRelationship(relationship: number): RelationshipStatus {
+export function parseRelationship(relationship: number | null): RelationshipStatus {
   if (relationship == null) {
     return RelationshipStatus.ItsComplicated;
   }
