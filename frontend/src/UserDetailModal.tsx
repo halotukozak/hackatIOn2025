@@ -1,14 +1,14 @@
 import React from "react";
 import { XMarkIcon, HeartIcon } from "@heroicons/react/24/solid";
 import {
-  User,
+  UserShow,
   smokeLabels,
   drinkLabels,
   personalityLabels,
 } from "./types/user";
 
 type UserDetailModalProps = {
-  user: User;
+  user: UserShow;
   isOpen: boolean;
   onClose: () => void;
 };
