@@ -51,9 +51,9 @@ export default function StepTwo({ form, onChange, onSubmit, onBack }: StepTwoPro
                     onChange={(e) => onChange("smokingPreference", e.target.value)}
                 >
                     <option value="">Don't care</option>
-                    <option value="Non smoker">Non smoker</option>
-                    <option value="Occasional smoker">Occasional smoker</option>
-                    <option value="Regular smoker">Regular smoker</option>
+                    <option value="0">Non smoker</option>
+                    <option value="1">Occasional smoker</option>
+                    <option value="2">Regular smoker</option>
                 </select>
             </label>
 
@@ -66,9 +66,9 @@ export default function StepTwo({ form, onChange, onSubmit, onBack }: StepTwoPro
                     onChange={(e) => onChange("drinkingPreference", e.target.value)}
                 >
                     <option value="">Don't care</option>
-                    <option value="Non drinker">Non drinker</option>
-                    <option value="Social drinker">Social drinker</option>
-                    <option value="Regular drinker">Regular drinker</option>
+                    <option value="0">Non drinker</option>
+                    <option value="1">Social drinker</option>
+                    <option value="2">Regular drinker</option>
                 </select>
             </label>
 

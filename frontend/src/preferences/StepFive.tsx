@@ -1,16 +1,18 @@
+import {Hobby} from "../rest/model.ts";
+
 type StepFiveProps = {
-    hobbies: string[];
+    hobbies: Hobby[];
     form: {
-        interests: string[];
+        interests: Hobby[];
         relationship: string;
     };
-    onChange: (field: string, value: string | string[]) => void;
+    onChange: (field: string, value: string | Hobby[]) => void;
     onBack: () => void;
     onSubmit: () => void;
 };
 
 export default function StepFive({ form, hobbies, onChange, onBack, onSubmit }: StepFiveProps) {
-    const toggleInterest = (interest: string) => {
+    const toggleInterest = (interest: Hobby) => {
         const updated = form.interests.includes(interest)
             ? form.interests.filter((i) => i !== interest)
             : [...form.interests, interest];
@@ -54,9 +56,9 @@ export default function StepFive({ form, hobbies, onChange, onBack, onSubmit }: 
                     required
                 >
                     <option value="">Select status</option>
-                    <option>Single</option>
-                    <option>In a relationship</option>
-                    <option>It's complicated</option>
+                    <option value="1">Single</option>
+                    <option value="2">In a relationship</option>
+                    <option value="">It's complicated</option>
                 </select>
             </label>
 

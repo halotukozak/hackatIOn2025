@@ -1,14 +1,17 @@
 import { useState } from "react";
 import StepOne from "./StepOne.tsx"
 import StepTwo from "./StepTwo.tsx"
+import {setPreferences} from "../apis/preferences.ts";
+import {useNavigate} from "react-router-dom";
 
 export default function RoommateReferencesPage() {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [form, setForm] = useState({
         matchYear: true,
         matchDepartment: true,
         matchSleepSchedule: true,
-        MatchHobbies: true,
+        matchHobbies: true,
         relationshipPreference: "",
         personalityPreference: 50,
         smokingPreference: "",
@@ -19,9 +22,15 @@ export default function RoommateReferencesPage() {
         setForm((prev) => ({ ...prev, [key]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form data:", form);
+        try {
+            await setPreferences(form);
+            navigate('/discover');
+        } catch (error) {
+            console.error("Error submitting preferences:", error);
+            alert("Failed to submit preferences");
+        }
     };
 
     return (
@@ -37,18 +46,6 @@ export default function RoommateReferencesPage() {
                 {step === 2 && (
                     <StepTwo form={form} onChange={handleChange} onBack={() => setStep(1)} onSubmit={() => handleSubmit}/>
                 )}
-
-                {/*{step === 3 && (*/}
-                {/*    <StepThree form={form} onChange={handleChange} onNext={() => setStep(4)} onBack={() => setStep(2)}/>*/}
-                {/*)}*/}
-
-                {/*{step === 4 && (*/}
-                {/*    <StepFour form={form} onChange={handleChange} onNext={() => setStep(5)} onBack={() => setStep(3)} />*/}
-                {/*)}*/}
-
-                {/*{step == 5 && (*/}
-                {/*    <StepFive form={form} hobbies={hobbies} onChange={handleChange} onBack={() => setStep(4)} onSubmit={() => handleSubmit} />*/}
-                {/*)}*/}
             </form>
         </div>
     );
