@@ -3,6 +3,7 @@ package edu.agh.roomie.service
 import edu.agh.roomie.rest.model.*
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.*
 
@@ -24,6 +25,14 @@ class UserServiceTest {
     infoService = InfoService(database)
     preferencesService = PreferencesService(database)
     userService = UserService(database)
+  }
+
+  @AfterTest
+  fun tearDown() {
+    // Clean up database after tests
+    transaction(database) {
+      SchemaUtils.drop(UserService.UsersTable)
+    }
   }
 
   @Test
@@ -94,7 +103,7 @@ class UserServiceTest {
   }
 
   @Test
-  fun testUpsertUserInfo() = runBlocking {
+  fun testUpsertUserInfoAndPreferences() = runBlocking {
     // Given
     val email = "additionaldata@example.com"
     val password = "password123"
@@ -162,78 +171,68 @@ class UserServiceTest {
   }
 
   @Test
-  fun testRemoveUser() {
-    runBlocking {
-      // Given
-      val email = "delete@example.com"
-      val password = "password123"
-      val registerRequest = RegisterRequest(email, password)
-      val userId = userService.register(registerRequest)
+  fun testRemoveUser() = runBlocking {
+    // Given
+    val email = "delete@example.com"
+    val password = "password123"
+    val registerRequest = RegisterRequest(email, password)
+    val userId = userService.register(registerRequest)
 
-      // Add info and preferences to the user
-      val info = createTestInfo()
-      val preferences = createTestPreferences()
-      userService.upsertUserInfo(userId, info)
-      userService.upsertUserPreferences(userId, preferences)
+    // Add info and preferences to the user
+    val info = createTestInfo()
+    val preferences = createTestPreferences()
+    userService.upsertUserInfo(userId, info)
+    userService.upsertUserPreferences(userId, preferences)
 
-      // Verify user exists before deletion
-      val userBeforeDeletion = userService.getUserById(userId)
-      assertNotNull(userBeforeDeletion, "User should exist before deletion")
+    // Verify user exists before deletion
+    val userBeforeDeletion = userService.getUserById(userId)
+    assertNotNull(userBeforeDeletion, "User should exist before deletion")
 
-      // When
-      userService.removeUser(userId)
+    // When
+    userService.removeUser(userId)
 
-      // Then
-      val userAfterDeletion = userService.getUserById(userId)
-      assertNull(userAfterDeletion, "User should not exist after deletion")
-    }
+    // Then
+    val userAfterDeletion = userService.getUserById(userId)
+    assertNull(userAfterDeletion, "User should not exist after deletion")
   }
 
   @Test
-  fun testRemoveUserWithAdditionalData() {
-    runBlocking {
-      // Given
-      val email = "deletewithadditionaldata@example.com"
-      val password = "password123"
-      val registerRequest = RegisterRequest(email, password)
-      val userId = userService.register(registerRequest)
+  fun testRemoveUserWithAdditionalData() = runBlocking {
+    // Given
+    val email = "deletewithadditionaldata@example.com"
+    val password = "password123"
+    val registerRequest = RegisterRequest(email, password)
+    val userId = userService.register(registerRequest)
 
-      // Add additional data
-      val info = createTestInfo()
-      val preferences = createTestPreferences()
-      userService.upsertUserInfo(userId, info)
-      userService.upsertUserPreferences(userId, preferences)
+    // Add additional data
+    val info = createTestInfo()
+    val preferences = createTestPreferences()
+    userService.upsertUserInfo(userId, info)
+    userService.upsertUserPreferences(userId, preferences)
 
-      // Verify user and additional data exist before deletion
-      val userBeforeDeletion = userService.getUserById(userId)
-      assertNotNull(userBeforeDeletion, "User should exist before deletion")
-      assertNotNull(userBeforeDeletion.info, "User info should exist before deletion")
-      assertNotNull(userBeforeDeletion.preferences, "User preferences should exist before deletion")
+    // Verify user and additional data exist before deletion
+    val userBeforeDeletion = userService.getUserById(userId)
+    assertNotNull(userBeforeDeletion, "User should exist before deletion")
+    assertNotNull(userBeforeDeletion.info, "User info should exist before deletion")
+    assertNotNull(userBeforeDeletion.preferences, "User preferences should exist before deletion")
 
-      // When
-      userService.removeUser(userId)
+    // When
+    userService.removeUser(userId)
 
-      // Then
-      val userAfterDeletion = userService.getUserById(userId)
-      assertNull(userAfterDeletion, "User should not exist after deletion")
-    }
+    // Then
+    val userAfterDeletion = userService.getUserById(userId)
+    assertNull(userAfterDeletion, "User should not exist after deletion")
   }
 
   @Test
-  fun testRemoveNonExistentUser() {
+  fun testRemoveNonExistentUser() = runBlocking {
     // Given
     val nonExistentUserId = -1
 
     // When/Then
-    var exceptionThrown = false
-    try {
-      runBlocking {
-        userService.removeUser(nonExistentUserId)
-      }
-    } catch (e: IllegalStateException) {
-      exceptionThrown = true
-      assertEquals("User with id $nonExistentUserId not found", e.message)
+    val exception = assertFailsWith<IllegalStateException> {
+      userService.removeUser(nonExistentUserId)
     }
-    assertTrue(exceptionThrown, "Expected IllegalStateException was not thrown")
+    assertEquals("User with id $nonExistentUserId not found", exception.message)
   }
 }
