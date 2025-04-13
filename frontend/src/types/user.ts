@@ -20,9 +20,9 @@ export enum PersonalityType {
 }
 
 export enum RelationshipStatus {
-  Single = 0,
-  InRelationship = 1,
-  ItsComplicated = 2,
+  Single = 1,
+  InRelationship = 2,
+  ItsComplicated = 0,
 }
 
 // Interfaces
@@ -39,6 +39,7 @@ export interface Info {
 }
 
 export interface UserShow {
+  id: number;
   name: string;
   surname: string;
   email: string;
