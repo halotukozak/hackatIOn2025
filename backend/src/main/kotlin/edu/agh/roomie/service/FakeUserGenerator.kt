@@ -35,7 +35,7 @@ object FakeUserGenerator {
             personalityType = Random.nextInt(1, 100),
             yearOfStudy = Random.nextInt(1, 6),
             faculty = randomFaculty,
-            relationshipStatus = Random.nextInt(1, 3)
+            relationshipStatus = if (Random.nextBoolean()) Random.nextInt(1, 3) else null
         )
     }
 

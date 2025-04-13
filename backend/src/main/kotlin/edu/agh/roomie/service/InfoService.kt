@@ -42,7 +42,7 @@ class InfoService(database: Database) {
     val hobbies = array<String>("hobbies")
     val personalityType = integer("personality_type")
     val yearOfStudy = integer("year_of_study")
-    val relationshipStatus = integer("relationship_status")
+    val relationshipStatus = integer("relationship_status").nullable()
   }
 
   init {
