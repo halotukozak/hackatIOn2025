@@ -35,6 +35,8 @@ fun Application.configureUserRouting() = routing {
                 }
                 val availableMatches = matchService.getAvailableMatchesForUser(userId)
                 val results = availableMatches
+                    .filter { it.id != userId }
+                    .filter { it.info.gender != user.info.gender }
                     .map { Match(it, CostFunction.countScore(it, user)) }
                     .sortedByDescending { it.score }
                 call.respond(HttpStatusCode.OK, results)
