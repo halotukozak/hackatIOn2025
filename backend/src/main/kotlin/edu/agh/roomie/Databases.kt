@@ -13,10 +13,10 @@ import kotlin.random.Random
 
 fun Application.configureDatabases(): Database {
   val database = if (isDeployment) Database.connect(
-    url = "jdbc:postgresql://dpg-cvtqhis9c44c738puva0-a.oregon-postgres.render.com/roomie_hkrz",
+    url = System.getenv("DATABASE_URL"),
     driver = "org.postgresql.Driver",
-    user = "roomie",
-    password = "A9hloke0pADrSXz8TzIGEUTYfiJzQM72"
+    user = System.getenv("DB_USER"),
+    password = System.getenv("DB_PASSWORD")
   ) else Database.connect(
     url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
     user = "root",

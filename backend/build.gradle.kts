@@ -4,6 +4,8 @@ val exposed_version: String by project
 val h2_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val testcontainers_version: String by project
+
 
 plugins {
   kotlin("jvm") version "2.1.20"
@@ -66,4 +68,7 @@ dependencies {
   implementation("io.github.serpro69:kotlin-faker:1.14.0")
   testImplementation("io.ktor:ktor-server-test-host")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+  testImplementation("org.testcontainers:testcontainers:$testcontainers_version")
+  testImplementation("org.testcontainers:postgresql:$testcontainers_version")
+  testImplementation("org.testcontainers:junit-jupiter:$testcontainers_version")
 }

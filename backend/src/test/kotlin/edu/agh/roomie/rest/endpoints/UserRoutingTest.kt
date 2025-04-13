@@ -1,14 +1,12 @@
 package edu.agh.roomie.rest.endpoints
 
 import edu.agh.roomie.rest.model.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlinx.serialization.json.Json
-import kotlin.test.*
-import kotlinx.serialization.builtins.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class UserRoutingTest {
 
@@ -210,7 +208,7 @@ class UserRoutingTest {
 
     val info2 = Info(
       fullName = "User Two",
-      gender = 2, // Female
+      gender = 1,
       age = 23,
       description = "Test description",
       sleepSchedule = Pair("23:00", "07:00"),

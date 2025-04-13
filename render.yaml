@@ -11,6 +11,12 @@ services:
         value: 8080
       - key: DEPLOYMENT
         value: "true"
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
 
   - type: web
     name: roomie-frontend
