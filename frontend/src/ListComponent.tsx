@@ -8,32 +8,34 @@ import { swipeAck, swipeNack } from "./apis/matches.ts";
 type ViewProps = {
   user: UserShow;
   match: MatchStatus;
+  refetchUsers: () => void;
 };
 
-const handleAck = async (candidate_id: number) => {
-  try {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) throw new Error("User ID not found");
-    await swipeAck(Number(userId), candidate_id);
-  } catch (err) {
-    console.error("Failed to send accept request:", err);
-    alert("Something went wrong while send accept.");
-  }
-};
-
-const handleNack = async (candidate_id: number) => {
-  try {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) throw new Error("User ID not found");
-    await swipeNack(Number(userId), candidate_id);
-  } catch (err) {
-    console.error("Failed to send accept request:", err);
-    alert("Something went wrong while send accept.");
-  }
-};
-
-const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
+const ListComponent: React.FC<ViewProps> = ({ user, match, refetchUsers }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleAck = async (candidate_id: number) => {
+    try {
+      const userId = localStorage.getItem("user_id");
+      if (!userId) throw new Error("User ID not found");
+      await swipeAck(Number(userId), candidate_id);
+      await refetchUsers();
+    } catch (err) {
+      console.error("Failed to send accept request:", err);
+      alert("Something went wrong while send accept.");
+    }
+  };
+
+  const handleNack = async (candidate_id: number) => {
+    try {
+      const userId = localStorage.getItem("user_id");
+      if (!userId) throw new Error("User ID not found");
+      await swipeNack(Number(userId), candidate_id);
+      await refetchUsers();
+    } catch (err) {
+      console.error("Failed to send accept request:", err);
+      alert("Something went wrong while send accept.");
+    }
+  };
   return (
     <div className=" w-full">
       <div
@@ -118,6 +120,8 @@ const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         match={match}
+        handleAck={handleAck}
+        handleNack={handleNack}
       />
     </div>
   );
