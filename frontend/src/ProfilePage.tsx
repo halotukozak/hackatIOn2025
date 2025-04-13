@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { deleteAccount } from "./apis/authentication";
+import { deleteAccount, logout } from "./apis/authentication";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
@@ -72,6 +72,11 @@ export default function ProfilePage() {
       console.error("Failed to delete account:", err);
       alert("Something went wrong while deleting the account.");
     }
+  };
+
+  const handleLogOut = async () => {
+    await logout();
+    navigate("/");
   };
 
   useEffect(() => {
@@ -242,8 +247,13 @@ export default function ProfilePage() {
               Edit Profile
             </button>
           </Link>
+
+          <button className="btn btn-warning text-white" onClick={handleLogOut}>
+            Log Out
+          </button>
+
           <button
-            className="btn btn-error text-white"
+            className="btn btn-error text-white bg-red"
             onClick={handleDeactivate}
           >
             Deactivate

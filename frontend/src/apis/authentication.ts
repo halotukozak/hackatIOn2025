@@ -29,14 +29,14 @@ export async function login(email: string, password: string): Promise<void> {
 }
 
 export async function logout(): Promise<void> {
-  const res = await fetch("http://localhost:8080/auth/logout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
+  //   const res = await fetch("http://localhost:8080/auth/logout", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //   });
 
-  if (!res.ok) {
-    throw new Error("Logout failed");
-  }
+  //   if (!res.ok) {
+  //     throw new Error("Logout failed");
+  //   }
 
   localStorage.removeItem("user_id");
 }
