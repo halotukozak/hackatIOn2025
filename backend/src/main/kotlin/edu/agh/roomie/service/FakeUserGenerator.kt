@@ -20,6 +20,8 @@ object FakeUserGenerator {
     }
 
 
+    fun randomMatchStatus(): MatchStatus = MatchStatus.entries.toTypedArray().random()
+
     private fun generateFakeInfo(): Info {
         val randomFaculty = Faculty.entries.random()
         val randomHobbies = Hobby.entries.shuffled().take(Random.nextInt(1, 5))
