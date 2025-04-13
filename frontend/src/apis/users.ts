@@ -71,7 +71,7 @@ export const getUserById = async (userId: number): Promise<UserShow> => {
 
 export const getAllUsers = async (): Promise<UserShow[]> => {
   try {
-    const res = await fetch("http://127.0.0.1:8080/users");
+    const res = await fetch(base_url() + "/users");
 
     if (!res.ok) {
       throw new Error(`Failed to fetch users: ${res.status}`);
