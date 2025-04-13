@@ -15,7 +15,7 @@ services:
     name: roomie-frontend
     runtime: node
     plan: free
-    buildCommand: cd frontend && npm install && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npx serve -s build
     rootDir: frontend
     envVars:
