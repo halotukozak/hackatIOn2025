@@ -17,7 +17,7 @@ export interface Info {
   personalityType: number;
   yearOfStudy: number;
   faculty: Faculty;
-  relationshipStatus: number;
+  relationshipStatus: number | null;
 }
 
 export interface Preferences {

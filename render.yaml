@@ -9,6 +9,8 @@ services:
     envVars:
       - key: PORT
         value: 8080
+      - key: DEPLOYMENT
+        value: "true"
   #todo: make it working https://github.com/halotukozak/hackatIOn2025/issues/63
 
   - type: web

@@ -9,13 +9,15 @@ import edu.agh.roomie.service.PreferencesService
 import edu.agh.roomie.service.UserService
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
 
 fun Application.configureDatabases(): Database {
-  val database = Database.connect(
+  val database = if (!isDeployment) Database.connect(
+    url = "jdbc:postgresql://dpg-cvtqhis9c44c738puva0-a.oregon-postgres.render.com/roomie_hkrz",
+    driver = "org.postgresql.Driver",
+    user = "roomie",
+    password = "A9hloke0pADrSXz8TzIGEUTYfiJzQM72"
+  ) else Database.connect(
     url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
     user = "root",
     driver = "org.h2.Driver",
@@ -25,9 +27,7 @@ fun Application.configureDatabases(): Database {
 }
 
 context(Dependencies)
-fun generateFakeData() = transaction(database) {
-  addLogger(StdOutSqlLogger)
-
+fun generateFakeData() {
   val users = (1..100).map { i ->
     val fakeUser = FakeUserGenerator.generateFakeUser(i)
     val fakeInfo = InfoService.InfoEntity.new {
@@ -48,12 +48,12 @@ fun generateFakeData() = transaction(database) {
     val fakePreferences = PreferencesService.PreferencesEntity.new {
       this.sleepScheduleMatters = fakeUser.preferences.sleepScheduleMatters
       this.hobbiesMatters = fakeUser.preferences.hobbiesMatters
-      this.smokingImportance = fakeUser.preferences.smokingImportance ?: 0
-      this.drinkImportance = fakeUser.preferences.drinkImportance ?: 0
-      this.personalityTypeImportance = fakeUser.preferences.personalityTypeImportance ?: 0
+      this.smokingImportance = fakeUser.preferences.smokingImportance
+      this.drinkImportance = fakeUser.preferences.drinkImportance
+      this.personalityTypeImportance = fakeUser.preferences.personalityTypeImportance
       this.yearOfStudyMatters = fakeUser.preferences.yearOfStudyMatters
       this.facultyMatters = fakeUser.preferences.facultyMatters
-      this.relationshipStatusImportance = fakeUser.preferences.relationshipStatusImportance ?: 0
+      this.relationshipStatusImportance = fakeUser.preferences.relationshipStatusImportance
     }
 
     UserService.UserEntity.new {

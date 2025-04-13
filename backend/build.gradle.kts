@@ -31,9 +31,9 @@ tasks.register("exportRestModels", JavaExec::class) {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-      freeCompilerArgs.addAll("-Xcontext-receivers")
-    }
+  compilerOptions {
+    freeCompilerArgs.addAll("-Xcontext-receivers")
+  }
 }
 
 repositories {
@@ -57,7 +57,8 @@ dependencies {
   implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
   implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
   implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-  implementation("com.h2database:h2:$h2_version")
+  implementation("org.postgresql:postgresql:42.7.1")
+  testImplementation("com.h2database:h2:$h2_version")
   implementation("io.ktor:ktor-server-netty")
   implementation("ch.qos.logback:logback-classic:$logback_version")
   implementation("io.ktor:ktor-server-config-yaml")
