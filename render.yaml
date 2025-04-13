@@ -10,14 +10,18 @@ services:
       - key: PORT
         value: 8080
   #todo: make it working https://github.com/halotukozak/hackatIOn2025/issues/63
+
   - type: web
     name: roomie-frontend
+    runtime: node
     plan: free
-    healthCheckPath: /
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: npx serve -s build
+    rootDir: frontend
     envVars:
+      - key: NODE_VERSION
+        value: 18
       - key: PORT
         value: 80
       - key: BACKEND_URL
         value: https://roomie-backend-wnzd.onrender.com
-    buildCommand: npm install
-    runCommand: npm start
