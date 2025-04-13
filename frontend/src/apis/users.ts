@@ -10,7 +10,8 @@ import { User } from "../rest/model";
 export function parseUserFromBackend(raw: User): UserShow {
   return {
     email: raw.email,
-    fullName: raw.info.fullName,
+    name: raw.info.fullName.split(" ")[0],
+    surname: raw.info.fullName.split(" ")[1],
     age: raw.info.age,
     info: {
       description: raw.info.description,
