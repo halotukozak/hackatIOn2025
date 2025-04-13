@@ -22,7 +22,7 @@ object FakeUserGenerator {
 
     fun randomMatchStatus(): MatchStatus = MatchStatus.entries.toTypedArray().random()
 
-    private fun generateFakeInfo(): Info {
+    fun generateFakeInfo(): Info {
         val randomFaculty = Faculty.entries.random()
         val randomHobbies = Hobby.entries.shuffled().take(Random.nextInt(1, 5))
 
@@ -42,11 +42,11 @@ object FakeUserGenerator {
         )
     }
 
-    private fun generateFakePreferences(): Preferences {
+    fun generateFakePreferences(): Preferences {
         return Preferences(
             sleepScheduleMatters = Random.nextBoolean(),
             hobbiesMatters = Random.nextBoolean(),
-            smokingImportance = if (Random.nextBoolean() ) Random.nextInt(0, 3) else null,
+            smokingImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null,
             drinkImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null,
             personalityTypeImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null,
             yearOfStudyMatters = Random.nextBoolean(),

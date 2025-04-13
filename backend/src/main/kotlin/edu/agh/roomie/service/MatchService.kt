@@ -25,8 +25,8 @@ class MatchService(database: Database) {
       }.toList().map { it.userId }
 
       fun findResponseSentForUser(userId: Int) = find {
-        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus eq MatchStatus.ACK) and (InvitationTable.responseStatus eq MatchStatus.NONE)
-      }.toList().map { it.matchedUserId }
+        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NACK)
+      }.toList().map { it.matchedUserId to it.responseStatus }
     }
 
     var userId by InvitationTable.userId
@@ -54,30 +54,26 @@ class MatchService(database: Database) {
     val user = UserService.UserEntity.findById(userId)!!.toShared()
 
     val matches = InvitationEntity.findMatchesForUser(userId)
-    val sentRequests = InvitationEntity.findResponseSentForUser(userId)
+    val sentRequests =
+      InvitationEntity.findResponseSentForUser(userId).filter { it.second == MatchStatus.ACK }.map { it.first }
     val receivedRequests = InvitationEntity.findRequestReceivedForUser(userId)
     val allUsers = UserService.UserEntity.findByIds(
       matches + sentRequests + receivedRequests
     )
 
     MatchResultResponse(
-      allUsers.filter { it.id in matches }
-        .map { Match(it.toShared(), countScore(it.toShared(), user)) },
+      allUsers.filter { it.id in matches }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
       allUsers.filter { it.id in sentRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
       allUsers.filter { it.id in receivedRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) })
   }
 
   fun getAvailableMatchesForUser(userId: Int): List<User> = transaction {
-    val requestsSent = InvitationEntity.findResponseSentForUser(userId)
+    val requestsSent =
+      InvitationEntity.findResponseSentForUser(userId).filter { it.second == MatchStatus.NONE }.map { it.first }
 
     UserService.UserEntity.find {
       (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent)
     }.map { it.toShared() }
-  }
-
-  fun getResponseSentForUser(userId: Int): List<User> = transaction {
-    val requests = InvitationEntity.findResponseSentForUser(userId)
-    UserService.UserEntity.findByIds(requests).map { it.toShared() }
   }
 
   fun getRequestReceivedForUser(userId: Int): List<User> = transaction {
@@ -99,7 +95,6 @@ class MatchService(database: Database) {
 
     val result = if (invitation != null) {
       invitation.requestStatus = status
-      invitation.responseStatus
     } else {
       InvitationEntity.new {
         this.userId = thisUser.id

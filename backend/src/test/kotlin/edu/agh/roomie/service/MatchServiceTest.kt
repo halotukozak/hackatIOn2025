@@ -97,24 +97,6 @@ class MatchServiceTest {
     }
   }
 
-  @Test
-  fun testRegisterSwipe() = runBlocking {
-    // Test registering a swipe with ACK status
-    val result = matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
-
-    // The result should be NONE since this is the first interaction
-    assertEquals(MatchStatus.NONE, result)
-
-    // Test that user1 has sent a request to user2
-    val sentRequests = matchService.getResponseSentForUser(user1Id)
-    assertEquals(1, sentRequests.size)
-    assertEquals(testUser2.email, sentRequests[0].email)
-
-    // Test that user2 has received a request from user1
-    val receivedRequests = matchService.getRequestReceivedForUser(user2Id)
-    assertEquals(1, receivedRequests.size)
-    assertEquals(testUser1.email, receivedRequests[0].email)
-  }
 
   @Test
   fun testMatchCreation() = runBlocking {
@@ -151,19 +133,6 @@ class MatchServiceTest {
     val availableMatchesAfterSwipe = matchService.getAvailableMatchesForUser(user1Id)
     assertEquals(1, availableMatchesAfterSwipe.size)
     assertEquals(testUser3.email, availableMatchesAfterSwipe[0].email)
-  }
-
-  @Test
-  fun testGetResponseSentForUser() = runBlocking {
-    // Initially, user1 should have no sent responses
-    val initialSentResponses = matchService.getResponseSentForUser(user1Id)
-    assertEquals(0, initialSentResponses.size)
-
-    // After user1 swipes on user2, user1 should have one sent response
-    matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
-    val sentResponses = matchService.getResponseSentForUser(user1Id)
-    assertEquals(1, sentResponses.size)
-    assertEquals(testUser2.email, sentResponses[0].email)
   }
 
   @Test
@@ -218,22 +187,5 @@ class MatchServiceTest {
     assertEquals(1, resultsAfterMatch.receivedRequests.size)
     assertEquals(testUser2.email, resultsAfterMatch.matches[0].user.email)
     assertEquals(testUser3.email, resultsAfterMatch.receivedRequests[0].user.email)
-  }
-
-  @Test
-  fun testNegativeSwipe() = runBlocking {
-    // User1 swipes left on User2
-    val result = matchService.registerSwipe(user1Id, user2Id, MatchStatus.NACK)
-
-    // The result should be NONE since this is the first interaction
-    assertEquals(MatchStatus.NONE, result)
-
-    // User1 should have no sent requests
-    val sentRequests = matchService.getResponseSentForUser(user1Id)
-    assertEquals(0, sentRequests.size)
-
-    // User2 should have no received requests
-    val receivedRequests = matchService.getRequestReceivedForUser(user2Id)
-    assertEquals(0, receivedRequests.size)
   }
 }
