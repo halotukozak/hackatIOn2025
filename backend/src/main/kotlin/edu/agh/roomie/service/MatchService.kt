@@ -55,7 +55,8 @@ class MatchService(database: Database) {
 
     val matches = InvitationEntity.findMatchesForUser(userId)
     val sentRequests =
-      InvitationEntity.findResponseSentForUser(userId).filter { it.requestStatus == MatchStatus.ACK }
+      InvitationEntity.findResponseSentForUser(userId)
+        .filter { it.requestStatus == MatchStatus.ACK && it.responseStatus == MatchStatus.NONE }
         .map { it.matchedUserId }
     val receivedRequests = InvitationEntity.findRequestReceivedForUser(userId)
     val allUsers = UserService.UserEntity.findByIds(
