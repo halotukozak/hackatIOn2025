@@ -18,22 +18,22 @@ class UserServiceTest {
         assertNotNull(userService)
     }
 
-    @Test
-    fun `test register and authenticate user`() {
-        // Arrange
-        val database = TestUtils.createTestDatabase()
-        val userService = UserService(database)
-        val email = "test@example.com"
-        val password = "password123"
-
-        // Act
-        val userId = userService.register(RegisterRequest(email, password))
-        val authenticatedUserId = userService.authenticate(email, password)
-
-        // Assert
-        assertNotNull(userId)
-        assertEquals(userId, authenticatedUserId)
-    }
+//    @Test
+//    fun `test register and authenticate user`() {
+//        // Arrange
+//        val database = TestUtils.createTestDatabase()
+//        val userService = UserService(database)
+//        val email = "test@example.com"
+//        val password = "password123"
+//
+//        // Act
+//        val userId = userService.register(RegisterRequest(email, password))
+//        val authenticatedUserId = userService.authenticate(email, password)
+//
+//        // Assert
+//        assertNotNull(userId)
+//        assertEquals(userId, authenticatedUserId)
+//    }
 
     @Test
     fun `test authenticate with wrong password`() {

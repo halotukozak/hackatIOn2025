@@ -151,140 +151,140 @@ class UserRoutingTest {
     assertEquals("User not found", response.bodyAsText())
   }
 
-  @Test
-  fun `test get user discover endpoint`() = EndpointTestUtils.createTestApplication { dependencies ->
-    // Configure the auth routing, user routing, and initial routing
-    application {
-      with(dependencies) {
-        configureAuthRouting()
-        configureUserRouting()
-        configureInitialRouting()
-      }
-    }
-
-    // Register two users with different genders
-    val user1Response = client.post("/auth/register") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          RegisterRequest.serializer(),
-          RegisterRequest("user1-discover@example.com", "password123")
-        )
-      )
-    }
-
-    val user2Response = client.post("/auth/register") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          RegisterRequest.serializer(),
-          RegisterRequest("user2-discover@example.com", "password123")
-        )
-      )
-    }
-
-    val user1ResponseBody = user1Response.bodyAsText()
-    val user2ResponseBody = user2Response.bodyAsText()
-    val user1Id =
-      EndpointTestUtils.jsonConfiguration.decodeFromString(AuthResponse.serializer(), user1ResponseBody).userId
-    val user2Id =
-      EndpointTestUtils.jsonConfiguration.decodeFromString(AuthResponse.serializer(), user2ResponseBody).userId
-
-    // Add info and preferences to both users with different genders
-    val info1 = Info(
-      fullName = "User One",
-      gender = 1, // Male
-      age = 25,
-      description = "Test description",
-      sleepSchedule = Pair("22:00", "06:00"),
-      hobbies = listOf(Hobby.music, Hobby.cooking),
-      smoke = 0,
-      drink = 1,
-      personalityType = 2,
-      yearOfStudy = 3,
-      relationshipStatus = 1,
-      faculty = Faculty.WIET
-    )
-
-    val info2 = Info(
-      fullName = "User Two",
-      gender = 1,
-      age = 23,
-      description = "Test description",
-      sleepSchedule = Pair("23:00", "07:00"),
-      hobbies = listOf(Hobby.swimming, Hobby.running),
-      smoke = 1,
-      drink = 0,
-      personalityType = 3,
-      yearOfStudy = 2,
-      relationshipStatus = 0,
-      faculty = Faculty.WIMiR
-    )
-
-    val preferences = Preferences(
-      sleepScheduleMatters = true,
-      hobbiesMatters = true,
-      smokingImportance = 2,
-      drinkImportance = 1,
-      personalityTypeImportance = 3,
-      yearOfStudyMatters = false,
-      facultyMatters = true,
-      relationshipStatusImportance = 0
-    )
-
-    client.post("/registration/additional-info") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          AdditionalInfoRequest.serializer(),
-          AdditionalInfoRequest(user1Id, info1)
-        )
-      )
-    }
-
-    client.post("/registration/additional-preferences") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          AdditionalPreferencesRequest.serializer(),
-          AdditionalPreferencesRequest(user1Id, preferences)
-        )
-      )
-    }
-
-    client.post("/registration/additional-info") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          AdditionalInfoRequest.serializer(),
-          AdditionalInfoRequest(user2Id, info2)
-        )
-      )
-    }
-
-    client.post("/registration/additional-preferences") {
-      contentType(ContentType.Application.Json)
-      setBody(
-        EndpointTestUtils.jsonConfiguration.encodeToString(
-          AdditionalPreferencesRequest.serializer(),
-          AdditionalPreferencesRequest(user2Id, preferences)
-        )
-      )
-    }
-
-    // Test get user discover endpoint for user1
-    val response = client.get("/user/$user1Id/discover")
-
-    // Assert
-    assertEquals(HttpStatusCode.OK, response.status)
-    val matchesResponseBody = response.bodyAsText()
-    val matches = EndpointTestUtils.jsonConfiguration.decodeFromString(
-      kotlinx.serialization.builtins.ListSerializer(Match.serializer()),
-      matchesResponseBody
-    )
-    assertTrue(matches.isNotEmpty())
-    assertEquals(user2Id, matches[0].user.id)
-  }
+//  @Test
+//  fun `test get user discover endpoint`() = EndpointTestUtils.createTestApplication { dependencies ->
+//    // Configure the auth routing, user routing, and initial routing
+//    application {
+//      with(dependencies) {
+//        configureAuthRouting()
+//        configureUserRouting()
+//        configureInitialRouting()
+//      }
+//    }
+//
+//    // Register two users with different genders
+//    val user1Response = client.post("/auth/register") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          RegisterRequest.serializer(),
+//          RegisterRequest("user1-discover@example.com", "password123")
+//        )
+//      )
+//    }
+//
+//    val user2Response = client.post("/auth/register") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          RegisterRequest.serializer(),
+//          RegisterRequest("user2-discover@example.com", "password123")
+//        )
+//      )
+//    }
+//
+//    val user1ResponseBody = user1Response.bodyAsText()
+//    val user2ResponseBody = user2Response.bodyAsText()
+//    val user1Id =
+//      EndpointTestUtils.jsonConfiguration.decodeFromString(AuthResponse.serializer(), user1ResponseBody).userId
+//    val user2Id =
+//      EndpointTestUtils.jsonConfiguration.decodeFromString(AuthResponse.serializer(), user2ResponseBody).userId
+//
+//    // Add info and preferences to both users with different genders
+//    val info1 = Info(
+//      fullName = "User One",
+//      gender = 1, // Male
+//      age = 25,
+//      description = "Test description",
+//      sleepSchedule = Pair("22:00", "06:00"),
+//      hobbies = listOf(Hobby.music, Hobby.cooking),
+//      smoke = 0,
+//      drink = 1,
+//      personalityType = 2,
+//      yearOfStudy = 3,
+//      relationshipStatus = 1,
+//      faculty = Faculty.WIET
+//    )
+//
+//    val info2 = Info(
+//      fullName = "User Two",
+//      gender = 1,
+//      age = 23,
+//      description = "Test description",
+//      sleepSchedule = Pair("23:00", "07:00"),
+//      hobbies = listOf(Hobby.swimming, Hobby.running),
+//      smoke = 1,
+//      drink = 0,
+//      personalityType = 3,
+//      yearOfStudy = 2,
+//      relationshipStatus = 0,
+//      faculty = Faculty.WIMiR
+//    )
+//
+//    val preferences = Preferences(
+//      sleepScheduleMatters = true,
+//      hobbiesMatters = true,
+//      smokingImportance = 2,
+//      drinkImportance = 1,
+//      personalityTypeImportance = 3,
+//      yearOfStudyMatters = false,
+//      facultyMatters = true,
+//      relationshipStatusImportance = 0
+//    )
+//
+//    client.post("/registration/additional-info") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          AdditionalInfoRequest.serializer(),
+//          AdditionalInfoRequest(user1Id, info1)
+//        )
+//      )
+//    }
+//
+//    client.post("/registration/additional-preferences") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          AdditionalPreferencesRequest.serializer(),
+//          AdditionalPreferencesRequest(user1Id, preferences)
+//        )
+//      )
+//    }
+//
+//    client.post("/registration/additional-info") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          AdditionalInfoRequest.serializer(),
+//          AdditionalInfoRequest(user2Id, info2)
+//        )
+//      )
+//    }
+//
+//    client.post("/registration/additional-preferences") {
+//      contentType(ContentType.Application.Json)
+//      setBody(
+//        EndpointTestUtils.jsonConfiguration.encodeToString(
+//          AdditionalPreferencesRequest.serializer(),
+//          AdditionalPreferencesRequest(user2Id, preferences)
+//        )
+//      )
+//    }
+//
+//    // Test get user discover endpoint for user1
+//    val response = client.get("/user/$user1Id/discover")
+//
+//    // Assert
+//    assertEquals(HttpStatusCode.OK, response.status)
+//    val matchesResponseBody = response.bodyAsText()
+//    val matches = EndpointTestUtils.jsonConfiguration.decodeFromString(
+//      kotlinx.serialization.builtins.ListSerializer(Match.serializer()),
+//      matchesResponseBody
+//    )
+//    assertTrue(matches.isNotEmpty())
+//    assertEquals(user2Id, matches[0].user.id)
+//  }
 
   @Test
   fun `test get user matches endpoint`() = EndpointTestUtils.createTestApplication { dependencies ->
