@@ -8,37 +8,14 @@ import {
   relationshipLabels,
 } from "./types/user";
 import { MatchStatus } from "./types/match.ts";
-import { swipeAck, swipeNack } from "./apis/matches.ts";
 
 type UserDetailModalProps = {
   user: UserShow;
   isOpen: boolean;
   onClose: () => void;
   match: MatchStatus;
-};
-
-const handleAck = async (candidate_id: number) => {
-  try {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) throw new Error("User ID not found");
-    await swipeAck(Number(userId), candidate_id);
-
-    // navigate("/");
-  } catch (err) {
-    console.error("Failed to send accept request:", err);
-    alert("Something went wrong while send accept.");
-  }
-};
-
-const handleNack = async (candidate_id: number) => {
-  try {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) throw new Error("User ID not found");
-    await swipeNack(Number(userId), candidate_id);
-  } catch (err) {
-    console.error("Failed to send accept request:", err);
-    alert("Something went wrong while send accept.");
-  }
+  handleAck: (id: number) => void;
+  handleNack: (id: number) => void;
 };
 
 const UserDetailModal: React.FC<UserDetailModalProps> = ({
@@ -46,6 +23,8 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
   isOpen,
   onClose,
   match,
+  handleAck,
+  handleNack,
 }) => {
   if (!isOpen) return null;
 
@@ -131,7 +110,10 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             </button>
             <button
               className="btn btn-circle btn-success text-white"
-              onClick={() => handleAck(user.id)}
+              onClick={() => {
+                handleAck(user.id);
+                onClose();
+              }}
             >
               <HeartIcon className="h-6 w-6 text-white-500" />
             </button>
@@ -140,7 +122,10 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
         <div className="flex justify-center mt-6">
           <button
-            onClick={onClose}
+            onClick={() => {
+              handleNack(user.id);
+              onClose();
+            }}
             className="btn btn-outline btn-wide btn-error"
           >
             Close

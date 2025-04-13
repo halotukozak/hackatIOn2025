@@ -13,23 +13,23 @@ export default function DiscoverPage() {
   const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
 
+  const fetchUser = async () => {
+    try {
+      const fetchedUser = await getAllUsers(Number(userId));
+      setDiscoverList(fetchedUser);
+    } catch (err) {
+      setError("Failed to load user");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!userId) {
       navigate("/");
       return;
     } else {
-      const fetchUser = async () => {
-        try {
-          const fetchedUser = await getAllUsers(Number(userId));
-          setDiscoverList(fetchedUser);
-        } catch (err) {
-          setError("Failed to load user");
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
-      };
-
       fetchUser();
     }
   }, [navigate, userId]);
@@ -64,7 +64,12 @@ export default function DiscoverPage() {
       <div className="flex flex-col justify-center px-2 space-y-4">
         {discoverList &&
           discoverList.map((user) => (
-            <ListComponent key={user.id} user={user} match={MatchStatus.View} />
+            <ListComponent
+              key={user.id}
+              user={user}
+              match={MatchStatus.View}
+              refetchUsers={fetchUser}
+            />
           ))}
       </div>
     </div>
