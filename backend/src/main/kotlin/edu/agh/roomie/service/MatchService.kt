@@ -74,11 +74,8 @@ class MatchService(database: Database) {
         (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NONE)
       }.toList().map { it.matchedUserId }
 
-
-    val allusers = UserService.UserEntity.all()
-    println(allusers.toList())
     UserService.UserEntity.find {
-      (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent)
+      (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent) and (UsersTable.info neq null) and (UsersTable.preferences neq null)
     }.map { it.toShared() }
   }
 
