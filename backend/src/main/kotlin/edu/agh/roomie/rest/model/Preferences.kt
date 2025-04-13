@@ -15,11 +15,10 @@ data class Preferences(
   val relationshipStatusImportance: Int
 ) {
   init {
-    require(smokingImportance in 0..3) { "smokingImportance must be between 0 and 2" }
-    require(drinkImportance in 0..3) { "drinkImportance must be between 0 and 2" }
-    require(personalityTypeImportance in 0..3) { "personalityTypeImportance must be between 0 and 2" }
-    require(relationshipStatusImportance in 0..3) { "relationshipStatusImportance must be between 0 and 2" }
-  }
+    require(smokingImportance in 0..3) { "smokingImportance must be between 0 and 3" }
+    require(drinkImportance in 0..3) { "drinkImportance must be between 0 and 3" }
+    require(personalityTypeImportance in 0..3) { "personalityTypeImportance must be between 0 and 3" }
+    require(relationshipStatusImportance in 0..3) { "relationshipStatusImportance must be between 0 and 3" }
 }
 
 @Serializable
