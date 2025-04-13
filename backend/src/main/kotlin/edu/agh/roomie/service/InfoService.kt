@@ -14,8 +14,8 @@ class InfoService(database: Database) {
   class InfoEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<InfoEntity>(InfosTable)
 
-    var name by InfosTable.name
-    var surname by InfosTable.surname
+    var fullName by InfosTable.fullName
+    var gender by InfosTable.gender
     var age by InfosTable.age
     var description by InfosTable.description
     var sleepStart by InfosTable.sleepStart
@@ -30,15 +30,15 @@ class InfoService(database: Database) {
   }
 
   object InfosTable : IntIdTable() {
-    val name = varchar("name", length = 50)
-    val surname = varchar("surname", length = 50)
+    val fullName = varchar("fullName", length = 100)
+    val gender = integer("gender")
     val age = integer("age")
     val description = varchar("description", length = 255)
-    val smoke = bool("smoke")
-    val drink = bool("drink")
+    val smoke = integer("smoke")
+    val drink = integer("drink")
     val faculty = enumeration<Faculty>("departament")
-    val sleepStart = integer("sleepStart")
-    val sleepEnd = integer("sleepEnd")
+    val sleepStart = varchar("sleepStart", length = 5)
+    val sleepEnd = varchar("sleepEnd", length = 5)
     val hobbies = array<String>("hobbies")
     val personalityType = integer("personality_type")
     val yearOfStudy = integer("year_of_study")

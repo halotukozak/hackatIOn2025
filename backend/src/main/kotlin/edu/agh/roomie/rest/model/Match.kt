@@ -5,8 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MatchResponse(
     val userId: Int,
-    val name: String,
-    val surname: String
+    val fullName: String,
 )
 
 @Serializable

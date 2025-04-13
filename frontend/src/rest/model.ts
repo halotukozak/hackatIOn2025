@@ -1,38 +1,38 @@
 export interface User {
   email: string;
   info: Info;
-  preferences: Preferences;
+  preferences: NullablePreferences;
 }
 
 export interface Info {
-  name: string;
-  surname: string;
+  fullName: string;
+  gender: number;
   age: number;
   description: string;
   sleepSchedule: Pair;
   hobbies: Hobby[];
-  smoke: boolean;
-  drink: boolean;
+  smoke: number;
+  drink: number;
   personalityType: number;
   yearOfStudy: number;
   faculty: Faculty;
   relationshipStatus: number;
 }
 
-export interface Preferences {
+export interface NullablePreferences {
   sleepScheduleMatters: boolean;
   hobbiesMatters: boolean;
-  smokingImportance: number;
-  drinkImportance: number;
-  personalityTypeImportance: number;
+  smokingImportance: number | null;
+  drinkImportance: number | null;
+  personalityTypeImportance: number | null;
   yearOfStudyMatters: boolean;
   facultyMatters: boolean;
-  relationshipStatusImportance: number;
+  relationshipStatusImportance: number | null;
 }
 
 export interface Pair {
-  first: number;
-  second: number;
+  first: string;
+  second: string;
 }
 
 export enum Faculty {
@@ -71,6 +71,17 @@ export enum Hobby {
   cooking = "cooking",
   painting = "painting",
   photography = "photography",
+}
+
+export interface Preferences {
+  sleepScheduleMatters: boolean;
+  hobbiesMatters: boolean;
+  smokingImportance: number;
+  drinkImportance: number;
+  personalityTypeImportance: number;
+  yearOfStudyMatters: boolean;
+  facultyMatters: boolean;
+  relationshipStatusImportance: number;
 }
 
 export interface AdditionalInfoRequest {

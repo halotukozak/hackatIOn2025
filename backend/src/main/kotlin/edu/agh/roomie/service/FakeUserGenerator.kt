@@ -18,34 +18,49 @@ object FakeUserGenerator {
         )
     }
 
+
     private fun generateFakeInfo(): Info {
         val randomFaculty = Faculty.entries.random()
         val randomHobbies = Hobby.entries.shuffled().take(Random.nextInt(1, 5))
 
         return Info(
-            name = faker.name.firstName(),
-            surname = faker.name.lastName(),
+            fullName = faker.name.firstName() + " " + faker.name.lastName(),
+            gender = Random.nextInt(1, 3),
             age = Random.nextInt(18, 30),
             description = List(Random.nextInt(2, 5)) { faker.lorem.words() }.joinToString(" "),
-            sleepSchedule = Pair(Random.nextInt(21, 24), Random.nextInt(5, 9)),
+            sleepSchedule = Pair(generateFakeStartTime(), generateFakeEndTime()),
             hobbies = randomHobbies,
-            smoke = Random.nextBoolean(),
-            drink = Random.nextBoolean(),
-            personalityType = Random.nextInt(1, 5),
+            smoke = Random.nextInt(0, 3),
+            drink = Random.nextInt(0, 3),
+            personalityType = Random.nextInt(1, 100),
             yearOfStudy = Random.nextInt(1, 6),
             faculty = randomFaculty,
-            relationshipStatus = Random.nextInt(1, 4)
+            relationshipStatus = Random.nextInt(1, 3)
         )
     }
 
-    private fun generateFakePreferences(): Preferences = Preferences(
-        sleepScheduleMatters = Random.nextBoolean(),
-        hobbiesMatters = Random.nextBoolean(),
-        smokingImportance = Random.nextInt(0, 6),
-        drinkImportance = Random.nextInt(0, 6),
-        personalityTypeImportance = Random.nextInt(0, 6),
-        yearOfStudyMatters = Random.nextBoolean(),
-        facultyMatters = Random.nextBoolean(),
-        relationshipStatusImportance = Random.nextInt(0, 6)
-    )
+    private fun generateFakePreferences(): NullablePreferences {
+        return NullablePreferences(
+            sleepScheduleMatters = Random.nextBoolean(),
+            hobbiesMatters = Random.nextBoolean(),
+            smokingImportance = if (Random.nextBoolean() ) Random.nextInt(0, 3) else null,
+            drinkImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null,
+            personalityTypeImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null,
+            yearOfStudyMatters = Random.nextBoolean(),
+            facultyMatters = Random.nextBoolean(),
+            relationshipStatusImportance = if (Random.nextBoolean()) Random.nextInt(0, 3) else null
+        )
+    }
+
+    private fun generateFakeStartTime(): String {
+        val hour = Random.nextInt(20, 23)
+        val minute = Random.nextInt(0, 60)
+        return String.format("%02d:%02d", hour, minute)
+    }
+
+    private fun generateFakeEndTime(): String {
+        val hour = Random.nextInt(6, 12)
+        val minute = Random.nextInt(0, 60)
+        return String.format("%02d:%02d", hour, minute)
+    }
 }

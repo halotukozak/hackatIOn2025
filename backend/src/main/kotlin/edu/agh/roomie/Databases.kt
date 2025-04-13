@@ -31,8 +31,8 @@ fun generateFakeData() = transaction(database) {
   val users = (1..100).map { i ->
     val fakeUser = FakeUserGenerator.generateFakeUser(i)
     val fakeInfo = InfoService.InfoEntity.new {
-      this.name = fakeUser.info.name
-      this.surname = fakeUser.info.surname
+      this.fullName = fakeUser.info.fullName
+      this.gender = fakeUser.info.gender
       this.age = fakeUser.info.age
       this.description = fakeUser.info.description
       this.sleepStart = fakeUser.info.sleepSchedule.first
@@ -48,12 +48,12 @@ fun generateFakeData() = transaction(database) {
     val fakePreferences = PreferencesService.PreferencesEntity.new {
       this.sleepScheduleMatters = fakeUser.preferences.sleepScheduleMatters
       this.hobbiesMatters = fakeUser.preferences.hobbiesMatters
-      this.smokingImportance = fakeUser.preferences.smokingImportance
-      this.drinkImportance = fakeUser.preferences.drinkImportance
-      this.personalityTypeImportance = fakeUser.preferences.personalityTypeImportance
+      this.smokingImportance = fakeUser.preferences.smokingImportance ?: 0
+      this.drinkImportance = fakeUser.preferences.drinkImportance ?: 0
+      this.personalityTypeImportance = fakeUser.preferences.personalityTypeImportance ?: 0
       this.yearOfStudyMatters = fakeUser.preferences.yearOfStudyMatters
       this.facultyMatters = fakeUser.preferences.facultyMatters
-      this.relationshipStatusImportance = fakeUser.preferences.relationshipStatusImportance
+      this.relationshipStatusImportance = fakeUser.preferences.relationshipStatusImportance ?: 0
     }
 
     UserService.UserEntity.new {
