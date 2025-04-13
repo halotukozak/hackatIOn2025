@@ -26,7 +26,7 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
                         <input
                             type="radio"
                             name="smoking"
-                            className="radio mr-2"
+                            className="radio mr-2 text-primary"
                             value={v}
                             checked={form.smoking === v}
                             onChange={(e) => onChange("smoking", e.target.value)}
@@ -44,7 +44,7 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
                         <input
                             type="radio"
                             name="drinking"
-                            className="radio mr-2"
+                            className="radio mr-2 text-primary"
                             value={v}
                             checked={form.drinking === v}
                             onChange={(e) => onChange("drinking", e.target.value)}

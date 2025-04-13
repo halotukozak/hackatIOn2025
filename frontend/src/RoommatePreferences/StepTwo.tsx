@@ -27,7 +27,7 @@ export default function StepTwo({ form, onChange, onSubmit, onBack }: StepTwoPro
                     step={1}
                     value={form.personalityPreference ?? 50}
                     onChange={(e) => onChange("personalityPreference", Number(e.target.value))}
-                    className="range [--range-fill:0]"
+                    className={form.personalityPreference ? "range [--range-fill:0] text-primary" : "range [--range-fill:0]"}
                 />
                 <div className="w-full flex justify-between text-xs px-1">
                     <span>Introvert</span>
@@ -35,7 +35,7 @@ export default function StepTwo({ form, onChange, onSubmit, onBack }: StepTwoPro
                 </div>
                 <button
                     type="button"
-                    className={form.personalityPreference ? "btn btn-xs mt-1 btn-outline" : "btn btn-xs mt-1 btn-outline btn-primary"}
+                    className={form.personalityPreference ? "btn btn-xs mt-1 btn-outline" : "btn btn-xs mt-1 btn-primary"}
                     onClick={() => onChange("personalityPreference", null)}
                 >
                     I don't care
