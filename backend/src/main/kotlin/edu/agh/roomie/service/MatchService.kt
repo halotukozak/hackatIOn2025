@@ -49,7 +49,7 @@ class MatchService(database: Database) {
     }
   }
 
-  suspend fun getResultsForUser(userId: Int): MatchResultResponse = transaction {
+  fun getResultsForUser(userId: Int): MatchResultResponse = transaction {
     val user = UserService.UserEntity.findById(userId)!!.toShared()
 
     val matches = InvitationEntity.findMatchesForUser(userId)
@@ -66,7 +66,7 @@ class MatchService(database: Database) {
       allUsers.filter { it.id in receivedRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) })
   }
 
-  suspend fun getAvailableMatchesForUser(userId: Int): List<User> = transaction {
+  fun getAvailableMatchesForUser(userId: Int): List<User> = transaction {
     val requestsSent = InvitationEntity.findResponseSentForUser(userId)
 
     UserService.UserEntity.find {
@@ -74,17 +74,17 @@ class MatchService(database: Database) {
     }.map { it.toShared() }
   }
 
-  suspend fun getResponseSentForUser(userId: Int): List<User> = transaction {
+  fun getResponseSentForUser(userId: Int): List<User> = transaction {
     val requests = InvitationEntity.findResponseSentForUser(userId)
     UserService.UserEntity.findByIds(requests).map { it.toShared() }
   }
 
-  suspend fun getRequestReceivedForUser(userId: Int): List<User> = transaction {
+  fun getRequestReceivedForUser(userId: Int): List<User> = transaction {
     val requests = InvitationEntity.findRequestReceivedForUser(userId)
     UserService.UserEntity.findByIds(requests).map { it.toShared() }
   }
 
-  suspend fun registerSwipe(thisUserId: Int, swipedUserId: Int, status: MatchStatus) = transaction {
+  fun registerSwipe(thisUserId: Int, swipedUserId: Int, status: MatchStatus) = transaction {
     val thisUser = UserService.UserEntity.findById(thisUserId)
     val swipedUser = UserService.UserEntity.findById(swipedUserId)
 
