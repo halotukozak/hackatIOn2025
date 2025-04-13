@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import { MatchStatus } from "./types/match.ts";
 import {getAllUsers } from "./apis/users";
 import {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function MatchesPage() {
@@ -14,8 +15,14 @@ export default function MatchesPage() {
   const [receivedList, setReceivedList] = useState<UserShow[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const userId = localStorage.getItem("user_id");
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
+      if (!userId) {navigate("/"); return;}
+      else{
     const fetchUser = async () => {
       try {
         const fetchedUser = await getAllUsers();
@@ -30,8 +37,10 @@ export default function MatchesPage() {
       }
     };
 
-    fetchUser();
-  }, []);
+    fetchUser();}
+  }, [navigate, userId]);
+    if (!userId)
+        return null;
   if (loading)
     return (
         <div>

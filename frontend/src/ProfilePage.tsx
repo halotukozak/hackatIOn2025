@@ -22,6 +22,7 @@ export default function ProfilePage() {
   const [photo, setPhoto] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const userId = localStorage.getItem("user_id");
 
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
@@ -75,9 +76,11 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    if (!userId) {navigate("/"); return;}
+    else{
     const fetchUser = async () => {
       try {
-        const userId = localStorage.getItem("user_id");
+        // const userId = localStorage.getItem("user_id");
         console.log(userId);
         if (!userId) {
           throw new Error("User ID not found in localStorage");
@@ -92,8 +95,9 @@ export default function ProfilePage() {
       }
     };
 
-    fetchUser();
-  }, []);
+    fetchUser();}
+  },  [navigate, userId]);
+  if (!userId)  return null;
   if (loading)
     return (
       <div>
