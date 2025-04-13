@@ -2,7 +2,7 @@ package edu.agh.roomie.rest.endpoints
 
 import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.model.Match
-import edu.agh.roomie.rest.model.countScore
+import edu.agh.roomie.rest.model.CostFunction
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -34,9 +34,9 @@ fun Application.configureUserRouting() = routing {
                     return@get
                 }
                 val availableMatches = matchService.getAvailableMatchesForUser(userId)
-                val results = availableMatches.map {
-                    Match(it, countScore(it, user))
-                }
+                val results = availableMatches
+                    .map { Match(it, CostFunction.countScore(it, user)) }
+                    .sortedByDescending { it.score }
                 call.respond(HttpStatusCode.OK, results)
             }
             get("/matches") {
