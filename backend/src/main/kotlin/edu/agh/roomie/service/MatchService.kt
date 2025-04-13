@@ -26,7 +26,7 @@ class MatchService(database: Database) {
 
       fun findResponseSentForUser(userId: Int) = find {
         (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NACK)
-      }.toList().map { it.matchedUserId to it.responseStatus }
+      }.toList()
     }
 
     var userId by InvitationTable.userId
@@ -55,7 +55,8 @@ class MatchService(database: Database) {
 
     val matches = InvitationEntity.findMatchesForUser(userId)
     val sentRequests =
-      InvitationEntity.findResponseSentForUser(userId).filter { it.second == MatchStatus.ACK }.map { it.first }
+      InvitationEntity.findResponseSentForUser(userId).filter { it.requestStatus == MatchStatus.ACK }
+        .map { it.matchedUserId }
     val receivedRequests = InvitationEntity.findRequestReceivedForUser(userId)
     val allUsers = UserService.UserEntity.findByIds(
       matches + sentRequests + receivedRequests
@@ -69,8 +70,13 @@ class MatchService(database: Database) {
 
   fun getAvailableMatchesForUser(userId: Int): List<User> = transaction {
     val requestsSent =
-      InvitationEntity.findResponseSentForUser(userId).filter { it.second == MatchStatus.NONE }.map { it.first }
+      InvitationEntity.find {
+        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NONE)
+      }.toList().map { it.matchedUserId }
 
+
+    val allusers = UserService.UserEntity.all()
+    println(allusers.toList())
     UserService.UserEntity.find {
       (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent)
     }.map { it.toShared() }
@@ -81,7 +87,7 @@ class MatchService(database: Database) {
     UserService.UserEntity.findByIds(requests).map { it.toShared() }
   }
 
-  fun registerSwipe(thisUserId: Int, swipedUserId: Int, status: MatchStatus) = transaction {
+  fun registerSwipe(thisUserId: Int, swipedUserId: Int, status: MatchStatus): MatchStatus = transaction {
     val thisUser = UserService.UserEntity.findById(thisUserId)
     val swipedUser = UserService.UserEntity.findById(swipedUserId)
 
@@ -95,6 +101,7 @@ class MatchService(database: Database) {
 
     val result = if (invitation != null) {
       invitation.requestStatus = status
+      invitation.responseStatus
     } else {
       InvitationEntity.new {
         this.userId = thisUser.id

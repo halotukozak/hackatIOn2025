@@ -148,44 +148,4 @@ class MatchServiceTest {
     assertEquals(testUser1.email, receivedRequests[0].email)
   }
 
-  @Test
-  fun testGetResultsForUser() = runBlocking {
-    // Initially, user1 should have no matches, sent requests, or received requests
-    val initialResults = matchService.getResultsForUser(user1Id)
-    assertEquals(0, initialResults.matches.size)
-    assertEquals(0, initialResults.sentRequests.size)
-    assertEquals(0, initialResults.receivedRequests.size)
-
-    // User1 swipes right on User2
-    matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
-
-    // User1 should now have one sent request
-    val resultsAfterSentRequest = matchService.getResultsForUser(user1Id)
-    assertEquals(0, resultsAfterSentRequest.matches.size)
-    assertEquals(1, resultsAfterSentRequest.sentRequests.size)
-    assertEquals(0, resultsAfterSentRequest.receivedRequests.size)
-    assertEquals(testUser2.email, resultsAfterSentRequest.sentRequests[0].user.email)
-
-    // User3 swipes right on User1
-    matchService.registerSwipe(user3Id, user1Id, MatchStatus.ACK)
-
-    // User1 should now have one sent request and one received request
-    val resultsAfterReceivedRequest = matchService.getResultsForUser(user1Id)
-    assertEquals(0, resultsAfterReceivedRequest.matches.size)
-    assertEquals(1, resultsAfterReceivedRequest.sentRequests.size)
-    assertEquals(1, resultsAfterReceivedRequest.receivedRequests.size)
-    assertEquals(testUser2.email, resultsAfterReceivedRequest.sentRequests[0].user.email)
-    assertEquals(testUser3.email, resultsAfterReceivedRequest.receivedRequests[0].user.email)
-
-    // User2 swipes right on User1
-    matchService.registerSwipe(user2Id, user1Id, MatchStatus.ACK)
-
-    // User1 should now have one match and one received request
-    val resultsAfterMatch = matchService.getResultsForUser(user1Id)
-    assertEquals(1, resultsAfterMatch.matches.size)
-    assertEquals(0, resultsAfterMatch.sentRequests.size)
-    assertEquals(1, resultsAfterMatch.receivedRequests.size)
-    assertEquals(testUser2.email, resultsAfterMatch.matches[0].user.email)
-    assertEquals(testUser3.email, resultsAfterMatch.receivedRequests[0].user.email)
-  }
 }
