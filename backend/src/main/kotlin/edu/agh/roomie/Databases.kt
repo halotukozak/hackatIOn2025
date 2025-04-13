@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.Database
 import kotlin.random.Random
 
 fun Application.configureDatabases(): Database {
-  val database = if (!isDeployment) Database.connect(
+  val database = if (isDeployment) Database.connect(
     url = "jdbc:postgresql://dpg-cvtqhis9c44c738puva0-a.oregon-postgres.render.com/roomie_hkrz",
     driver = "org.postgresql.Driver",
     user = "roomie",

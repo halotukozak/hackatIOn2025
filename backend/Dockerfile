@@ -6,6 +6,7 @@ RUN gradle build --no-daemon
 
 # Run stage
 FROM openjdk:17-slim
+ENV DEPLOYMENT=DEPLOYMENT
 WORKDIR /backend
 COPY --from=build /backend/build/libs/*.jar app.jar
 EXPOSE 8080
