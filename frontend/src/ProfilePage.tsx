@@ -8,7 +8,7 @@ import {
   smokeLabels,
 } from "./types/user";
 import { Link } from "react-router-dom";
-import { getFakeUser } from "./apis/users";
+import { getUserById, getAllUsers } from "./apis/users";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<UserShow | null>(null);
@@ -35,8 +35,9 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const fetchedUser = await getFakeUser(1);
-        setUser(fetchedUser);
+        // const fetchedUser = await getUserById(1);
+        const fetchedUser = await getAllUsers();
+        setUser(fetchedUser[0]);
       } catch (err) {
         setError("Failed to load user");
         console.error(err);

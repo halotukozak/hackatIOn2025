@@ -39,7 +39,7 @@ export function parseUserFromBackend(raw: User): UserShow {
 }
 
 // Fetch and parse a fake user from backend
-export const getFakeUser = async (userId: number): Promise<UserShow> => {
+export const getUserById = async (userId: number): Promise<UserShow> => {
   try {
     const res = await fetch(`http://0.0.0.0:8080/user/${userId}`);
 
@@ -50,7 +50,23 @@ export const getFakeUser = async (userId: number): Promise<UserShow> => {
     const rawData: User = await res.json();
     return parseUserFromBackend(rawData);
   } catch (error) {
-    console.error("Error in getFakeUser:", error);
+    console.error("Error in getUserById:", error);
+    throw error;
+  }
+};
+
+export const getAllUsers = async (): Promise<UserShow[]> => {
+  try {
+    const res = await fetch("http://0.0.0.0:8080/users");
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch users: ${res.status}`);
+    }
+
+    const rawUsers: User[] = await res.json();
+    return rawUsers.map(parseUserFromBackend);
+  } catch (error) {
+    console.error("Error in getAllUsers:", error);
     throw error;
   }
 };
