@@ -58,7 +58,7 @@ export default function StepFive({ form, hobbies, onChange, onBack, onSubmit }: 
                     <option value="">Select status</option>
                     <option value="1">Single</option>
                     <option value="2">In a relationship</option>
-                    <option value="">It's complicated</option>
+                    <option value="3">It's complicated</option>
                 </select>
             </label>
 

@@ -43,7 +43,7 @@ export async function setInfo(form: {
         personalityType: form.personality,
         yearOfStudy: +form.year,
         faculty: form.department as Faculty,
-        relationshipStatus: +form.relationship
+        relationshipStatus: form.relationship != "3" ? +form.relationship : null
     }
 
     const res = await fetch("http://localhost:8080/registration/additional-info", {
