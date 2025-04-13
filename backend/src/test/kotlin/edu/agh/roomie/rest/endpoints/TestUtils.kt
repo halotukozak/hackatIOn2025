@@ -1,86 +1,84 @@
 package edu.agh.roomie.rest.endpoints
 
+import edu.agh.roomie.TestUtils
+import edu.agh.roomie.rest.Dependencies
+import edu.agh.roomie.service.AuthService
+import edu.agh.roomie.service.MatchService
+import edu.agh.roomie.service.UserService
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.config.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.testing.*
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlinx.serialization.json.Json
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 
-/**
- * Utility functions for testing HTTP endpoints.
- */
-object TestUtils {
+object EndpointTestUtils {
     /**
-     * Verifies that the HTTP response has the expected status code.
+     * Creates a test application with the necessary dependencies
      */
-    suspend fun verifyResponseStatus(response: HttpResponse, expectedStatus: HttpStatusCode) {
-        assertEquals(expectedStatus, response.status, "Response status should match expected status")
-    }
+    fun createTestApplication(
+        block: suspend ApplicationTestBuilder.(Dependencies) -> Unit
+    ) = testApplication {
+        // Create an in-memory database
+        val database = TestUtils.createTestDatabase()
 
-    /**
-     * Verifies that the HTTP response body contains the expected text.
-     */
-    suspend fun verifyResponseContains(response: HttpResponse, expectedText: String) {
-        val responseText = response.bodyAsText()
-        assertTrue(responseText.contains(expectedText), "Response should contain '$expectedText'")
-    }
+        // Create services
+        val userService = UserService(database)
+        val authService = AuthService()
+        val matchService = MatchService(database)
 
-    /**
-     * Verifies that the HTTP response has the expected status code and contains the expected text.
-     */
-    suspend fun verifyResponse(response: HttpResponse, expectedStatus: HttpStatusCode, expectedText: String) {
-        verifyResponseStatus(response, expectedStatus)
-        verifyResponseContains(response, expectedText)
-    }
+        // Create dependencies
+        val dependencies = Dependencies(
+            database = database,
+            userService = userService,
+            authService = authService,
+            matchService = matchService
+        )
 
-    /**
-     * Makes a GET request to the specified URL and returns the response.
-     */
-    suspend fun HttpClient.performGet(url: String, headers: Map<String, String> = emptyMap()): HttpResponse {
-        return get(url) {
-            headers.forEach { (key, value) ->
-                header(key, value)
+        // Configure content negotiation for the application
+        application {
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
             }
         }
+
+
+        // Run the test
+        block(dependencies)
     }
 
     /**
-     * Makes a POST request to the specified URL with the given body and returns the response.
+     * Makes a request with an authorization header
      */
-    suspend fun HttpClient.performPost(
-        url: String,
-        body: String,
-        contentType: ContentType = ContentType.Application.Json,
-        headers: Map<String, String> = emptyMap()
+    suspend fun HttpClient.requestWithAuth(
+        method: HttpMethod,
+        path: String,
+        token: String,
+        setup: HttpRequestBuilder.() -> Unit = {}
     ): HttpResponse {
-        return post(url) {
-            contentType(contentType)
-            setBody(body)
-            headers.forEach { (key, value) ->
-                header(key, value)
-            }
+        return request(path) {
+            this.method = method
+            header(HttpHeaders.Authorization, "Bearer $token")
+            setup()
         }
     }
 
     /**
-     * Makes a DELETE request to the specified URL with the given body and returns the response.
+     * JSON configuration for serialization/deserialization
      */
-    suspend fun HttpClient.performDelete(
-        url: String,
-        body: String? = null,
-        contentType: ContentType = ContentType.Application.Json,
-        headers: Map<String, String> = emptyMap()
-    ): HttpResponse {
-        return delete(url) {
-            if (body != null) {
-                contentType(contentType)
-                setBody(body)
-            }
-            headers.forEach { (key, value) ->
-                header(key, value)
-            }
-        }
+    val jsonConfiguration = Json {
+        prettyPrint = true
+        isLenient = true
+        ignoreUnknownKeys = true
     }
 }
