@@ -2,7 +2,7 @@
 FROM gradle:8.3.0-jdk17 AS build
 WORKDIR /backend
 COPY . .
-RUN gradle build --no-daemon
+RUN gradle assemble --no-daemon
 
 # Run stage
 FROM openjdk:17-slim
