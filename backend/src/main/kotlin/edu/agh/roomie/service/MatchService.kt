@@ -6,7 +6,9 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MatchService(database: Database) {
@@ -58,20 +60,18 @@ class MatchService(database: Database) {
     )
 
     MatchResultResponse(
-      allUsers.filter { it.id in matches }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
+      allUsers.filter { it.id in matches }
+        .map { Match(it.toShared(), countScore(it.toShared(), user)) },
       allUsers.filter { it.id in sentRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
-      allUsers.filter { it.id in receivedRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) }
-    )
+      allUsers.filter { it.id in receivedRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) })
   }
 
   suspend fun getAvailableMatchesForUser(userId: Int): List<User> = dbQuery {
     val requestsSent = InvitationEntity.findResponseSentForUser(userId)
 
-    UserService.UserEntity
-      .find {
-        (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent)
-      }
-      .map { it.toShared() }
+    UserService.UserEntity.find {
+      (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent)
+    }.map { it.toShared() }
   }
 
   suspend fun getResponseSentForUser(userId: Int): List<User> = dbQuery {
@@ -92,20 +92,34 @@ class MatchService(database: Database) {
       throw IllegalArgumentException("User not found")
     }
 
-    val result = InvitationTable.upsertReturning(
-      where = {
-        (InvitationTable.userId eq thisUser.id) and (InvitationTable.matchedUserId eq swipedUser.id)
-      }
-    ) {
-      it[requestStatus] = status
-    }.single()[InvitationTable.responseStatus]
+    val invitation = InvitationEntity.find {
+      (InvitationTable.userId eq thisUser.id) and (InvitationTable.matchedUserId eq swipedUser.id)
+    }.singleOrNull()
 
-    InvitationTable.upsert(
-      where = {
-        (InvitationTable.matchedUserId eq thisUser.id) and (InvitationTable.userId eq swipedUser.id)
+    val result = if (invitation != null) {
+      invitation.requestStatus = status
+      invitation.responseStatus
+    } else {
+      InvitationEntity.new {
+        this.userId = thisUser.id
+        this.matchedUserId = swipedUser.id
+        this.requestStatus = status
+      }.responseStatus
+    }
+
+    val reverseInvitation = InvitationEntity.find {
+      (InvitationTable.userId eq swipedUser.id) and (InvitationTable.matchedUserId eq thisUser.id)
+    }.singleOrNull()
+
+    reverseInvitation?.let {
+      it.responseStatus = status
+    } ?: run {
+      InvitationEntity.new {
+        this.userId = swipedUser.id
+        this.matchedUserId = thisUser.id
+        this.requestStatus = MatchStatus.NONE
+        this.responseStatus = status
       }
-    ) {
-      it[responseStatus] = status
     }
 
     result
