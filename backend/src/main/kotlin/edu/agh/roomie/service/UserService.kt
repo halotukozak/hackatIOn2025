@@ -9,7 +9,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.security.MessageDigest
 
@@ -29,21 +28,17 @@ class UserService(database: Database) {
       fun findByEmail(email: String): UserEntity? = find { UsersTable.email eq email }.singleOrNull()
     }
 
-    var name by UsersTable.name
-    var surname by UsersTable.surname
     var email by UsersTable.email
     var password by UsersTable.password
-    var preferences by PreferencesService.PreferencesEntity referencedOn UsersTable.preferences
-    var info by InfoService.InfoEntity referencedOn UsersTable.info
+    var preferences by PreferencesService.PreferencesEntity optionalReferencedOn UsersTable.preferences
+    var info by InfoService.InfoEntity optionalReferencedOn UsersTable.info
   }
 
   object UsersTable : IntIdTable() {
-    val name = varchar("name", length = 50)
-    val surname = varchar("surname", length = 50)
     val email = varchar("email", length = 50)
     val password = varchar("password", length = 100)
-    val preferences = reference("preferences", PreferencesTable)
-    val info = reference("info", InfosTable)
+    val preferences = reference("preferences", PreferencesTable).nullable()
+    val info = reference("info", InfosTable).nullable()
   }
 
   init {
@@ -52,12 +47,14 @@ class UserService(database: Database) {
     }
   }
 
-  fun register(request: RegisterRequest) = UserEntity.new {
-    this.email = request.email
-    this.password = hashPassword(request.password)
-  }.id.value
+  suspend fun register(request: RegisterRequest) = dbQuery {
+    UserEntity.new {
+      this.email = request.email
+      this.password = hashPassword(request.password)
+    }.id.value
+  }
 
-  suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction {
+  suspend fun authenticate(email: String, password: String): Int? = dbQuery {
     val user = UserEntity.findByEmail(email)
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
@@ -66,16 +63,34 @@ class UserService(database: Database) {
     }
   }
 
-  fun getUserById(id: Int): User? = UserEntity.findById(id)?.toShared()
-  fun createUserAdditionalData(id: Int, info: Info, preferences: Preferences) =
+  suspend fun getUserById(id: Int): User? = dbQuery {
+    UserEntity.findById(id)?.toShared()
+  }
+
+  suspend fun upsertUserInfo(id: Int, info: Info) = dbQuery {
     UserEntity.findByIdAndUpdate(id) { user ->
+      user.info?.delete()
       user.info = InfoService.InfoEntity.new {
+        this.fullName = info.fullName
+        this.gender = info.gender
         this.age = info.age
         this.description = info.description
         this.sleepStart = info.sleepSchedule.first
         this.sleepEnd = info.sleepSchedule.second
+        this.hobbies = info.hobbies.map { it.name }
+        this.smoke = info.smoke
+        this.drink = info.drink
+        this.personalityType = info.personalityType
+        this.yearOfStudy = info.yearOfStudy
+        this.relationshipStatus = info.relationshipStatus
         this.faculty = info.faculty
       }
+    }
+  }
+
+  suspend fun upsertUserPreferences(id: Int, preferences: Preferences) = dbQuery {
+    UserEntity.findByIdAndUpdate(id) { user ->
+      user.preferences?.delete()
       user.preferences = PreferencesService.PreferencesEntity.new {
         this.sleepScheduleMatters = preferences.sleepScheduleMatters
         this.hobbiesMatters = preferences.hobbiesMatters
@@ -87,4 +102,13 @@ class UserService(database: Database) {
         this.relationshipStatusImportance = preferences.relationshipStatusImportance
       }
     }
+  }
+
+  suspend fun removeUser(id: Int) = dbQuery {
+    UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
+  }
+
+  suspend fun getAllUsers() = dbQuery {
+    UserEntity.all().map { it.toShared() }
+  }
 }

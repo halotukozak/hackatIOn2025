@@ -1,8 +1,6 @@
 package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.Faculty
-import edu.agh.roomie.rest.model.Info
-import edu.agh.roomie.rest.model.toShared
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -16,6 +14,8 @@ class InfoService(database: Database) {
   class InfoEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<InfoEntity>(InfosTable)
 
+    var fullName by InfosTable.fullName
+    var gender by InfosTable.gender
     var age by InfosTable.age
     var description by InfosTable.description
     var sleepStart by InfosTable.sleepStart
@@ -30,14 +30,16 @@ class InfoService(database: Database) {
   }
 
   object InfosTable : IntIdTable() {
+    val fullName = varchar("fullName", length = 100)
+    val gender = integer("gender")
     val age = integer("age")
     val description = varchar("description", length = 255)
-    val smoke = bool("smoke")
-    val drink = bool("drink")
+    val smoke = integer("smoke")
+    val drink = integer("drink")
     val faculty = enumeration<Faculty>("departament")
-    val sleepStart = integer("sleepStart")
-    val sleepEnd = integer("sleepEnd")
-    val hobbies = varchar("hobbies", length = 1000)
+    val sleepStart = varchar("sleepStart", length = 5)
+    val sleepEnd = varchar("sleepEnd", length = 5)
+    val hobbies = array<String>("hobbies")
     val personalityType = integer("personality_type")
     val yearOfStudy = integer("year_of_study")
     val relationshipStatus = integer("relationship_status")
@@ -48,16 +50,5 @@ class InfoService(database: Database) {
       SchemaUtils.create(InfosTable)
     }
   }
-
-  fun create(info: Info) = InfoEntity.new {
-    this.age = info.age
-    this.description = info.description
-    this.smoke = info.smoke
-    this.drink = info.drink
-    this.faculty = info.faculty
-  }
-
-  fun read(id: Int): Info? =
-    InfoEntity.findById(id)?.toShared()
 }
 

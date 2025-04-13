@@ -5,31 +5,31 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Info(
+  val fullName: String,
+  val gender: Int,
   val age: Int,
   val description: String,
-  val sleepSchedule: Pair<Int, Int>,
+  val sleepSchedule: Pair<String, String>,
   val hobbies: List<Hobby>,
-  val smoke: Boolean,
-  val drink: Boolean,
+  val smoke: Int,
+  val drink: Int,
   val personalityType: Int,
   val yearOfStudy: Int,
   val faculty: Faculty,
   val relationshipStatus: Int,
 ) {
   init {
-    require(sleepSchedule.first in 0..23) { "sleepSchedule start must be between 0 and 23" }
-    require(sleepSchedule.second in 0..23) { "sleepSchedule end must be between 0 and 23" }
     require(yearOfStudy > 0) { "yearOfStudy must be positive" }
   }
 }
 
 fun InfoService.InfoEntity.toShared() = Info(
+  fullName = this.fullName,
+  gender = this.gender,
   age = this.age,
   description = this.description,
-  sleepSchedule = Pair(this.sleepStart, this.sleepEnd),
-  hobbies = this.hobbies.split(",").filter { it.isNotEmpty() }.map { it.trim() }.mapNotNull { hobbyName ->
-    runCatching { Hobby.valueOf(hobbyName) }.getOrNull()
-  },
+  sleepSchedule = Pair(this.sleepStart.toString(), this.sleepEnd.toString()),
+  hobbies = this.hobbies.map { Hobby.valueOf(it) },
   smoke = this.smoke,
   drink = this.drink,
   personalityType = this.personalityType,

@@ -1,9 +1,11 @@
-// src/types/user.ts
+import { Preferences } from "../rest/model";
 
 export enum Smoke {
   NonSmoker = 0,
   Smoker = 1,
 }
+
+
 
 export enum Drink {
   NonDrinker = 0,
@@ -20,12 +22,13 @@ export enum PersonalityType {
 export enum RelationshipStatus {
   Single = 0,
   InRelationship = 1,
+  ItsComplicated = 2,
 }
 
 // Interfaces
 export interface Info {
   description: string;
-  sleepSchedule: [String, String];
+  sleepSchedule: [string, string];
   hobbies: string;
   smoke: Smoke;
   drink: Drink;
@@ -35,12 +38,13 @@ export interface Info {
   relationshipStatus: RelationshipStatus;
 }
 
-export interface User {
+export interface UserShow {
   name: string;
   surname: string;
   email: string;
   age: number;
   info: Info;
+  preferences: Preferences;
 }
 
 export const smokeLabels = {
@@ -63,4 +67,5 @@ export const personalityLabels = {
 export const relationshipLabels = {
   [RelationshipStatus.Single]: "Single",
   [RelationshipStatus.InRelationship]: "In a Relationship",
+  [RelationshipStatus.ItsComplicated]: "It's Complicated",
 };

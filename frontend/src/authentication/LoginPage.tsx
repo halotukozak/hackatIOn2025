@@ -1,11 +1,23 @@
+import { useNavigate } from "react-router-dom";
+import { login } from "../apis/authentication"
+
 export default function LoginPage() {
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         const form = e.currentTarget;
         const email = (form.elements.namedItem("email") as HTMLInputElement).value;
         const password = (form.elements.namedItem("password") as HTMLInputElement).value;
 
-        console.log("Logging in:", { email, password });
+        try {
+            await login(email, password);
+            navigate("/profile");
+        } catch (err) {
+            console.error("Login error:", err);
+            alert("Login failed");
+        }
     };
 
     return (

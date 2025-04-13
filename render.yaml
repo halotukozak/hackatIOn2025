@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: roomie-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8080
+  #todo: make it working https://github.com/halotukozak/hackatIOn2025/issues/63
+  - type: web
+    name: roomie-frontend
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 80
+      - key: BACKEND_URL
+        value: https://roomie-backend-wnzd.onrender.com
+    buildCommand: npm install
+    runCommand: npm start

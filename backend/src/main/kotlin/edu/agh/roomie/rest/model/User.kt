@@ -12,6 +12,15 @@ data class User(
 
 fun UserService.UserEntity.toShared() = User(
   email = this.email,
-  info = this.info.toShared(),
-  preferences = this.preferences.toShared(),
+  info = this.info?.toShared() ?: throw IllegalStateException("UserEntity.info is null"),
+  preferences = this.preferences?.toShared() ?: Preferences(
+    sleepScheduleMatters = false,
+    hobbiesMatters = false,
+    smokingImportance = null,
+    drinkImportance = null,
+    personalityTypeImportance = null,
+    yearOfStudyMatters = false,
+    facultyMatters = false,
+    relationshipStatusImportance = null
+  ),
 )

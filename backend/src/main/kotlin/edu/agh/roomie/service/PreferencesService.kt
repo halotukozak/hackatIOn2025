@@ -23,11 +23,11 @@ class PreferencesService(database: Database) {
   object PreferencesTable : IntIdTable() {
     val sleepScheduleMatters = bool("sleep_schedule_matters")
     val hobbiesMatters = bool("hobbies_matters")
-    val smokingImportance = integer("smoking_importance")
-    val drinkImportance = integer("drink_importance")
-    val personalityTypeImportance = integer("personality_type_importance")
+    val smokingImportance = integer("smoking_importance").nullable()
+    val drinkImportance = integer("drink_importance").nullable()
+    val personalityTypeImportance = integer("personality_type_importance").nullable()
     val yearOfStudyMatters = bool("year_of_study_matters")
     val facultyMatters = bool("faculty_matters")
-    val relationshipStatusImportance = integer("relationship_status_importance")
+    val relationshipStatusImportance = integer("relationship_status_importance").nullable()
   }
 }

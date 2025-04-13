@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { getHobbies, getDepartments } from "../api.ts"
+import {getHobbies, getDepartments, setInfo} from "../apis/preferences.ts"
 import StepOne from "./StepOne.tsx"
 import StepTwo from "./StepTwo.tsx"
 import StepThree from "./StepThree.tsx"
 import StepFour from "./StepFour.tsx"
 import StepFive from "./StepFive.tsx"
+import {Faculty, Hobby} from "../rest/model.ts";
+import {useNavigate} from "react-router-dom";
 
 export default function ReferencesPage() {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [form, setForm] = useState({
         gender: "",
@@ -24,21 +27,27 @@ export default function ReferencesPage() {
         relationship: ""
     });
 
-    const [hobbies, setHobbies] = useState<string[]>([]);
-    const [departments, setDepartments] = useState<string[]>([]);
+    const [hobbies, setHobbies] = useState<Hobby[]>([]);
+    const [departments, setDepartments] = useState<Faculty[]>([]);
 
     useEffect(() => {
         getHobbies().then(setHobbies).catch(console.error);
         getDepartments().then(setDepartments).catch(console.error);
     }, []);
 
-    const handleChange = (key: string, value: string | number | string[]) => {
+    const handleChange = (key: string, value: string | number | Hobby[]) => {
         setForm((prev) => ({ ...prev, [key]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form data:", form);
+        try {
+            await setInfo(form);
+            navigate('/preferences');
+        } catch (error) {
+            console.error("Error submitting preferences:", error);
+            alert("Failed to submit information");
+        }
     };
 
     return (

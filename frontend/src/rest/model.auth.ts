@@ -1,18 +1,16 @@
-export interface User {
-  email: string;
+export interface AdditionalInfoRequest {
+  userId: number;
   info: Info;
   preferences: Preferences;
 }
 
 export interface Info {
-  fullName: string;
-  gender: number;
   age: number;
   description: string;
   sleepSchedule: Pair;
   hobbies: Hobby[];
-  smoke: number;
-  drink: number;
+  smoke: boolean;
+  drink: boolean;
   personalityType: number;
   yearOfStudy: number;
   faculty: Faculty;
@@ -22,17 +20,17 @@ export interface Info {
 export interface Preferences {
   sleepScheduleMatters: boolean;
   hobbiesMatters: boolean;
-  smokingImportance: number | null;
-  drinkImportance: number | null;
-  personalityTypeImportance: number | null;
+  smokingImportance: number;
+  drinkImportance: number;
+  personalityTypeImportance: number;
   yearOfStudyMatters: boolean;
   facultyMatters: boolean;
-  relationshipStatusImportance: number | null;
+  relationshipStatusImportance: number;
 }
 
 export interface Pair {
-  first: string;
-  second: string;
+  first: number;
+  second: number;
 }
 
 export enum Faculty {
@@ -73,16 +71,6 @@ export enum Hobby {
   photography = "photography",
 }
 
-export interface AdditionalInfoRequest {
-  userId: number;
-  info: Info;
-}
-
-export interface AdditionalPreferencesRequest {
-  userId: number;
-  preferences: Preferences;
-}
-
 export interface LoginRequest {
   email: string;
   password: string;
@@ -93,6 +81,7 @@ export interface RegisterRequest {
   password: string;
 }
 
-export interface DeleteRequest {
+export interface AuthResponse {
+  token: string;
   userId: number;
 }
