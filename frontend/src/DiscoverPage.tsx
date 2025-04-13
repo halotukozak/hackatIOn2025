@@ -1,14 +1,26 @@
 import ListView from "./ListView";
 import {
-  User,
+  UserShow,
   Smoke,
   Drink,
   PersonalityType,
   RelationshipStatus,
 } from "./types/user";
 import Navbar from "./Navbar";
+import { Preferences } from "./rest/model";
 
-const user1: User = {
+const mockPref: Preferences = {
+  sleepScheduleMatters: false,
+  hobbiesMatters: false,
+  smokingImportance: 1,
+  drinkImportance: 1,
+  personalityTypeImportance: 1,
+  yearOfStudyMatters: false,
+  facultyMatters: false,
+  relationshipStatusImportance: 1,
+};
+
+const user1: UserShow = {
   name: "Emma",
   surname: "Johnson",
   email: "emma@example.com",
@@ -25,9 +37,10 @@ const user1: User = {
     faculty: "Psychology",
     relationshipStatus: RelationshipStatus.Single,
   },
+  preferences: mockPref,
 };
 
-const user2: User = {
+const user2: UserShow = {
   name: "Emma2",
   surname: "Johnson",
   email: "emma@example.com",
@@ -44,6 +57,7 @@ const user2: User = {
     faculty: "Psychology",
     relationshipStatus: RelationshipStatus.Single,
   },
+  preferences: mockPref,
 };
 
 export default function DiscoverPage() {
