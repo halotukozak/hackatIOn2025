@@ -39,8 +39,7 @@ export interface Info {
 }
 
 export interface UserShow {
-  name: string;
-  surname: string;
+  fullName: string;
   email: string;
   age: number;
   info: Info;

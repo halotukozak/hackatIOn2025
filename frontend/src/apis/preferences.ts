@@ -49,7 +49,7 @@ export async function setInfo(form: {
     const res = await fetch("http://localhost:8080/registration/additional-info", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({userId: 13, info: info}),
+        body: JSON.stringify({userId: localStorage.getItem("user_id"), info: info}),
     });
 
     if (!res.ok) {
@@ -81,7 +81,7 @@ export async function setPreferences(form: {
     const res = await fetch("http://localhost:8080/registration/additional-preferences", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({userId: 13, preferences: preferences}),
+        body: JSON.stringify({userId: localStorage.getItem("user_id"), preferences: preferences}),
     });
 
     if (!res.ok) {

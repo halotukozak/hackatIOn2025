@@ -7,24 +7,16 @@ import {
 } from "../types/user";
 import { User } from "../rest/model";
 
-// Convert backend raw user data to strongly typed User object
-// Converts number (e.g., 22) to "22:00" format
-const formatHour = (hour: number): string => {
-  const h = hour % 24;
-  return `${h.toString().padStart(2, "0")}:00`;
-};
-
 export function parseUserFromBackend(raw: User): UserShow {
   return {
     email: raw.email,
-    name: raw.info.name,
-    surname: raw.info.surname,
+    fullName: raw.info.fullName,
     age: raw.info.age,
     info: {
       description: raw.info.description,
       sleepSchedule: [
-        formatHour(raw.info.sleepSchedule.first),
-        formatHour(raw.info.sleepSchedule.second),
+        raw.info.sleepSchedule.first,
+        raw.info.sleepSchedule.second,
       ],
       hobbies: raw.info.hobbies.join(", "),
       smoke: raw.info.smoke ? Smoke.Smoker : Smoke.NonSmoker,
