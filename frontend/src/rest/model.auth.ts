@@ -1,12 +1,10 @@
-export interface User {
-  email: string;
+export interface AdditionalInfoRequest {
+  userId: number;
   info: Info;
   preferences: Preferences;
 }
 
 export interface Info {
-  name: string;
-  surname: string;
   age: number;
   description: string;
   sleepSchedule: Pair;
@@ -73,16 +71,6 @@ export enum Hobby {
   photography = "photography",
 }
 
-export interface AdditionalInfoRequest {
-  userId: number;
-  info: Info;
-}
-
-export interface AdditionalPreferencesRequest {
-  userId: number;
-  preferences: Preferences;
-}
-
 export interface LoginRequest {
   email: string;
   password: string;
@@ -93,6 +81,7 @@ export interface RegisterRequest {
   password: string;
 }
 
-export interface DeleteRequest {
+export interface AuthResponse {
+  token: string;
   userId: number;
 }

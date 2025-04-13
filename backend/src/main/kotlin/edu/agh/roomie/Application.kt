@@ -15,7 +15,6 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-
   val database = configureDatabases()
   with(
     Dependencies(
@@ -25,6 +24,8 @@ fun Application.module() {
       matchService = MatchService(database),
     )
   ) {
+    generateFakeData()
+
     configureHTTP()
     configureRouting()
     configureAuthRouting()
