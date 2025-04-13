@@ -3,13 +3,19 @@ package edu.agh.roomie.rest.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MatchResponse(
-    val userId: Int,
-    val fullName: String,
+enum class MatchStatus {
+    ACK, NACK, NONE
+}
+
+@Serializable
+data class Match(
+    val user: User,
+    val score: Int,
 )
 
 @Serializable
-data class SwipeResponse(
-    val isMatch: Boolean,
-    val message: String
+data class MatchResultResponse(
+    val matches: List<Match>,
+    val sentRequests: List<Match>,
+    val receivedRequests: List<Match>,
 )

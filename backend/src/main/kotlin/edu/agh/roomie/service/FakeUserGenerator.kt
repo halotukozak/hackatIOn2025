@@ -12,12 +12,15 @@ object FakeUserGenerator {
         val lastName = faker.name.lastName()
 
         return User(
+            id = userId,
             email = "${firstName.lowercase()}.${lastName.lowercase()}$userId@example.com",
             info = generateFakeInfo(),
             preferences = generateFakePreferences()
         )
     }
 
+
+    fun randomMatchStatus(): MatchStatus = MatchStatus.entries.toTypedArray().random()
 
     private fun generateFakeInfo(): Info {
         val randomFaculty = Faculty.entries.random()
@@ -35,7 +38,7 @@ object FakeUserGenerator {
             personalityType = Random.nextInt(1, 100),
             yearOfStudy = Random.nextInt(1, 6),
             faculty = randomFaculty,
-            relationshipStatus = Random.nextInt(1, 3)
+            relationshipStatus = if (Random.nextBoolean()) Random.nextInt(1, 3) else null
         )
     }
 

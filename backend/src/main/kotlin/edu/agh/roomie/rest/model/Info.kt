@@ -16,7 +16,7 @@ data class Info(
   val personalityType: Int,
   val yearOfStudy: Int,
   val faculty: Faculty,
-  val relationshipStatus: Int,
+  val relationshipStatus: Int?,
 ) {
   init {
     require(yearOfStudy > 0) { "yearOfStudy must be positive" }

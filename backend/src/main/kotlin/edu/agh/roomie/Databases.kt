@@ -1,9 +1,10 @@
 package edu.agh.roomie
 
 import edu.agh.roomie.rest.Dependencies
+import edu.agh.roomie.rest.model.MatchStatus
 import edu.agh.roomie.service.FakeUserGenerator
 import edu.agh.roomie.service.InfoService
-import edu.agh.roomie.service.MatchService.MatchEntity
+import edu.agh.roomie.service.MatchService.InvitationEntity
 import edu.agh.roomie.service.PreferencesService
 import edu.agh.roomie.service.UserService
 import io.ktor.server.application.*
@@ -11,7 +12,6 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.time.LocalDateTime
 import kotlin.random.Random
 
 fun Application.configureDatabases(): Database {
@@ -64,12 +64,12 @@ fun generateFakeData() = transaction(database) {
     }
   }
 
-  users.asSequence().shuffled().chunked(2).map { it[0] to it[1] }.forEach { (user1, user2) ->
-    MatchEntity.new {
-      this.userId = user1.id.value
-      this.matchedUserId = user2.id.value
-      this.createdAt = LocalDateTime.now().toString()
-      this.isMatched = Random.nextBoolean()
+  users.asSequence().shuffled().chunked(2).take(30).map { it[0] to it[1] }.forEach { (user1, user2) ->
+    InvitationEntity.new {
+      userId = user1.id
+      matchedUserId = user2.id
+      requestStatus = if (Random.nextBoolean()) MatchStatus.ACK else MatchStatus.NACK
+      responseStatus = FakeUserGenerator.randomMatchStatus()
     }
   }
 }

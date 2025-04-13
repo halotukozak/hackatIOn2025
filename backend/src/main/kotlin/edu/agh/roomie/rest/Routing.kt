@@ -18,24 +18,27 @@ import io.ktor.server.routing.*
 
 context(Dependencies)
 fun Application.configureRouting() {
-  install(StatusPages) {
-    exception<Throwable> { call, cause ->
-      call.respondText(text = "500: $cause", status = HttpStatusCode.InternalServerError)
+    install(StatusPages) {
+        exception<IllegalArgumentException> { call, cause ->
+            call.respondText(text = "400: $cause", status = HttpStatusCode.BadRequest)
+        }
+        exception<Throwable> { call, cause ->
+            call.respondText(text = "500: $cause", status = HttpStatusCode.InternalServerError)
+        }
     }
-  }
-  install(ContentNegotiation) {
-    json()
-  }
-  routing {
-    swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
-  }
-  routing {
-    get("/health") {
-      call.respond(HttpStatusCode.OK, "OK")
+    install(ContentNegotiation) {
+        json()
     }
-  }
-  configureInitialRouting()
-  configureAuthRouting()
-  configureUserRouting()
-  configureMatchRouting()
+    routing {
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
+    }
+    routing {
+        get("/health") {
+            call.respond(HttpStatusCode.OK, "OK")
+        }
+    }
+    configureInitialRouting()
+    configureAuthRouting()
+    configureUserRouting()
+    configureMatchRouting()
 }

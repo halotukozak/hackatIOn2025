@@ -4,17 +4,11 @@ info:
   description: "roomie API"
   version: "1.0.0"
 servers:
-  - url: "http://0.0.0.0:8080"
+- url: "https://roomie"
 paths:
-  /registration/additional-data:
-    post:
+  /health:
+    get:
       description: ""
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              $ref: "#/components/schemas/AdditionalInfoRequest"
-        required: true
       responses:
         "200":
           description: "OK"
@@ -24,53 +18,7 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "User additional data updated successfully"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Failed to update user additional data"
-  /registration/available-departments:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Map_Faculty"
-  /registration/available-hobbies:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  type: "string"
-                  enum:
-                  - "basketball"
-                  - "football"
-                  - "volleyball"
-                  - "swimming"
-                  - "running"
-                  - "cycling"
-                  - "hiking"
-                  - "climbing"
-                  - "skiing"
-                  - "music"
-                  - "dance"
-                  - "cooking"
-                  - "painting"
-                  - "photography"
+                  value: "OK"
   /auth/login:
     post:
       description: ""
@@ -168,7 +116,175 @@ paths:
               examples:
                 Example#1:
                   value: "User unregistered successfully"
-  /matches/notifications/{userId}:
+  /registration/additional-info:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/AdditionalInfoRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User additional data updated successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Failed to update user additional data"
+  /registration/additional-preferences:
+    post:
+      description: ""
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: "#/components/schemas/AdditionalPreferencesRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User preferences updated successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Failed to update user preferences"
+  /registration/available-departments:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_Faculty"
+  /registration/available-hobbies:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  enum:
+                  - "basketball"
+                  - "football"
+                  - "volleyball"
+                  - "swimming"
+                  - "running"
+                  - "cycling"
+                  - "hiking"
+                  - "climbing"
+                  - "skiing"
+                  - "music"
+                  - "dance"
+                  - "cooking"
+                  - "painting"
+                  - "photography"
+  /matches/swipe/{userId}/{swipedUserId}:
+    post:
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      - name: "swipedUserId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      - name: "status"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user IDs"
+                Example#2:
+                  value: "Missing status parameter"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                - "ACK"
+                - "NACK"
+                - "NONE"
+  /user/{userId}:
+    get:
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user ID format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User not found"
+  /user/{userId}/discover:
     get:
       description: ""
       parameters:
@@ -194,17 +310,12 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: "#/components/schemas/MatchResponse"
-  /matches/swipe/{userId}/{swipedUserId}:
-    post:
+                  $ref: "#/components/schemas/Match"
+  /user/{userId}/matches:
+    get:
       description: ""
       parameters:
       - name: "userId"
-        in: "path"
-        required: true
-        schema:
-          type: "integer"
-      - name: "swipedUserId"
         in: "path"
         required: true
         schema:
@@ -218,156 +329,27 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "Invalid user IDs"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "One or both users not found"
+                  value: "Invalid user ID"
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/SwipeResponse"
+                $ref: "#/components/schemas/MatchResultResponse"
+  /users:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/User"
 components:
   schemas:
-    Info:
-      type: "object"
-      properties:
-        name:
-          type: "string"
-        surname:
-          type: "string"
-        age:
-          type: "integer"
-          format: "int32"
-        description:
-          type: "string"
-        sleepSchedule:
-          type: "integer"
-          format: "int32"
-        hobbies:
-          type: "array"
-          items:
-            type: "string"
-            enum:
-            - "basketball"
-            - "football"
-            - "volleyball"
-            - "swimming"
-            - "running"
-            - "cycling"
-            - "hiking"
-            - "climbing"
-            - "skiing"
-            - "music"
-            - "dance"
-            - "cooking"
-            - "painting"
-            - "photography"
-        smoke:
-          type: "boolean"
-        drink:
-          type: "boolean"
-        personalityType:
-          type: "integer"
-          format: "int32"
-        yearOfStudy:
-          type: "integer"
-          format: "int32"
-        faculty:
-          type: "string"
-          enum:
-          - "WILiGZ"
-          - "WIMiIP"
-          - "WEAIIB"
-          - "WIET"
-          - "WIMiR"
-          - "WGGiOS"
-          - "WGGiIS"
-          - "WIMiC"
-          - "WO"
-          - "WMN"
-          - "WWNiG"
-          - "WZ"
-          - "WEiP"
-          - "WFiIS"
-          - "WMS"
-          - "WH"
-          - "WI"
-          - "WTK"
-        relationshipStatus:
-          type: "integer"
-          format: "int32"
-      required:
-      - "name"
-      - "surname"
-      - "age"
-      - "description"
-      - "sleepSchedule"
-      - "hobbies"
-      - "smoke"
-      - "drink"
-      - "personalityType"
-      - "yearOfStudy"
-      - "faculty"
-      - "relationshipStatus"
-    Preferences:
-      type: "object"
-      properties:
-        sleepScheduleMatters:
-          type: "boolean"
-        hobbiesMatters:
-          type: "boolean"
-        smokingImportance:
-          type: "integer"
-          format: "int32"
-        drinkImportance:
-          type: "integer"
-          format: "int32"
-        personalityTypeImportance:
-          type: "integer"
-          format: "int32"
-        yearOfStudyMatters:
-          type: "boolean"
-        facultyMatters:
-          type: "boolean"
-        relationshipStatusImportance:
-          type: "integer"
-          format: "int32"
-      required:
-      - "sleepScheduleMatters"
-      - "hobbiesMatters"
-      - "smokingImportance"
-      - "drinkImportance"
-      - "personalityTypeImportance"
-      - "yearOfStudyMatters"
-      - "facultyMatters"
-      - "relationshipStatusImportance"
-    AdditionalInfoRequest:
-      type: "object"
-      properties:
-        userId:
-          type: "integer"
-          format: "int32"
-        info:
-          $ref: "#/components/schemas/Info"
-        preferences:
-          $ref: "#/components/schemas/Preferences"
-      required:
-      - "userId"
-      - "info"
-      - "preferences"
-    Map:
-      type: "object"
-      properties: {}
-    Map_Faculty:
-      type: "string"
     LoginRequest:
       type: "object"
       properties:
@@ -407,24 +389,187 @@ components:
           format: "int32"
       required:
       - "userId"
-    MatchResponse:
+    Info:
+      type: "object"
+      properties:
+        fullName:
+          type: "string"
+        gender:
+          type: "integer"
+          format: "int32"
+        age:
+          type: "integer"
+          format: "int32"
+        description:
+          type: "string"
+        sleepSchedule:
+          type: "string"
+        hobbies:
+          type: "array"
+          items:
+            type: "string"
+            enum:
+            - "basketball"
+            - "football"
+            - "volleyball"
+            - "swimming"
+            - "running"
+            - "cycling"
+            - "hiking"
+            - "climbing"
+            - "skiing"
+            - "music"
+            - "dance"
+            - "cooking"
+            - "painting"
+            - "photography"
+        smoke:
+          type: "integer"
+          format: "int32"
+        drink:
+          type: "integer"
+          format: "int32"
+        personalityType:
+          type: "integer"
+          format: "int32"
+        yearOfStudy:
+          type: "integer"
+          format: "int32"
+        faculty:
+          type: "string"
+          enum:
+          - "WILiGZ"
+          - "WIMiIP"
+          - "WEAIIB"
+          - "WIET"
+          - "WIMiR"
+          - "WGGiOS"
+          - "WGGiIS"
+          - "WIMiC"
+          - "WO"
+          - "WMN"
+          - "WWNiG"
+          - "WZ"
+          - "WEiP"
+          - "WFiIS"
+          - "WMS"
+          - "WH"
+          - "WI"
+          - "WTK"
+        relationshipStatus:
+          type: "integer"
+          format: "int32"
+      required:
+      - "fullName"
+      - "gender"
+      - "age"
+      - "description"
+      - "sleepSchedule"
+      - "hobbies"
+      - "smoke"
+      - "drink"
+      - "personalityType"
+      - "yearOfStudy"
+      - "faculty"
+    AdditionalInfoRequest:
       type: "object"
       properties:
         userId:
           type: "integer"
           format: "int32"
-        name:
-          type: "string"
-        surname:
-          type: "string"
+        info:
+          $ref: "#/components/schemas/Info"
       required:
       - "userId"
-      - "name"
-      - "surname"
-    SwipeResponse:
+      - "info"
+    Preferences:
       type: "object"
       properties:
-        message:
-          type: "string"
+        sleepScheduleMatters:
+          type: "boolean"
+        hobbiesMatters:
+          type: "boolean"
+        smokingImportance:
+          type: "integer"
+          format: "int32"
+        drinkImportance:
+          type: "integer"
+          format: "int32"
+        personalityTypeImportance:
+          type: "integer"
+          format: "int32"
+        yearOfStudyMatters:
+          type: "boolean"
+        facultyMatters:
+          type: "boolean"
+        relationshipStatusImportance:
+          type: "integer"
+          format: "int32"
       required:
-      - "message"
+      - "sleepScheduleMatters"
+      - "hobbiesMatters"
+      - "yearOfStudyMatters"
+      - "facultyMatters"
+    AdditionalPreferencesRequest:
+      type: "object"
+      properties:
+        userId:
+          type: "integer"
+          format: "int32"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
+      required:
+      - "userId"
+      - "preferences"
+    Map:
+      type: "object"
+      properties: {}
+    Map_Faculty:
+      type: "string"
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        email:
+          type: "string"
+        info:
+          $ref: "#/components/schemas/Info"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
+      required:
+      - "id"
+      - "email"
+      - "info"
+      - "preferences"
+    Match:
+      type: "object"
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        score:
+          type: "integer"
+          format: "int32"
+      required:
+      - "user"
+      - "score"
+    MatchResultResponse:
+      type: "object"
+      properties:
+        matches:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Match"
+        sentRequests:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Match"
+        receivedRequests:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Match"
+      required:
+      - "matches"
+      - "sentRequests"
+      - "receivedRequests"
