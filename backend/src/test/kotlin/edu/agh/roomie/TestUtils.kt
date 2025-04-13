@@ -1,6 +1,7 @@
 package edu.agh.roomie
 
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
@@ -34,7 +35,9 @@ object TestUtils {
       postgresContainer.start()
     }
 
-    return testDatabase
+    return testDatabase.also {
+      transaction { SchemaUtils.dropDatabase() }
+    }
   }
 
   /**
