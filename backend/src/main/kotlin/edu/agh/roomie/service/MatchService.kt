@@ -1,6 +1,5 @@
 package edu.agh.roomie.service
 
-import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -9,7 +8,6 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 
@@ -43,7 +41,7 @@ class MatchService(database: Database) {
     }
   }
 
-  suspend fun swipeRight(userId: Int, swipedUserId: Int): Boolean = newSuspendedTransaction(Dispatchers.IO) {
+  suspend fun swipeRight(userId: Int, swipedUserId: Int): Boolean = dbQuery {
     val existingMatch = MatchEntity.find {
       (MatchesTable.userId eq swipedUserId) and (MatchesTable.matchedUserId eq userId)
     }.singleOrNull()
@@ -62,7 +60,7 @@ class MatchService(database: Database) {
     }
   }
 
-  suspend fun getMatches(userId: Int): List<Int> = newSuspendedTransaction(Dispatchers.IO) {
+  suspend fun getMatches(userId: Int): List<Int> = dbQuery {
     MatchEntity.find {
       ((MatchesTable.userId eq userId) or (MatchesTable.matchedUserId eq userId)) and
               (MatchesTable.isMatched eq true)
