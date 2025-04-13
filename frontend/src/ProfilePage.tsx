@@ -52,7 +52,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-base-100">
+    <div className="min-h-screen bg-base-200">
       <Navbar />
       <div className="pt-20 px-6 max-w-2xl mx-auto">
         {/* Header */}
@@ -133,7 +133,7 @@ export default function ProfilePage() {
         {/* Buttons */}
         <div className="flex justify-between mt-4">
           <Link to="/get_started">
-            <button className="btn btn-outline btn-success">
+            <button className="btn btn-outline btn-success bg-white">
               Edit Profile
             </button>
           </Link>
