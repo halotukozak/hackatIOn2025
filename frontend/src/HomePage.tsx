@@ -10,7 +10,7 @@ export default function HomePage() {
                 and personality. Designed specifically for students.
             </p>
 
-            <Link to="/discover" className="btn btn-primary">
+            <Link to="/log_in" className="btn btn-primary">
                 Get Started
             </Link>
         </div>
