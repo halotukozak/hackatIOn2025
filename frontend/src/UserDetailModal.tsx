@@ -4,7 +4,7 @@ import {
   UserShow,
   smokeLabels,
   drinkLabels,
-  personalityLabels,
+  personalityLabels, relationshipLabels,
 } from "./types/user";
 import {MatchStatus} from "./types/match.ts";
 
@@ -68,6 +68,10 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             <p className="font-semibold">Drinking</p>
             <p className="text-gray-600">{drinkLabels[user.info.drink]}</p>
           </div>
+          <div>
+            <p className="font-semibold">Relationship</p>
+            <p className="text-gray-600">{relationshipLabels[user.info.relationshipStatus]}</p>
+          </div>
         </div>
 
         {/* Interests */}
@@ -89,14 +93,6 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
         </div>
 
         {/* Action Buttons */}
-        {/*<div className="flex justify-center gap-6 mt-4">*/}
-        {/*  <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">*/}
-        {/*    <XMarkIcon className="h-6 w-6  hover:text-red-500" />*/}
-        {/*  </button>*/}
-        {/*  <button className="btn btn-circle btn-success text-white">*/}
-        {/*    <HeartIcon className="h-6 w-6 text-white-500" />*/}
-        {/*  </button>*/}
-        {/*</div>*/}
         {match === MatchStatus.View && (
             <div className="flex justify-center gap-6 mt-4">
               <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">

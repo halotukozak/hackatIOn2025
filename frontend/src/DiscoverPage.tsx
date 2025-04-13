@@ -1,67 +1,49 @@
 import ListComponent from "./ListComponent.tsx";
 import {
   UserShow,
-  Smoke,
-  Drink,
-  PersonalityType,
-  RelationshipStatus,
 } from "./types/user";
 import Navbar from "./Navbar";
 import { MatchStatus } from "./types/match.ts";
-import { Preferences } from "./rest/model";
+import {getAllUsers } from "./apis/users";
+import {useEffect, useState} from "react";
 
-const mockPref: Preferences = {
-  sleepScheduleMatters: false,
-  hobbiesMatters: false,
-  smokingImportance: 1,
-  drinkImportance: 1,
-  personalityTypeImportance: 1,
-  yearOfStudyMatters: false,
-  facultyMatters: false,
-  relationshipStatusImportance: 1,
-};
-
-const user1: UserShow = {
-  name: "Emma",
-  surname: "Johnson",
-  email: "emma@example.com",
-  age: 21,
-  info: {
-    description:
-      "Psychology major with a passion for understanding people. I'm an early riser who keeps things tidy and enjoys quiet evenings with a good book.",
-    sleepSchedule: ["18:00", "04:00"],
-    hobbies: "Reading, Yoga, Photography, Travel",
-    smoke: Smoke.NonSmoker,
-    drink: Drink.SocialDrinker,
-    personalityType: PersonalityType.Extraverted,
-    yearOfStudy: 3,
-    faculty: "Psychology",
-    relationshipStatus: RelationshipStatus.Single,
-  },
-  preferences: mockPref,
-};
-
-const user2: UserShow = {
-  name: "Emma2",
-  surname: "Johnson",
-  email: "emma@example.com",
-  age: 21,
-  info: {
-    description:
-      "Psychology major with a passion for understanding people. I'm an early riser who keeps things tidy and enjoys quiet evenings with a good book.",
-    sleepSchedule: ["18:00", "04:00"],
-    hobbies: "Reading, Yoga, Photography, Travel",
-    smoke: Smoke.NonSmoker,
-    drink: Drink.SocialDrinker,
-    personalityType: PersonalityType.Extraverted,
-    yearOfStudy: 3,
-    faculty: "Psychology",
-    relationshipStatus: RelationshipStatus.Single,
-  },
-  preferences: mockPref,
-};
 
 export default function DiscoverPage() {
+  const [discoverList, setDiscoverList] = useState<UserShow[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const fetchedUser = await getAllUsers();
+        setDiscoverList(fetchedUser);
+      } catch (err) {
+        setError("Failed to load user");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  if (loading)
+    return (
+        <div>
+          <Navbar />
+          <p className="text-gray-700 text-sm">Loading...</p>
+        </div>
+    );
+  if (error)
+    return (
+        <div>
+          <Navbar />
+          <p className="text-gray-700 text-sm">{error}</p>
+        </div>
+    );
+
+
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar />
@@ -71,12 +53,11 @@ export default function DiscoverPage() {
         </h1>
       </div>
       <div className="flex flex-col justify-center px-2 space-y-4">
-        {" "}
-        <ListComponent user={user2} match={MatchStatus.View} />
-        <ListComponent user={user1} match={MatchStatus.View} />
-        <ListComponent user={user1} match={MatchStatus.View} />
-        <ListComponent user={user2} match={MatchStatus.View} />
-        <ListComponent user={user1} match={MatchStatus.View} />
+        {discoverList &&  (
+                discoverList.map((user) => (
+                    <ListComponent key={user.id} user={user} match={MatchStatus.View} />
+                ))
+            )};
       </div>
     </div>
   );
