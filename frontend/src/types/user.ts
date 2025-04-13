@@ -5,6 +5,8 @@ export enum Smoke {
   Smoker = 1,
 }
 
+
+
 export enum Drink {
   NonDrinker = 0,
   SocialDrinker = 1,
@@ -26,7 +28,7 @@ export enum RelationshipStatus {
 // Interfaces
 export interface Info {
   description: string;
-  sleepSchedule: [String, String];
+  sleepSchedule: [string, string];
   hobbies: string;
   smoke: Smoke;
   drink: Drink;
