@@ -4,8 +4,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdditionalInfoRequest(
-  val userId : Int,
+  val userId: Int,
   val info: Info,
+)
+
+@Serializable
+data class AdditionalPreferencesRequest(
+  val userId: Int,
   val preferences: Preferences,
 )
 

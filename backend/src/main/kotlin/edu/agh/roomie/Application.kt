@@ -3,6 +3,8 @@ package edu.agh.roomie
 import edu.agh.roomie.rest.Dependencies
 import edu.agh.roomie.rest.configureHTTP
 import edu.agh.roomie.rest.configureRouting
+import edu.agh.roomie.rest.endpoints.configureAuthRouting
+import edu.agh.roomie.rest.endpoints.configureUserRouting
 import edu.agh.roomie.service.AuthService
 import edu.agh.roomie.service.MatchService
 import edu.agh.roomie.service.UserService
@@ -13,7 +15,6 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-
   val database = configureDatabases()
   with(
     Dependencies(
@@ -23,7 +24,11 @@ fun Application.module() {
       matchService = MatchService(database),
     )
   ) {
+    generateFakeData()
+
     configureHTTP()
     configureRouting()
+    configureAuthRouting()
+    configureUserRouting()
   }
 }
