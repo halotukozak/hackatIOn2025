@@ -7,6 +7,7 @@ class SortAlgorithm {
 
         fun sortUsers(user: User, users: List<User>): List<Pair<User, Double>> {
             return users
+                .filter { it.info.gender == user.info.gender }
                 .map { otherUser -> otherUser to CostFunction.calculateCost(user, otherUser) }
                 .sortedBy { it.second }
         }

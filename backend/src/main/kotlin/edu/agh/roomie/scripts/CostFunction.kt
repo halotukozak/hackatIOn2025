@@ -10,76 +10,86 @@ class CostFunction {
     companion object {
         private var MAX_VALUE = 1.0
         private var MIN_VALUE = 0.0
-        private var NON_BOOLEAN_PREFERENCES_NUM = 4
-        private var MAX_INT_PREFERENCES_VALUE = 5
+        private var MAX_INT_PREFERENCES_VALUE = 3
 
         fun calculateCost(user: User, other: User): Double {
             var totalCost = 0.0
-            val defaultAdd = MAX_VALUE / (NON_BOOLEAN_PREFERENCES_NUM + countTrueBooleans(user.preferences))
+            val defaultAddCost = MAX_VALUE / (countImportantPreferences(user.preferences))
 
             if(user.preferences.sleepScheduleMatters) {
-                val userSleepStart = user.info.sleepSchedule.first
-                val userSleepEnd = user.info.sleepSchedule.second
-                val otherSleepStart = other.info.sleepSchedule.first
-                val otherSleepEnd = other.info.sleepSchedule.second
+                val userSleepStart = parseSleepHours(user.info.sleepSchedule.first)
+                val userSleepEnd = parseSleepHours(user.info.sleepSchedule.second)
+                val otherSleepStart = parseSleepHours(other.info.sleepSchedule.first)
+                val otherSleepEnd = parseSleepHours(other.info.sleepSchedule.second)
 
                 val intersect = calculateIntersect(userSleepStart, userSleepEnd, otherSleepStart, otherSleepEnd).toDouble()
                 val union = calculateUnion(userSleepStart, userSleepEnd, otherSleepStart, otherSleepEnd).toDouble()
 
-                totalCost +=  defaultAdd * log10(1 + 9 * ((union - intersect) / union)) / log10(10.0)
+                totalCost +=  defaultAddCost * log10(1 + 9 * ((union - intersect) / union)) / log10(10.0)
             }
 
             if (user.preferences.hobbiesMatters) {
-                var hasSameHobby = false
+                var hobbiesCost = defaultAddCost
                 for (hobby in user.info.hobbies) {
                     if (other.info.hobbies.contains(hobby)) {
-                        totalCost -= 0.05
-                        hasSameHobby = true
+                        hobbiesCost -= defaultAddCost / user.info.hobbies.size
                     }
                 }
-                if (!hasSameHobby) {
-                    totalCost += defaultAdd
-                }
+                totalCost += hobbiesCost
             }
 
-            if (user.info.smoke == other.info.smoke) {
-                totalCost += (user.preferences.smokingImportance / MAX_INT_PREFERENCES_VALUE) * defaultAdd
+            if (user.preferences.smokingImportance != null && user.info.smoke != other.info.smoke) {
+                val smokeCost = getDiff(user.info.smoke, other.info.smoke, 2)
+                totalCost += (user.preferences.smokingImportance / MAX_INT_PREFERENCES_VALUE) * smokeCost * defaultAddCost
             }
 
-            if (user.info.drink == other.info.drink) {
-                totalCost += (user.preferences.drinkImportance / MAX_INT_PREFERENCES_VALUE) * defaultAdd
+            if (user.preferences.drinkImportance != null && user.info.drink == other.info.drink) {
+                val drinkCost = getDiff(user.info.drink, other.info.drink, 2)
+                totalCost += (user.preferences.drinkImportance / MAX_INT_PREFERENCES_VALUE) * drinkCost * defaultAddCost
             }
 
-            val personalityDiff = getLnDiff(user.info.personalityType, other.info.personalityType, 100)
-            totalCost += (user.preferences.personalityTypeImportance / MAX_INT_PREFERENCES_VALUE) * personalityDiff * defaultAdd
-
-            if (user.preferences.yearOfStudyMatters) {
-                totalCost += getDiff(user.info.yearOfStudy, other.info.yearOfStudy, 5) * defaultAdd
+            if (user.preferences.personalityTypeImportance != null && user.info.personalityType == other.info.personalityType) {
+                val personalityTypeCost = getLnDiff(user.info.personalityType, other.info.personalityType, 100)
+                totalCost += (user.preferences.personalityTypeImportance / MAX_INT_PREFERENCES_VALUE) * personalityTypeCost * defaultAddCost
             }
 
-            if (user.preferences.facultyMatters) {
-                if (user.info.faculty != other.info.faculty) {
-                    totalCost += 0.1
-                } else {
-                    val extraCost = defaultAdd  // TODO
-                    totalCost += extraCost
-                }
+            if (user.preferences.yearOfStudyMatters && user.info.yearOfStudy != other.info.yearOfStudy) {
+                totalCost += getDiff(user.info.yearOfStudy, other.info.yearOfStudy, 5) * defaultAddCost
             }
 
-            val relationshipStatusDiff = getDiff(user.info.relationshipStatus, other.info.relationshipStatus, 100)
-            totalCost += (user.preferences.personalityTypeImportance / MAX_INT_PREFERENCES_VALUE) * relationshipStatusDiff * defaultAdd
+            if (user.preferences.facultyMatters && user.info.faculty != other.info.faculty) {
+                totalCost += defaultAddCost
+            }
+
+            if (user.preferences.relationshipStatusImportance != null && user.info.relationshipStatus != other.info.relationshipStatus) {
+                val relationshipStatusCost = getDiff(user.info.relationshipStatus, other.info.relationshipStatus, 2)
+                totalCost += (user.preferences.relationshipStatusImportance / MAX_INT_PREFERENCES_VALUE) * relationshipStatusCost * defaultAddCost
+            }
 
             return totalCost
         }
 
 
-        private fun countTrueBooleans(preferences: Preferences): Int {
-            return Preferences::class.memberProperties
+        private fun countImportantPreferences(preferences: Preferences): Int {
+            val checkedIntegers = Preferences::class.memberProperties
+                .filter { it.returnType.classifier == Int::class }
+                .count { it.get(preferences) != null }
+
+            val trueBooleans = Preferences::class.memberProperties
                 .filter { it.returnType.classifier == Boolean::class }
                 .count { it.get(preferences) == true }
+
+            return trueBooleans + checkedIntegers
         }
 
-        fun hourRangeSet(start: Int, end: Int): Set<Int> {
+
+        private fun parseSleepHours(time: String): Int {
+            val parts = time.split(":")
+            return parts[0].toInt()
+        }
+
+
+        private fun hourRangeSet(start: Int, end: Int): Set<Int> {
             return if (start < end) {
                 (start until end).toSet()
             } else {
@@ -87,24 +97,24 @@ class CostFunction {
             }
         }
 
-        fun calculateIntersect(start1: Int, end1: Int, start2: Int, end2: Int): Int {
+        private fun calculateIntersect(start1: Int, end1: Int, start2: Int, end2: Int): Int {
             val range1 = hourRangeSet(start1, end1)
             val range2 = hourRangeSet(start2, end2)
             return range1.intersect(range2).size
         }
 
-        fun calculateUnion(start1: Int, end1: Int, start2: Int, end2: Int): Int {
+        private fun calculateUnion(start1: Int, end1: Int, start2: Int, end2: Int): Int {
             val range1 = hourRangeSet(start1, end1)
             val range2 = hourRangeSet(start2, end2)
             return range1.union(range2).size
         }
 
-        fun getDiff(userValue: Int, otherValue: Int, maxDiff: Int): Double {
+        private fun getDiff(userValue: Int, otherValue: Int, maxDiff: Int): Double {
             val diff = kotlin.math.abs(userValue - otherValue).toDouble()
             return diff / maxDiff
         }
 
-        fun getLnDiff(userValue: Int, otherValue: Int, maxDiff: Int): Double {
+        private fun getLnDiff(userValue: Int, otherValue: Int, maxDiff: Int): Double {
             val diff = kotlin.math.abs(userValue - otherValue).toDouble()
             val scaled = diff / maxDiff
             return log10(1 + 9 * scaled) / log10(10.0)
