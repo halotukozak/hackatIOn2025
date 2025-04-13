@@ -25,8 +25,8 @@ export default function StepOne({ form, onChange, onNext }: StepOneProps) {
                     required
                 >
                     <option value="">Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
                 </select>
             </label>
 

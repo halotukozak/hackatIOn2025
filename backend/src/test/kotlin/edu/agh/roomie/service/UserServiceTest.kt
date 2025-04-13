@@ -133,14 +133,14 @@ class UserServiceTest {
   // Helper methods to create test data
   private fun createTestInfo(): Info {
     return Info(
-      name = "Test",
-      surname = "User",
+      fullName = "Test User",
+      gender = 1,
       age = 25,
       description = "Test description",
-      sleepSchedule = Pair(22, 6),
+      sleepSchedule = Pair("22:00", "06:00"),
       hobbies = listOf(Hobby.music, Hobby.cooking),
-      smoke = false,
-      drink = true,
+      smoke = 1,
+      drink = 2,
       personalityType = 1,
       yearOfStudy = 3,
       faculty = Faculty.WI,

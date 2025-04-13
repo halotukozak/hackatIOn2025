@@ -71,8 +71,8 @@ class UserService(database: Database) {
     UserEntity.findByIdAndUpdate(id) { user ->
       user.info?.delete()
       user.info = InfoService.InfoEntity.new {
-        this.name = info.name
-        this.surname = info.surname
+        this.fullName = info.fullName
+        this.gender = info.gender
         this.age = info.age
         this.description = info.description
         this.sleepStart = info.sleepSchedule.first

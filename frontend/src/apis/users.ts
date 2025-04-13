@@ -1,39 +1,43 @@
-import {Drink, PersonalityType, RelationshipStatus, Smoke, UserShow,} from "../types/user";
-import {User} from "../rest/model";
+import {
+  UserShow,
+  PersonalityType,
+  Drink,
+  Smoke,
+  RelationshipStatus,
+} from "../types/user";
+import { User } from "../rest/model";
 
 // Convert backend raw user data to strongly typed User object
-// Converts number (e.g., 22) to "22:00" format
-const formatHour = (hour: number): string => {
-  const h = hour % 24;
-  return `${h.toString().padStart(2, "0")}:00`;
-};
 
 export function parseRelationship(relationship: number): RelationshipStatus {
   if (relationship == null) {
-    return RelationshipStatus.ItsComplicated}
-  return relationship as RelationshipStatus;
+    return RelationshipStatus.ItsComplicated;
   }
+  return relationship as RelationshipStatus;
+}
 
 export function parsePersonalityType(personalityType: number): PersonalityType {
   if (personalityType <= 33) {
-    return PersonalityType.Introverted
-  } if (personalityType <= 64) {
-    return PersonalityType.Ambiverted
+    return PersonalityType.Introverted;
   }
-  return PersonalityType.Extraverted;}
+  if (personalityType <= 64) {
+    return PersonalityType.Ambiverted;
+  }
+  return PersonalityType.Extraverted;
+}
 
 export function parseUserFromBackend(raw: User): UserShow {
   return {
     id: raw.id,
     email: raw.email,
-    name: raw.info.name,
-    surname: raw.info.surname,
+    name: raw.info.fullName.split(" ")[0],
+    surname: raw.info.fullName.split(" ")[1],
     age: raw.info.age,
     info: {
       description: raw.info.description,
       sleepSchedule: [
-        formatHour(raw.info.sleepSchedule.first),
-        formatHour(raw.info.sleepSchedule.second),
+        raw.info.sleepSchedule.first,
+        raw.info.sleepSchedule.second,
       ],
       hobbies: raw.info.hobbies.join(", "),
       smoke: raw.info.smoke ? Smoke.Smoker : Smoke.NonSmoker,

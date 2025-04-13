@@ -7,18 +7,18 @@ import kotlinx.serialization.Serializable
 data class Preferences(
   val sleepScheduleMatters: Boolean,
   val hobbiesMatters: Boolean,
-  val smokingImportance: Int,
-  val drinkImportance: Int,
-  val personalityTypeImportance: Int,
+  val smokingImportance: Int?,
+  val drinkImportance: Int?,
+  val personalityTypeImportance: Int?,
   val yearOfStudyMatters: Boolean,
   val facultyMatters: Boolean,
-  val relationshipStatusImportance: Int
+  val relationshipStatusImportance: Int?
 ) {
   init {
-    require(smokingImportance in 0..5) { "smokingImportance must be between 0 and 5" }
-    require(drinkImportance in 0..5) { "drinkImportance must be between 0 and 5" }
-    require(personalityTypeImportance in 0..5) { "personalityTypeImportance must be between 0 and 5" }
-    require(relationshipStatusImportance in 0..5) { "relationshipStatusImportance must be between 0 and 5" }
+    smokingImportance?.let { require(it in 0..3) { "smokingImportance must be between 0 and 2" } }
+    drinkImportance?.let { require(it in 0..3) { "drinkImportance must be between 0 and 2" } }
+    personalityTypeImportance?.let { require(it in 0..101) { "personalityTypeImportance must be between 0 and 100" } }
+    relationshipStatusImportance?.let { require(it in 0..3) { "relationshipStatusImportance must be between 0 and 2" } }
   }
 }
 
@@ -32,3 +32,4 @@ fun PreferencesService.PreferencesEntity.toShared() = Preferences(
   facultyMatters = this.facultyMatters,
   relationshipStatusImportance = this.relationshipStatusImportance
 )
+
