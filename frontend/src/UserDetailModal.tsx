@@ -8,7 +8,6 @@ import {
   relationshipLabels,
 } from "./types/user";
 import { MatchStatus } from "./types/match.ts";
-import { swipeAck, swipeNack } from "./apis/matches.ts";
 
 type UserDetailModalProps = {
   user: UserShow;
