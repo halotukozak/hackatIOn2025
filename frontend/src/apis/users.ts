@@ -1,11 +1,5 @@
-import {
-  UserShow,
-  PersonalityType,
-  Drink,
-  Smoke,
-  RelationshipStatus,
-} from "../types/user";
-import { User } from "../rest/model";
+import {Drink, PersonalityType, RelationshipStatus, Smoke, UserShow,} from "../types/user";
+import {User} from "../rest/model";
 
 // Convert backend raw user data to strongly typed User object
 // Converts number (e.g., 22) to "22:00" format
@@ -14,8 +8,23 @@ const formatHour = (hour: number): string => {
   return `${h.toString().padStart(2, "0")}:00`;
 };
 
+export function parseRelationship(relationship: number): RelationshipStatus {
+  if (relationship == null) {
+    return RelationshipStatus.ItsComplicated}
+  return relationship as RelationshipStatus;
+  }
+
+export function parsePersonalityType(personalityType: number): PersonalityType {
+  if (personalityType <= 33) {
+    return PersonalityType.Introverted
+  } if (personalityType <= 64) {
+    return PersonalityType.Ambiverted
+  }
+  return PersonalityType.Extraverted;}
+
 export function parseUserFromBackend(raw: User): UserShow {
   return {
+    id: raw.id,
     email: raw.email,
     name: raw.info.name,
     surname: raw.info.surname,
@@ -29,10 +38,10 @@ export function parseUserFromBackend(raw: User): UserShow {
       hobbies: raw.info.hobbies.join(", "),
       smoke: raw.info.smoke ? Smoke.Smoker : Smoke.NonSmoker,
       drink: raw.info.drink ? Drink.SocialDrinker : Drink.NonDrinker,
-      personalityType: raw.info.personalityType as PersonalityType,
+      personalityType: parsePersonalityType(raw.info.personalityType),
       yearOfStudy: raw.info.yearOfStudy,
       faculty: raw.info.faculty,
-      relationshipStatus: raw.info.relationshipStatus as RelationshipStatus,
+      relationshipStatus: parseRelationship(raw.info.relationshipStatus),
     },
     preferences: raw.preferences,
   };
@@ -57,7 +66,7 @@ export const getUserById = async (userId: number): Promise<UserShow> => {
 
 export const getAllUsers = async (): Promise<UserShow[]> => {
   try {
-    const res = await fetch("http://0.0.0.0:8080/users");
+    const res = await fetch("http://127.0.0.1:8080/users");
 
     if (!res.ok) {
       throw new Error(`Failed to fetch users: ${res.status}`);
