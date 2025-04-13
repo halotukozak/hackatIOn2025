@@ -1,6 +1,6 @@
 package edu.agh.roomie.scripts
 
-import kotlin.math.ln
+import kotlin.math.log10
 import edu.agh.roomie.rest.model.Preferences
 import edu.agh.roomie.rest.model.User
 import kotlin.reflect.full.memberProperties
@@ -10,13 +10,12 @@ class CostFunction {
     companion object {
         private var MAX_VALUE = 1.0
         private var MIN_VALUE = 0.0
-        private var PREFERENCES_NUM = 8
         private var NON_BOOLEAN_PREFERENCES_NUM = 4
         private var MAX_INT_PREFERENCES_VALUE = 5
 
         fun calculateCost(user: User, other: User): Double {
             var totalCost = 0.0
-            val defaultAdd = (NON_BOOLEAN_PREFERENCES_NUM + countTrueBooleans(user.preferences) / PREFERENCES_NUM) / MAX_VALUE
+            val defaultAdd = MAX_VALUE / (NON_BOOLEAN_PREFERENCES_NUM + countTrueBooleans(user.preferences))
 
             if(user.preferences.sleepScheduleMatters) {
                 val userSleepStart = user.info.sleepSchedule.first
@@ -27,7 +26,7 @@ class CostFunction {
                 val intersect = calculateIntersect(userSleepStart, userSleepEnd, otherSleepStart, otherSleepEnd).toDouble()
                 val union = calculateUnion(userSleepStart, userSleepEnd, otherSleepStart, otherSleepEnd).toDouble()
 
-                totalCost +=  defaultAdd * (union - intersect / union)
+                totalCost +=  defaultAdd * log10(1 + 9 * ((union - intersect) / union)) / log10(10.0)
             }
 
             if (user.preferences.hobbiesMatters) {
@@ -108,7 +107,7 @@ class CostFunction {
         fun getLnDiff(userValue: Int, otherValue: Int, maxDiff: Int): Double {
             val diff = kotlin.math.abs(userValue - otherValue).toDouble()
             val scaled = diff / maxDiff
-            return ln(1 + 9 * scaled) / ln(10.0)
+            return log10(1 + 9 * scaled) / log10(10.0)
         }
     }
 }
