@@ -1,66 +1,66 @@
 package edu.agh.roomie.service
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class AuthServiceTest {
-    private lateinit var authService: AuthService
-
-    @BeforeTest
-    fun setUp() {
-        authService = AuthService()
-    }
-
+    
     @Test
-    fun testGenerateToken() {
-        // Given
+    fun `test generate token`() {
+        // Arrange
+        val authService = AuthService()
         val userId = 123
-
-        // When
+        
+        // Act
         val token = authService.generateToken(userId)
-
-        // Then
-        assertNotNull(token, "Token should not be null")
-        assertTrue(token.isNotEmpty(), "Token should not be empty")
-        assertTrue(token.contains("."), "Token should contain a dot separator")
+        
+        // Assert
+        assertNotNull(token)
+        val parts = token.split(".")
+        assertEquals(2, parts.size)
     }
-
+    
     @Test
-    fun testValidateToken() {
-        // Given
+    fun `test validate token`() {
+        // Arrange
+        val authService = AuthService()
         val userId = 456
         val token = authService.generateToken(userId)
-
-        // When
-        val validatedUserId = authService.validateToken(token)
-
-        // Then
-        assertNotNull(validatedUserId, "Validated user ID should not be null")
-        assertEquals(userId, validatedUserId, "Validated user ID should match the original user ID")
+        
+        // Act
+        val retrievedUserId = authService.validateToken(token)
+        
+        // Assert
+        assertEquals(userId, retrievedUserId)
     }
-
+    
     @Test
-    fun testValidateInvalidToken() {
-        // Given
+    fun `test validate invalid token`() {
+        // Arrange
+        val authService = AuthService()
         val invalidToken = "invalid.token"
-
-        // When
-        val validatedUserId = authService.validateToken(invalidToken)
-
-        // Then
-        assertNull(validatedUserId, "Validated user ID should be null for an invalid token")
+        
+        // Act
+        val retrievedUserId = authService.validateToken(invalidToken)
+        
+        // Assert
+        assertNull(retrievedUserId)
     }
-
+    
     @Test
-    fun testRemoveToken() {
-        // Given
+    fun `test remove token`() {
+        // Arrange
+        val authService = AuthService()
         val userId = 789
         val token = authService.generateToken(userId)
-
-        // When
+        
+        // Act
         authService.removeToken(token)
-        val validatedUserId = authService.validateToken(token)
-
-        // Then
-        assertNull(validatedUserId, "Validated user ID should be null after token removal")
+        val retrievedUserId = authService.validateToken(token)
+        
+        // Assert
+        assertNull(retrievedUserId)
     }
 }

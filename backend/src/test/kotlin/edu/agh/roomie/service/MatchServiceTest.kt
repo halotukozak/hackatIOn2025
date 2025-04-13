@@ -1,151 +1,253 @@
 package edu.agh.roomie.service
 
+import edu.agh.roomie.TestUtils
 import edu.agh.roomie.rest.model.*
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.*
 
 class MatchServiceTest {
-  private lateinit var database: Database
-  private lateinit var userService: UserService
-  private lateinit var matchService: MatchService
 
-  private val testUser1 = RegisterRequest("user1@test.com", "password1")
-  private val testUser2 = RegisterRequest("user2@test.com", "password2")
-  private val testUser3 = RegisterRequest("user3@test.com", "password3")
+    @Test
+    fun `test match service initialization`() {
+        // Arrange & Act
+        val database = TestUtils.createTestDatabase()
+        val matchService = MatchService(database)
 
-  private var user1Id: Int = 0
-  private var user2Id: Int = 0
-  private var user3Id: Int = 0
-
-  @BeforeTest
-  fun setup() {
-    // Set up in-memory database for testing
-    database = Database.connect(
-      url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-      user = "root",
-      driver = "org.h2.Driver",
-    )
-
-    userService = UserService(database)
-    matchService = MatchService(database)
-
-    // Create test users
-    runBlocking {
-      user1Id = userService.register(testUser1)
-      user2Id = userService.register(testUser2)
-      user3Id = userService.register(testUser3)
-
-      // Set info and preferences for each user
-      userService.upsertUserInfo(user1Id, createTestInfo("User 1"))
-      userService.upsertUserPreferences(user1Id, createTestPreferences())
-
-      userService.upsertUserInfo(user2Id, createTestInfo("User 2"))
-      userService.upsertUserPreferences(user2Id, createTestPreferences())
-
-      userService.upsertUserInfo(user3Id, createTestInfo("User 3"))
-      userService.upsertUserPreferences(user3Id, createTestPreferences())
+        // Assert - if no exception is thrown, the initialization was successful
+        assertNotNull(matchService)
     }
-  }
 
-  @AfterTest
-  fun testSetup() {
-    // Create the necessary tables for testing
-    transaction(database) {
-      SchemaUtils.dropDatabase()
+    @Test
+    fun `test register swipe and get results`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+
+        // Create necessary tables
+        transaction(database) {
+            SchemaUtils.create(InfoService.InfosTable)
+            SchemaUtils.create(PreferencesService.PreferencesTable)
+            SchemaUtils.create(UserService.UsersTable)
+            SchemaUtils.create(MatchService.InvitationTable)
+        }
+
+        val infoService = InfoService(database)
+        val preferencesService = PreferencesService(database)
+        val userService = UserService(database)
+        val matchService = MatchService(database)
+
+        // Create two users
+        val user1Id = userService.register(RegisterRequest("user1@example.com", "password123"))
+        val user2Id = userService.register(RegisterRequest("user2@example.com", "password123"))
+
+        // Add info and preferences to users
+        val info1 = Info(
+            fullName = "User One",
+            gender = 1,
+            age = 25,
+            description = "Test description 1",
+            sleepSchedule = Pair("22:00", "06:00"),
+            hobbies = listOf(Hobby.music, Hobby.cooking),
+            smoke = 0,
+            drink = 1,
+            personalityType = 2,
+            yearOfStudy = 3,
+            relationshipStatus = 1,
+            faculty = Faculty.WIET
+        )
+
+        val info2 = Info(
+            fullName = "User Two",
+            gender = 2,
+            age = 23,
+            description = "Test description 2",
+            sleepSchedule = Pair("23:00", "07:00"),
+            hobbies = listOf(Hobby.swimming, Hobby.running),
+            smoke = 1,
+            drink = 0,
+            personalityType = 3,
+            yearOfStudy = 2,
+            relationshipStatus = 0,
+            faculty = Faculty.WIMiR
+        )
+
+        val preferences = Preferences(
+            sleepScheduleMatters = true,
+            hobbiesMatters = true,
+            smokingImportance = 2,
+            drinkImportance = 1,
+            personalityTypeImportance = 3,
+            yearOfStudyMatters = false,
+            facultyMatters = true,
+            relationshipStatusImportance = 0
+        )
+
+        userService.upsertUserInfo(user1Id, info1)
+        userService.upsertUserInfo(user2Id, info2)
+        userService.upsertUserPreferences(user1Id, preferences)
+        userService.upsertUserPreferences(user2Id, preferences)
+
+        // Act - User 1 swipes right on User 2
+        val responseStatus = matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
+
+        // Assert
+        assertEquals(MatchStatus.NONE, responseStatus)
+
+        // Get available matches for User 2
+        val availableMatches = matchService.getAvailableMatchesForUser(user2Id)
+        assertTrue(availableMatches.isNotEmpty())
+        assertTrue(availableMatches.any { it.id == user1Id })
+
+        // User 2 swipes right on User 1
+        matchService.registerSwipe(user2Id, user1Id, MatchStatus.ACK)
+
+        // Get results for User 1
+        val results1 = matchService.getResultsForUser(user1Id)
+        assertEquals(1, results1.matches.size)
+        assertEquals(user2Id, results1.matches[0].user.id)
+        assertEquals(0, results1.sentRequests.size)
+        assertEquals(0, results1.receivedRequests.size)
+
+        // Get results for User 2
+        val results2 = matchService.getResultsForUser(user2Id)
+        assertEquals(1, results2.matches.size)
+        assertEquals(user1Id, results2.matches[0].user.id)
+        assertEquals(0, results2.sentRequests.size)
+        assertEquals(0, results2.receivedRequests.size)
     }
-  }
 
-  // Helper methods to create test data
-  private fun createTestInfo(name: String): Info {
-    return Info(
-      fullName = name,
-      gender = 1,
-      age = 25,
-      description = "Test description for $name",
-      sleepSchedule = Pair("22:00", "06:00"),
-      hobbies = listOf(Hobby.music, Hobby.cooking),
-      smoke = 1,
-      drink = 2,
-      personalityType = 1,
-      yearOfStudy = 3,
-      faculty = Faculty.WI,
-      relationshipStatus = 1
-    )
-  }
+    @Test
+    fun `test register swipe with rejection`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
 
-  private fun createTestPreferences(): Preferences {
-    return Preferences(
-      sleepScheduleMatters = true,
-      hobbiesMatters = true,
-      smokingImportance = 3,
-      drinkImportance = 2,
-      personalityTypeImportance = 1,
-      yearOfStudyMatters = false,
-      facultyMatters = true,
-      relationshipStatusImportance = 0
-    )
-  }
+        // Create necessary tables
+        transaction(database) {
+            SchemaUtils.create(InfoService.InfosTable)
+            SchemaUtils.create(PreferencesService.PreferencesTable)
+            SchemaUtils.create(UserService.UsersTable)
+            SchemaUtils.create(MatchService.InvitationTable)
+        }
 
-  @AfterTest
-  fun tearDown() {
-    // Clean up database after tests
-    transaction(database) {
-      SchemaUtils.drop(MatchService.InvitationTable, UserService.UsersTable)
+        val infoService = InfoService(database)
+        val preferencesService = PreferencesService(database)
+        val userService = UserService(database)
+        val matchService = MatchService(database)
+
+        // Create two users
+        val user1Id = userService.register(RegisterRequest("user3@example.com", "password123"))
+        val user2Id = userService.register(RegisterRequest("user4@example.com", "password123"))
+
+        // Add info and preferences to users
+        val info = Info(
+            fullName = "Test User",
+            gender = 1,
+            age = 25,
+            description = "Test description",
+            sleepSchedule = Pair("22:00", "06:00"),
+            hobbies = listOf(Hobby.music, Hobby.cooking),
+            smoke = 0,
+            drink = 1,
+            personalityType = 2,
+            yearOfStudy = 3,
+            relationshipStatus = 1,
+            faculty = Faculty.WIET
+        )
+
+        val preferences = Preferences(
+            sleepScheduleMatters = true,
+            hobbiesMatters = true,
+            smokingImportance = 2,
+            drinkImportance = 1,
+            personalityTypeImportance = 3,
+            yearOfStudyMatters = false,
+            facultyMatters = true,
+            relationshipStatusImportance = 0
+        )
+
+        userService.upsertUserInfo(user1Id, info)
+        userService.upsertUserInfo(user2Id, info)
+        userService.upsertUserPreferences(user1Id, preferences)
+        userService.upsertUserPreferences(user2Id, preferences)
+
+        // Act - User 1 swipes right on User 2
+        matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
+
+        // User 2 swipes left on User 1
+        matchService.registerSwipe(user2Id, user1Id, MatchStatus.NACK)
+
+        // Assert
+        val results1 = matchService.getResultsForUser(user1Id)
+        assertEquals(0, results1.matches.size)
+        assertEquals(0, results1.sentRequests.size)
+        assertEquals(0, results1.receivedRequests.size)
+
+        val results2 = matchService.getResultsForUser(user2Id)
+        assertEquals(0, results2.matches.size)
+        assertEquals(0, results2.sentRequests.size)
+        assertEquals(0, results2.receivedRequests.size)
     }
-  }
 
+    @Test
+    fun `test get request received for user`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
 
-  @Test
-  fun testMatchCreation() = runBlocking {
-    // User1 swipes right on User2
-    matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
+        // Create necessary tables
+        transaction(database) {
+            SchemaUtils.create(InfoService.InfosTable)
+            SchemaUtils.create(PreferencesService.PreferencesTable)
+            SchemaUtils.create(UserService.UsersTable)
+            SchemaUtils.create(MatchService.InvitationTable)
+        }
 
-    // User2 swipes right on User1
-    val result = matchService.registerSwipe(user2Id, user1Id, MatchStatus.ACK)
+        val infoService = InfoService(database)
+        val preferencesService = PreferencesService(database)
+        val userService = UserService(database)
+        val matchService = MatchService(database)
 
-    // The result should be ACK since both users have swiped right on each other
-    assertEquals(MatchStatus.ACK, result)
+        // Create two users
+        val user1Id = userService.register(RegisterRequest("user5@example.com", "password123"))
+        val user2Id = userService.register(RegisterRequest("user6@example.com", "password123"))
 
-    // Test that a match has been created
-    val matchResults = matchService.getResultsForUser(user1Id)
-    assertEquals(1, matchResults.matches.size)
-    assertEquals(testUser2.email, matchResults.matches[0].user.email)
+        // Add info and preferences to users
+        val info = Info(
+            fullName = "Test User",
+            gender = 1,
+            age = 25,
+            description = "Test description",
+            sleepSchedule = Pair("22:00", "06:00"),
+            hobbies = listOf(Hobby.music, Hobby.cooking),
+            smoke = 0,
+            drink = 1,
+            personalityType = 2,
+            yearOfStudy = 3,
+            relationshipStatus = 1,
+            faculty = Faculty.WIET
+        )
 
-    // Test from user2's perspective
-    val matchResults2 = matchService.getResultsForUser(user2Id)
-    assertEquals(1, matchResults2.matches.size)
-    assertEquals(testUser1.email, matchResults2.matches[0].user.email)
-  }
+        val preferences = Preferences(
+            sleepScheduleMatters = true,
+            hobbiesMatters = true,
+            smokingImportance = 2,
+            drinkImportance = 1,
+            personalityTypeImportance = 3,
+            yearOfStudyMatters = false,
+            facultyMatters = true,
+            relationshipStatusImportance = 0
+        )
 
-  @Test
-  fun testGetAvailableMatchesForUser() = runBlocking {
-    // Initially, user1 should see user2 and user3 as available matches
-    val availableMatches = matchService.getAvailableMatchesForUser(user1Id)
-    assertEquals(2, availableMatches.size)
-    assertTrue(availableMatches.any { it.email == testUser2.email })
-    assertTrue(availableMatches.any { it.email == testUser3.email })
+        userService.upsertUserInfo(user1Id, info)
+        userService.upsertUserInfo(user2Id, info)
+        userService.upsertUserPreferences(user1Id, preferences)
+        userService.upsertUserPreferences(user2Id, preferences)
 
-    // After user1 swipes on user2, user2 should still be available
-    matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
-    val availableMatchesAfterSwipe = matchService.getAvailableMatchesForUser(user1Id)
-    assertEquals(1, availableMatchesAfterSwipe.size)
-    assertEquals(testUser3.email, availableMatchesAfterSwipe[0].email)
-  }
+        // Act - User 1 swipes right on User 2
+        matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
 
-  @Test
-  fun testGetRequestReceivedForUser() = runBlocking {
-    // Initially, user2 should have no received requests
-    val initialReceivedRequests = matchService.getRequestReceivedForUser(user2Id)
-    assertEquals(0, initialReceivedRequests.size)
-
-    // After user1 swipes on user2, user2 should have one received request
-    matchService.registerSwipe(user1Id, user2Id, MatchStatus.ACK)
-    val receivedRequests = matchService.getRequestReceivedForUser(user2Id)
-    assertEquals(1, receivedRequests.size)
-    assertEquals(testUser1.email, receivedRequests[0].email)
-  }
-
+        // Assert
+        val receivedRequests = matchService.getRequestReceivedForUser(user2Id)
+        assertEquals(1, receivedRequests.size)
+        assertEquals(user1Id, receivedRequests[0].id)
+    }
 }

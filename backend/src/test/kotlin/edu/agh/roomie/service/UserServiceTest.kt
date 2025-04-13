@@ -1,240 +1,200 @@
-//package edu.agh.roomie.service
-//
-//import edu.agh.roomie.rest.model.*
-//import kotlinx.coroutines.runBlocking
-//import org.jetbrains.exposed.sql.Database
-//import org.jetbrains.exposed.sql.SchemaUtils
-//import org.jetbrains.exposed.sql.transactions.transaction
-//import kotlin.test.*
-//
-//class UserServiceTest {
-//  private lateinit var database: Database
-//  private lateinit var userService: UserService
-//  private lateinit var infoService: InfoService
-//  private lateinit var preferencesService: PreferencesService
-//
-//  @BeforeTest
-//  fun setUp() {
-//    // Set up an in-memory H2 database for testing
-//    database = Database.connect(
-//      url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-//      driver = "org.h2.Driver"
-//    )
-//
-//    // Initialize services
-//    infoService = InfoService(database)
-//    preferencesService = PreferencesService(database)
-//    userService = UserService(database)
-//  }
-//
-//  @AfterTest
-//  fun tearDown() {
-//    // Clean up database after tests
-//    transaction(database) {
-//      SchemaUtils.drop(UserService.UsersTable)
-//      SchemaUtils.drop(InfoService.InfosTable)
-//      SchemaUtils.drop(PreferencesService.PreferencesTable)
-//    }
-//  }
-//
-//  @Test
-//  fun testRegister() = runBlocking {
-//    // Given
-//    val email = "test@example.com"
-//    val password = "password123"
-//    val registerRequest = RegisterRequest(email, password)
-//
-//    // When
-//    val userId = userService.register(registerRequest)
-//
-//    // Then
-//    assertNotNull(userId, "User ID should not be null")
-//    assertTrue(userId > 0, "User ID should be positive")
-//
-//    // Verify user was created in the database
-//    transaction(database) {
-//      val user = UserService.UserEntity.findById(userId)
-//      assertNotNull(user, "User should exist in the database")
-//      assertEquals(email, user.email, "User email should match")
-//      // Password should be hashed, so we can't directly compare it
-//      assertNotEquals(password, user.password, "Password should be hashed")
-//    }
-//  }
-//
-//  @Test
-//  fun testAuthenticate() = runBlocking {
-//    // Given
-//    val email = "auth@example.com"
-//    val password = "securePassword"
-//    val registerRequest = RegisterRequest(email, password)
-//    val userId = userService.register(registerRequest)
-//
-//    // When
-//    val authenticatedUserId = userService.authenticate(email, password)
-//    val invalidPasswordResult = userService.authenticate(email, "wrongPassword")
-//    val nonExistentUserResult = userService.authenticate("nonexistent@example.com", password)
-//
-//    // Then
-//    assertEquals(userId, authenticatedUserId, "Authenticated user ID should match registered user ID")
-//    assertNull(invalidPasswordResult, "Authentication with wrong password should fail")
-//    assertNull(nonExistentUserResult, "Authentication with non-existent user should fail")
-//  }
-//
-//  @Test
-//  fun testGetUserById() = runBlocking {
-//    // Given
-//    val email = "getuser@example.com"
-//    val password = "password123"
-//    val registerRequest = RegisterRequest(email, password)
-//    val userId = userService.register(registerRequest)
-//
-//    // Create info and preferences for the user
-//    val info = createTestInfo()
-//    val preferences = createTestPreferences()
-//    userService.upsertUserInfo(userId, info)
-//    userService.upsertUserPreferences(userId, preferences)
-//
-//    // When
-//    val user = userService.getUserById(userId)
-//    val nonExistentUser = userService.getUserById(-1)
-//
-//    // Then
-//    assertNotNull(user, "User should be found")
-//    assertEquals(email, user.email, "User email should match")
-//    assertNull(nonExistentUser, "Non-existent user should not be found")
-//  }
-//
-//  @Test
-//  fun testUpsertUserInfoAndPreferences() = runBlocking {
-//    // Given
-//    val email = "additionaldata@example.com"
-//    val password = "password123"
-//    val registerRequest = RegisterRequest(email, password)
-//    val userId = userService.register(registerRequest)
-//
-//    val info = createTestInfo()
-//    val preferences = createTestPreferences()
-//
-//    // When
-//    userService.upsertUserInfo(userId, info)
-//    userService.upsertUserPreferences(userId, preferences)
-//
-//    // Then
-//    val user = userService.getUserById(userId)
-//    assertNotNull(user, "User should be found")
-//    assertEquals(email, user.email, "User email should match")
-//
-//    // Verify info
-//    assertEquals(info.age, user.info.age, "User age should match")
-//    assertEquals(info.description, user.info.description, "User description should match")
-//    assertEquals(info.sleepSchedule, user.info.sleepSchedule, "User sleep schedule should match")
-//    assertEquals(info.faculty, user.info.faculty, "User faculty should match")
-//
-//    // Verify preferences
-//    assertEquals(
-//      preferences.sleepScheduleMatters,
-//      user.preferences.sleepScheduleMatters,
-//      "Sleep schedule preference should match"
-//    )
-//    assertEquals(preferences.hobbiesMatters, user.preferences.hobbiesMatters, "Hobbies preference should match")
-//    assertEquals(preferences.smokingImportance, user.preferences.smokingImportance, "Smoking importance should match")
-//    assertEquals(preferences.drinkImportance, user.preferences.drinkImportance, "Drink importance should match")
-//  }
-//
-//  // Helper methods to create test data
-//  private fun createTestInfo(): Info {
-//    return Info(
-//      fullName = "Test User",
-//      gender = 1,
-//      age = 25,
-//      description = "Test description",
-//      sleepSchedule = Pair("22:00", "06:00"),
-//      hobbies = listOf(Hobby.music, Hobby.cooking),
-//      smoke = 1,
-//      drink = 2,
-//      personalityType = 1,
-//      yearOfStudy = 3,
-//      faculty = Faculty.WI,
-//      relationshipStatus = 1
-//    )
-//  }
-//
-//  private fun createTestPreferences(): Preferences {
-//    return Preferences(
-//      sleepScheduleMatters = true,
-//      hobbiesMatters = true,
-//      smokingImportance = 3,
-//      drinkImportance = 2,
-//      personalityTypeImportance = 1,
-//      yearOfStudyMatters = false,
-//      facultyMatters = true,
-//      relationshipStatusImportance = 0
-//    )
-//  }
-//
-//  @Test
-//  fun testRemoveUser() = runBlocking {
-//    // Given
-//    val email = "delete@example.com"
-//    val password = "password123"
-//    val registerRequest = RegisterRequest(email, password)
-//    val userId = userService.register(registerRequest)
-//
-//    // Add info and preferences to the user
-//    val info = createTestInfo()
-//    val preferences = createTestPreferences()
-//    userService.upsertUserInfo(userId, info)
-//    userService.upsertUserPreferences(userId, preferences)
-//
-//    // Verify user exists before deletion
-//    val userBeforeDeletion = userService.getUserById(userId)
-//    assertNotNull(userBeforeDeletion, "User should exist before deletion")
-//
-//    // When
-//    userService.removeUser(userId)
-//
-//    // Then
-//    val userAfterDeletion = userService.getUserById(userId)
-//    assertNull(userAfterDeletion, "User should not exist after deletion")
-//  }
-//
-//  @Test
-//  fun testRemoveUserWithAdditionalData() = runBlocking {
-//    // Given
-//    val email = "deletewithadditionaldata@example.com"
-//    val password = "password123"
-//    val registerRequest = RegisterRequest(email, password)
-//    val userId = userService.register(registerRequest)
-//
-//    // Add additional data
-//    val info = createTestInfo()
-//    val preferences = createTestPreferences()
-//    userService.upsertUserInfo(userId, info)
-//    userService.upsertUserPreferences(userId, preferences)
-//
-//    // Verify user and additional data exist before deletion
-//    val userBeforeDeletion = userService.getUserById(userId)
-//    assertNotNull(userBeforeDeletion, "User should exist before deletion")
-//    assertNotNull(userBeforeDeletion.info, "User info should exist before deletion")
-//    assertNotNull(userBeforeDeletion.preferences, "User preferences should exist before deletion")
-//
-//    // When
-//    userService.removeUser(userId)
-//
-//    // Then
-//    val userAfterDeletion = userService.getUserById(userId)
-//    assertNull(userAfterDeletion, "User should not exist after deletion")
-//  }
-//
-//  @Test
-//  fun testRemoveNonExistentUser() = runBlocking {
-//    // Given
-//    val nonExistentUserId = -1
-//
-//    // When/Then
-//    val exception = assertFailsWith<IllegalStateException> {
-//      userService.removeUser(nonExistentUserId)
-//    }
-//    assertEquals("User with id $nonExistentUserId not found", exception.message)
-//  }
-//}
+package edu.agh.roomie.service
+
+import edu.agh.roomie.TestUtils
+import edu.agh.roomie.rest.model.*
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.test.*
+
+class UserServiceTest {
+
+    @Test
+    fun `test user service initialization`() {
+        // Arrange & Act
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+
+        // Assert - if no exception is thrown, the initialization was successful
+        assertNotNull(userService)
+    }
+
+    @Test
+    fun `test register and authenticate user`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+        val email = "test@example.com"
+        val password = "password123"
+
+        // Act
+        val userId = userService.register(RegisterRequest(email, password))
+        val authenticatedUserId = userService.authenticate(email, password)
+
+        // Assert
+        assertNotNull(userId)
+        assertEquals(userId, authenticatedUserId)
+    }
+
+    @Test
+    fun `test authenticate with wrong password`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+        val email = "test2@example.com"
+        val password = "password123"
+
+        // Act
+        userService.register(RegisterRequest(email, password))
+        val authenticatedUserId = userService.authenticate(email, "wrongpassword")
+
+        // Assert
+        assertNull(authenticatedUserId)
+    }
+
+    @Test
+    fun `test get user by id`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+        val email = "test3@example.com"
+        val password = "password123"
+
+        // Act
+        val userId = userService.register(RegisterRequest(email, password))
+        val user = userService.getUserById(userId)
+
+        // Assert
+        assertNotNull(user)
+        assertEquals(email, user.email)
+    }
+
+    @Test
+    fun `test upsert user info`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        transaction(database) {
+            SchemaUtils.create(InfoService.InfosTable)
+        }
+        val infoService = InfoService(database)
+        val userService = UserService(database)
+        val email = "test4@example.com"
+        val password = "password123"
+        val userId = userService.register(RegisterRequest(email, password))
+
+        val info = Info(
+            fullName = "John Doe",
+            gender = 1,
+            age = 25,
+            description = "Test description",
+            sleepSchedule = Pair("22:00", "06:00"),
+            hobbies = listOf(Hobby.music, Hobby.cooking),
+            smoke = 0,
+            drink = 1,
+            personalityType = 2,
+            yearOfStudy = 3,
+            relationshipStatus = 1,
+            faculty = Faculty.WIET
+        )
+
+        // Act
+        userService.upsertUserInfo(userId, info)
+        val user = userService.getUserById(userId)
+
+        // Assert
+        assertNotNull(user)
+        assertNotNull(user.info)
+        assertEquals("John Doe", user.info?.fullName)
+        assertEquals(1, user.info?.gender)
+        assertEquals(25, user.info?.age)
+        assertEquals("Test description", user.info?.description)
+        assertEquals("22:00", user.info?.sleepSchedule?.first)
+        assertEquals("06:00", user.info?.sleepSchedule?.second)
+        assertEquals(2, user.info?.hobbies?.size)
+        assertEquals(Hobby.music, user.info?.hobbies?.get(0))
+        assertEquals(Hobby.cooking, user.info?.hobbies?.get(1))
+        assertEquals(0, user.info?.smoke)
+        assertEquals(1, user.info?.drink)
+        assertEquals(2, user.info?.personalityType)
+        assertEquals(3, user.info?.yearOfStudy)
+        assertEquals(1, user.info?.relationshipStatus)
+        assertEquals(Faculty.WIET, user.info?.faculty)
+    }
+
+    @Test
+    fun `test upsert user preferences`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        transaction(database) {
+            SchemaUtils.create(PreferencesService.PreferencesTable)
+        }
+        val preferencesService = PreferencesService(database)
+        val userService = UserService(database)
+        val email = "test5@example.com"
+        val password = "password123"
+        val userId = userService.register(RegisterRequest(email, password))
+
+        val preferences = Preferences(
+            sleepScheduleMatters = true,
+            hobbiesMatters = true,
+            smokingImportance = 2,
+            drinkImportance = 1,
+            personalityTypeImportance = 3,
+            yearOfStudyMatters = false,
+            facultyMatters = true,
+            relationshipStatusImportance = 0
+        )
+
+        // Act
+        userService.upsertUserPreferences(userId, preferences)
+        val user = userService.getUserById(userId)
+
+        // Assert
+        assertNotNull(user)
+        assertNotNull(user.preferences)
+        assertEquals(true, user.preferences?.sleepScheduleMatters)
+        assertEquals(true, user.preferences?.hobbiesMatters)
+        assertEquals(2, user.preferences?.smokingImportance)
+        assertEquals(1, user.preferences?.drinkImportance)
+        assertEquals(3, user.preferences?.personalityTypeImportance)
+        assertEquals(false, user.preferences?.yearOfStudyMatters)
+        assertEquals(true, user.preferences?.facultyMatters)
+        assertEquals(0, user.preferences?.relationshipStatusImportance)
+    }
+
+    @Test
+    fun `test remove user`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+        val email = "test6@example.com"
+        val password = "password123"
+        val userId = userService.register(RegisterRequest(email, password))
+
+        // Act
+        userService.removeUser(userId)
+        val user = userService.getUserById(userId)
+
+        // Assert
+        assertNull(user)
+    }
+
+    @Test
+    fun `test get all users`() {
+        // Arrange
+        val database = TestUtils.createTestDatabase()
+        val userService = UserService(database)
+        val email1 = "test7@example.com"
+        val email2 = "test8@example.com"
+        val password = "password123"
+
+        // Act
+        userService.register(RegisterRequest(email1, password))
+        userService.register(RegisterRequest(email2, password))
+        val users = userService.getAllUsers()
+
+        // Assert
+        assertTrue(users.size >= 2)
+        assertTrue(users.any { it.email == email1 })
+        assertTrue(users.any { it.email == email2 })
+    }
+}

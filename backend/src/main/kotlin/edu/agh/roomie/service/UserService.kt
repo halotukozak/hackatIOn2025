@@ -19,9 +19,7 @@ class UserService(database: Database) {
     return hash.joinToString("") { "%02x".format(it) }
   }
 
-  private fun verifyPassword(password: String, hashedPassword: String): Boolean {
-    return hashPassword(password) == hashedPassword
-  }
+  private fun verifyPassword(password: String, hashedPassword: String): Boolean = hashPassword(password) == hashedPassword
 
   class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserEntity>(UsersTable) {
@@ -62,7 +60,6 @@ class UserService(database: Database) {
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
     } else {
-      println("Authentication failed for user: $email")
       null
     }
   }
