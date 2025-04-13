@@ -52,7 +52,7 @@ export default function StepThree({ form, onChange, onNext, onBack }: StepThreeP
                     max={100}
                     value={form.personality}
                     onChange={(e) => onChange("personality", Number(e.target.value))}
-                    className="range [--range-fill:0]"
+                    className="range [--range-fill:0] text-primary"
                 />
                 <div className="w-full flex justify-between text-xs px-1">
                     <span>Introvert</span>
