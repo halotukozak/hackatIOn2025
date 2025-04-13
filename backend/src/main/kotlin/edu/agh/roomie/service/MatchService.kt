@@ -1,6 +1,7 @@
 package edu.agh.roomie.service
 
 import edu.agh.roomie.rest.model.*
+import edu.agh.roomie.rest.model.CostFunction.Companion.countScore
 import edu.agh.roomie.service.UserService.UsersTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
