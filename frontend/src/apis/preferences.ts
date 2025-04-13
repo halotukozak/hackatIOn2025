@@ -46,10 +46,10 @@ export async function setInfo(form: {
         relationshipStatus: +form.relationship
     }
 
-    const res = await fetch("http://localhost:8080/registration/additional-data", {
+    const res = await fetch("http://localhost:8080/registration/additional-info", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(info),
+        body: JSON.stringify({userId: 13, info: info}),
     });
 
     if (!res.ok) {
@@ -78,10 +78,10 @@ export async function setPreferences(form: {
         relationshipStatusImportance: form.relationshipPreference ? +form.relationshipPreference : null
     }
 
-    const res = await fetch("http://localhost:8080/registration/additional-info", {
+    const res = await fetch("http://localhost:8080/registration/additional-preferences", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(preferences),
+        body: JSON.stringify({userId: 13, preferences: preferences}),
     });
 
     if (!res.ok) {

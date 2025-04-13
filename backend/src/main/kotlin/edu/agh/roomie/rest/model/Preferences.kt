@@ -17,7 +17,7 @@ data class Preferences(
   init {
     smokingImportance?.let { require(it in 0..3) { "smokingImportance must be between 0 and 2" } }
     drinkImportance?.let { require(it in 0..3) { "drinkImportance must be between 0 and 2" } }
-    personalityTypeImportance?.let { require(it in 0..3) { "personalityTypeImportance must be between 0 and 2" } }
+    personalityTypeImportance?.let { require(it in 0..101) { "personalityTypeImportance must be between 0 and 100" } }
     relationshipStatusImportance?.let { require(it in 0..3) { "relationshipStatusImportance must be between 0 and 2" } }
   }
 }
