@@ -1,7 +1,7 @@
 import React from "react";
 import {XMarkIcon, HeartIcon} from "@heroicons/react/24/solid";
 import {
-  User,
+  UserShow,
   smokeLabels,
   drinkLabels,
   personalityLabels,
@@ -9,7 +9,7 @@ import {
 import {MatchStatus} from "./types/match.ts";
 
 type UserDetailModalProps = {
-  user: User;
+  user: UserShow;
   isOpen: boolean;
   onClose: () => void;
   match: MatchStatus;

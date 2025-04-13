@@ -1,16 +1,28 @@
 import ListComponent from "./ListComponent.tsx";
 import {
-  User,
+  UserShow,
   Smoke,
   Drink,
   PersonalityType,
   RelationshipStatus,
 } from "./types/user";
 import Navbar from "./Navbar";
-import {MatchStatus} from "./types/match.ts";
+import { MatchStatus } from "./types/match.ts";
+import { Preferences } from "./rest/model";
 
-const user1: User = {
-  name: "Emmalongname",
+const mockPref: Preferences = {
+  sleepScheduleMatters: false,
+  hobbiesMatters: false,
+  smokingImportance: 1,
+  drinkImportance: 1,
+  personalityTypeImportance: 1,
+  yearOfStudyMatters: false,
+  facultyMatters: false,
+  relationshipStatusImportance: 1,
+};
+
+const user1: UserShow = {
+  name: "Emma",
   surname: "Johnson",
   email: "emma@example.com",
   age: 21,
@@ -26,9 +38,10 @@ const user1: User = {
     faculty: "Psychology",
     relationshipStatus: RelationshipStatus.Single,
   },
+  preferences: mockPref,
 };
 
-const user2: User = {
+const user2: UserShow = {
   name: "Emma2",
   surname: "Johnson",
   email: "emma@example.com",
@@ -45,6 +58,7 @@ const user2: User = {
     faculty: "Psychology",
     relationshipStatus: RelationshipStatus.Single,
   },
+  preferences: mockPref,
 };
 
 export default function DiscoverPage() {
@@ -57,11 +71,12 @@ export default function DiscoverPage() {
         </h1>
       </div>
       <div className="flex flex-col justify-center px-2 space-y-4">
-        <ListComponent user={user2} match={MatchStatus.View}/>
-        <ListComponent user={user1} match={MatchStatus.View}/>
-        <ListComponent user={user1} match={MatchStatus.View}/>
-        <ListComponent user={user2} match={MatchStatus.View}/>
-        <ListComponent user={user1} match={MatchStatus.View}/>
+        {" "}
+        <ListComponent user={user2} match={MatchStatus.View} />
+        <ListComponent user={user1} match={MatchStatus.View} />
+        <ListComponent user={user1} match={MatchStatus.View} />
+        <ListComponent user={user2} match={MatchStatus.View} />
+        <ListComponent user={user1} match={MatchStatus.View} />
       </div>
     </div>
   );
