@@ -29,8 +29,9 @@ export async function setInfo(form: {
     relationship: string
 }): Promise<void> {
     const info: Info = {
-        full_name: form.fullName,
-        age: parseInt(form.age),
+        fullName: form.fullName,
+        gender: +form.gender,
+        age: +form.age,
         description: form.lifestyleBio,
         sleepSchedule: {
             first: form.sleepFrom,
