@@ -20,9 +20,9 @@ export default function MatchesPage() {
       const [fetchMatches, fetchSend, fetchReceived] = await getAllMatches(
         Number(userId)
       );
-      setReceivedList(fetchMatches);
+      setReceivedList(fetchReceived);
       setSendList(fetchSend);
-      setMatchList(fetchReceived);
+      setMatchList(fetchMatches);
     } catch (err) {
       setError("Failed to load user");
       console.error(err);
