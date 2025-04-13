@@ -12,6 +12,7 @@ object FakeUserGenerator {
         val lastName = faker.name.lastName()
 
         return User(
+            id = userId,
             email = "${firstName.lowercase()}.${lastName.lowercase()}$userId@example.com",
             info = generateFakeInfo(),
             preferences = generateFakePreferences()
