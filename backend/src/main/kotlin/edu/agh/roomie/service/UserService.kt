@@ -50,14 +50,14 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun register(request: RegisterRequest) = dbQuery {
+  suspend fun register(request: RegisterRequest) = transaction {
     UserEntity.new {
       this.email = request.email
       this.password = hashPassword(request.password)
     }.id.value
   }
 
-  suspend fun authenticate(email: String, password: String): Int? = dbQuery {
+  suspend fun authenticate(email: String, password: String): Int? = transaction {
     val user = UserEntity.findByEmail(email)
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
@@ -66,13 +66,12 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun getUserById(id: Int): User? = dbQuery {
+  suspend fun getUserById(id: Int): User? = transaction {
     UserEntity.findById(id)?.toShared()
   }
 
-  suspend fun upsertUserInfo(id: Int, info: Info) = dbQuery {
+  suspend fun upsertUserInfo(id: Int, info: Info) = transaction {
     UserEntity.findByIdAndUpdate(id) { user ->
-      user.info?.delete()
       user.info = InfoService.InfoEntity.new {
         this.fullName = info.fullName
         this.gender = info.gender
@@ -91,9 +90,8 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun upsertUserPreferences(id: Int, preferences: Preferences) = dbQuery {
+  suspend fun upsertUserPreferences(id: Int, preferences: Preferences) = transaction {
     UserEntity.findByIdAndUpdate(id) { user ->
-      user.preferences?.delete()
       user.preferences = PreferencesService.PreferencesEntity.new {
         this.sleepScheduleMatters = preferences.sleepScheduleMatters
         this.hobbiesMatters = preferences.hobbiesMatters
@@ -107,11 +105,11 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun removeUser(id: Int) = dbQuery {
+  suspend fun removeUser(id: Int) = transaction {
     UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 
-  suspend fun getAllUsers() = dbQuery {
+  suspend fun getAllUsers() = transaction {
     UserEntity.all().map { it.toShared() }
   }
 }
