@@ -156,10 +156,6 @@ export default function ProfilePage() {
           <h2 className="font-semibold mb-2">Lifestyle</h2>
           <div className="grid grid-cols-2 gap-y-2 text-sm text-gray-700">
             <div>
-              <span className="font-semibold block">Relationship</span>
-              {relationshipLabels[user!.info.relationshipStatus]}
-            </div>
-            <div>
               <span className="font-semibold block">Sleep Schedule</span>
               {user!.info.sleepSchedule[0]} - {user!.info.sleepSchedule[1]}
             </div>
@@ -174,6 +170,10 @@ export default function ProfilePage() {
             <div>
               <span className="font-semibold block">Drinking</span>
               {drinkLabels[user!.info.drink]}
+            </div>
+            <div>
+              <span className="font-semibold block">Relationship</span>
+              {relationshipLabels[user!.info.relationshipStatus]}
             </div>
           </div>
         </div>
@@ -205,19 +205,19 @@ export default function ProfilePage() {
             </div>
             <div>
               <span className="font-semibold block">Smoking Compability</span>
-              {preferenceScale(user!.preferences.smokingImportance)}
+              {preferenceScale(user!.preferences!.smokingImportance!)}
             </div>
             <div>
               <span className="font-semibold block">Drinking Compability</span>
-              {preferenceScale(user!.preferences.drinkImportance)}
+              {preferenceScale(user!.preferences.drinkImportance!)}
             </div>
             <div>
               <span className="font-semibold block">Drinking Compability</span>
-              {preferenceScale(user!.preferences.drinkImportance)}
+              {preferenceScale(user!.preferences.drinkImportance!)}
             </div>
             <div>
               <span className="font-semibold block">Same Vibe</span>
-              {preferenceScale(user!.preferences.personalityTypeImportance)}
+              {preferenceScale(user!.preferences.personalityTypeImportance!)}
             </div>
             <div>
               <span className="font-semibold block">Same Year</span>
@@ -231,7 +231,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <span className="font-semibold block">Relationship Status</span>
-              {preferenceScale(user!.preferences.relationshipStatusImportance)}
+              {preferenceScale(user!.preferences.relationshipStatusImportance!)}
             </div>
           </div>
         </div>
