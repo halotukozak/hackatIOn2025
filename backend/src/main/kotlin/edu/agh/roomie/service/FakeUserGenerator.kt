@@ -28,7 +28,7 @@ object FakeUserGenerator {
 
         return Info(
             fullName = faker.name.firstName() + " " + faker.name.lastName(),
-            gender = Random.nextInt(1, 3),
+            gender = 1,
             age = Random.nextInt(18, 30),
             description = List(Random.nextInt(2, 5)) { faker.lorem.words() }.joinToString(" "),
             sleepSchedule = Pair(generateFakeStartTime(), generateFakeEndTime()),
