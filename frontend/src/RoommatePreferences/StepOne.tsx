@@ -56,7 +56,7 @@ export default function StepOne({ form, onChange, onNext }: StepOneProps) {
                     <input
                         type="checkbox"
                         className="checkbox"
-                        checked={form.matchSleepSchedule}
+                        checked={form.matchHobbies}
                         onChange={(e) => onChange("matchHobbies", e.target.checked)}
                     />
                 </label>
