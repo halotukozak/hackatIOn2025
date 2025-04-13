@@ -15,7 +15,7 @@ Podczas retrospekcji poruszone zostały następujące tematy:
    Mniej doświadczone osoby miały możliwość uczenia się nowych technologii w praktyce. 
 
 5. **Leadership ze strony bardziej doświadczonych osób**  
-   Liderzy techniczni potrafili skutecznie pokierować pracami i doradzić gdy osoby potrafiejące mniej miały problemy.
+   Liderzy techniczni potrafili skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
 
 6. **Estetyczny i funkcjonalny frontend**  
    Interfejs użytkownika został dopracowany zarówno wizualnie, jak i pod kątem użyteczności.
