@@ -3,10 +3,33 @@ import { CheckIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { personalityLabels, UserShow } from "./types/user";
 import UserDetailModal from "./UserDetailModal.tsx";
 import { MatchStatus } from "./types/match.ts";
+import { swipeAck, swipeNack } from "./apis/matches.ts";
 
 type ViewProps = {
   user: UserShow;
   match: MatchStatus;
+};
+
+const handleAck = async (candidate_id: number) => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) throw new Error("User ID not found");
+    await swipeAck(Number(userId), candidate_id);
+  } catch (err) {
+    console.error("Failed to send accept request:", err);
+    alert("Something went wrong while send accept.");
+  }
+};
+
+const handleNack = async (candidate_id: number) => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) throw new Error("User ID not found");
+    await swipeNack(Number(userId), candidate_id);
+  } catch (err) {
+    console.error("Failed to send accept request:", err);
+    alert("Something went wrong while send accept.");
+  }
 };
 
 const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
@@ -36,7 +59,7 @@ const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
             </div>
           </div>
           <div className="badge whitespace-nowrap text-nowrap bg-green-200 text-green-700 justify-end">
-            87% Match
+            {user.match}% Match
           </div>
         </div>
 
@@ -54,7 +77,7 @@ const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  console.log("Decline");
+                  handleNack(user.id);
                 }}
                 className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500"
               >
@@ -63,7 +86,7 @@ const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  console.log("Accept");
+                  handleAck(user.id);
                 }}
                 className="btn btn-circle btn-success text-white"
               >

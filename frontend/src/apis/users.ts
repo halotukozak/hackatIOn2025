@@ -5,7 +5,7 @@ import {
   Smoke,
   RelationshipStatus,
 } from "../types/user";
-import { User } from "../rest/model";
+import { User, Match } from "../rest/model";
 import {base_url} from "./base.ts";
 
 // Convert backend raw user data to strongly typed User object
@@ -27,13 +27,14 @@ export function parsePersonalityType(personalityType: number): PersonalityType {
   return PersonalityType.Extraverted;
 }
 
-export function parseUserFromBackend(raw: User): UserShow {
+export function parseUserFromBackend(raw: User, score: number=100): UserShow {
   return {
     id: raw.id,
     email: raw.email,
     name: raw.info.fullName.split(" ")[0],
     surname: raw.info.fullName.split(" ")[1],
     age: raw.info.age,
+    match: score,
     info: {
       description: raw.info.description,
       sleepSchedule: [
@@ -69,16 +70,50 @@ export const getUserById = async (userId: number): Promise<UserShow> => {
   }
 };
 
-export const getAllUsers = async (): Promise<UserShow[]> => {
+export const getAllUsers = async (userId: number): Promise<UserShow[]> => {
   try {
-    const res = await fetch(base_url() + "/users");
+    const res = await fetch(base_url() + `/user/${userId}/discover`);
 
     if (!res.ok) {
       throw new Error(`Failed to fetch users: ${res.status}`);
     }
 
-    const rawUsers: User[] = await res.json();
-    return rawUsers.map(parseUserFromBackend);
+    const rawMatch: Match[] = await res.json();
+    return rawMatch.map((match) =>
+        parseUserFromBackend(match.user, match.score)
+    );
+  } catch (error) {
+    console.error("Error in getAllUsers:", error);
+    throw error;
+  }
+};
+
+export interface MatchResultResponse {
+  matches: Match[];
+  sentRequests: Match[];
+  receivedRequests: Match[];
+}
+
+export const getAllMatches = async (userId: number): Promise<UserShow[][]> => {
+  try {
+    const res = await fetch(base_url() + `/user/${userId}/matches`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch users: ${res.status}`);
+    }
+
+    const rawMatch: MatchResultResponse = await res.json();
+    const rawMatches: Match[] = rawMatch.matches;
+    const rawSend: Match[] = rawMatch.sentRequests;
+    const rawReceived: Match[] = rawMatch.receivedRequests;
+    return [rawMatches.map((match) =>
+        parseUserFromBackend(match.user, match.score)),
+      rawSend.map((match) =>
+          parseUserFromBackend(match.user, match.score)),
+      rawReceived.map((match) =>
+          parseUserFromBackend(match.user, match.score)),
+    ]
+        ;
   } catch (error) {
     console.error("Error in getAllUsers:", error);
     throw error;

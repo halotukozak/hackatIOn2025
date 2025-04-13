@@ -1,12 +1,14 @@
 import React from "react";
-import {XMarkIcon, HeartIcon} from "@heroicons/react/24/solid";
+import { XMarkIcon, HeartIcon } from "@heroicons/react/24/solid";
 import {
   UserShow,
   smokeLabels,
   drinkLabels,
-  personalityLabels, relationshipLabels,
+  personalityLabels,
+  relationshipLabels,
 } from "./types/user";
-import {MatchStatus} from "./types/match.ts";
+import { MatchStatus } from "./types/match.ts";
+import { swipeAck, swipeNack } from "./apis/matches.ts";
 
 type UserDetailModalProps = {
   user: UserShow;
@@ -15,11 +17,35 @@ type UserDetailModalProps = {
   match: MatchStatus;
 };
 
+const handleAck = async (candidate_id: number) => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) throw new Error("User ID not found");
+    await swipeAck(Number(userId), candidate_id);
+
+    // navigate("/");
+  } catch (err) {
+    console.error("Failed to send accept request:", err);
+    alert("Something went wrong while send accept.");
+  }
+};
+
+const handleNack = async (candidate_id: number) => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) throw new Error("User ID not found");
+    await swipeNack(Number(userId), candidate_id);
+  } catch (err) {
+    console.error("Failed to send accept request:", err);
+    alert("Something went wrong while send accept.");
+  }
+};
+
 const UserDetailModal: React.FC<UserDetailModalProps> = ({
   user,
   isOpen,
   onClose,
-    match,
+  match,
 }) => {
   if (!isOpen) return null;
 
@@ -37,7 +63,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             </p>
           </div>
           <span className="bg-green-200 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-            87% Match
+            {user.match}% Match
           </span>
         </div>
 
@@ -70,7 +96,9 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
           </div>
           <div>
             <p className="font-semibold">Relationship</p>
-            <p className="text-gray-600">{relationshipLabels[user.info.relationshipStatus]}</p>
+            <p className="text-gray-600">
+              {relationshipLabels[user.info.relationshipStatus]}
+            </p>
           </div>
         </div>
 
@@ -94,14 +122,20 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
         {/* Action Buttons */}
         {match === MatchStatus.View && (
-            <div className="flex justify-center gap-6 mt-4">
-              <button className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500">
-                <XMarkIcon className="h-6 w-6  hover:text-red-500" />
-              </button>
-              <button className="btn btn-circle btn-success text-white">
-                <HeartIcon className="h-6 w-6 text-white-500" />
-              </button>
-            </div>
+          <div className="flex justify-center gap-6 mt-4">
+            <button
+              className="btn btn-circle btn-outline text-red-500 border-red-300 hover:border-red-500"
+              onClick={() => handleNack(user.id)}
+            >
+              <XMarkIcon className="h-6 w-6  hover:text-red-500" />
+            </button>
+            <button
+              className="btn btn-circle btn-success text-white"
+              onClick={() => handleAck(user.id)}
+            >
+              <HeartIcon className="h-6 w-6 text-white-500" />
+            </button>
+          </div>
         )}
 
         <div className="flex justify-center mt-6">

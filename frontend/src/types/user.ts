@@ -42,6 +42,7 @@ export interface UserShow {
   id: number;
   name: string;
   surname: string;
+  match: number;
   email: string;
   age: number;
   info: Info;

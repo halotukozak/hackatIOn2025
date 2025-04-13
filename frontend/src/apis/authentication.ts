@@ -1,4 +1,4 @@
-import {base_url} from "./base.ts";
+import { base_url } from "./base.ts";
 
 export async function register(email: string, password: string): Promise<void> {
   const res = await fetch(base_url() + "/auth/register", {
@@ -31,15 +31,6 @@ export async function login(email: string, password: string): Promise<void> {
 }
 
 export async function logout(): Promise<void> {
-  const res = await fetch(base_url() + "/auth/logout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) {
-    throw new Error("Logout failed");
-  }
-
   localStorage.removeItem("user_id");
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { deleteAccount } from "./apis/authentication";
+import { deleteAccount, logout } from "./apis/authentication";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
@@ -75,6 +75,11 @@ export default function ProfilePage() {
     }
   };
 
+  const handleLogOut = async () => {
+    await logout();
+    navigate("/");
+  };
+
   useEffect(() => {
     if (!userId) {navigate("/"); return;}
     else{
@@ -100,16 +105,16 @@ export default function ProfilePage() {
   if (!userId)  return null;
   if (loading)
     return (
-      <div>
+      <div className="min-h-screen bg-base-200">
         <Navbar />
-        <p className="text-gray-700 text-sm">Loading...</p>
+        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">Loading...</p>
       </div>
     );
   if (error)
     return (
-      <div>
+      <div className="min-h-screen bg-base-200">
         <Navbar />
-        <p className="text-gray-700 text-sm">{error}</p>
+        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">{error}</p>
       </div>
     );
   return (
@@ -246,8 +251,13 @@ export default function ProfilePage() {
               Edit Profile
             </button>
           </Link>
+
+          <button className="btn btn-warning text-white" onClick={handleLogOut}>
+            Log Out
+          </button>
+
           <button
-            className="btn btn-error text-white"
+            className="btn btn-error text-white bg-red"
             onClick={handleDeactivate}
           >
             Deactivate
