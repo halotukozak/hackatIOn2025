@@ -1,10 +1,9 @@
 package edu.agh.roomie.rest.endpoints
 
 import edu.agh.roomie.rest.Dependencies
-import edu.agh.roomie.rest.model.AuthResponse
-import edu.agh.roomie.rest.model.Departament
+import edu.agh.roomie.rest.model.AdditionalInfoRequest
+import edu.agh.roomie.rest.model.Faculties
 import edu.agh.roomie.rest.model.Hobby
-import edu.agh.roomie.rest.model.RegisterRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -16,10 +15,24 @@ fun Application.configureInitialRouting() {
   routing {
     route("/registration") {
       get("/available-hobbies") {
-        call.respond(HttpStatusCode.OK, Hobby.entries)
+        call.respond(HttpStatusCode.OK, Hobby.entries.toList())
       }
       get("/available-departments") {
-        call.respond(HttpStatusCode.OK, Departament.entries)
+        call.respond(HttpStatusCode.OK, Faculties.all)
+      }
+
+      post("/additional-data") {
+        val additionalInfoRequest = call.receive<AdditionalInfoRequest>()
+        val userId = additionalInfoRequest.userId
+        userService.createUserAdditionalData(
+          userId,
+          additionalInfoRequest.info,
+          additionalInfoRequest.preferences,
+        )?.let {
+          call.respond(HttpStatusCode.OK, "User additional data updated successfully")
+        } ?: run {
+          call.respond(HttpStatusCode.BadRequest, "Failed to update user additional data")
+        }
       }
     }
   }

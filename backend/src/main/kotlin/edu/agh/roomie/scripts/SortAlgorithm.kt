@@ -1,12 +1,18 @@
 package edu.agh.roomie.scripts
 
-import org.jetbrains.exposed.sql.Database
+import edu.agh.roomie.rest.model.User
 
 class SortAlgorithm {
     companion object {
 
-        fun getList(userID: Int, database: Database): List<Int> {
+        fun sortUsers(user: User, users: List<User>): List<Pair<User, Double>> {
+            return users
+                .map { otherUser -> otherUser to CostFunction.calculateCost(user, otherUser) }
+                .sortedBy { it.second }
+        }
 
+        fun getList(user: User, others: List<User>): List<Pair<User, Double>> {
+            return sortUsers(user, others)
         }
     }
 
