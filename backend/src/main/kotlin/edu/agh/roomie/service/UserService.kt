@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.security.MessageDigest
 
 class UserService(database: Database) {
-  private fun hashPassword(password: String): String {
+  fun hashPassword(password: String): String {
     val md = MessageDigest.getInstance("SHA-256")
     val hash = md.digest(password.toByteArray())
     return hash.joinToString("") { "%02x".format(it) }
@@ -62,6 +62,7 @@ class UserService(database: Database) {
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
     } else {
+      println("Authentication failed for user: $email")
       null
     }
   }
