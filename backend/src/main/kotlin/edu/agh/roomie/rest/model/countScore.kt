@@ -13,7 +13,8 @@ class CostFunction {
 
         fun countScore(user: User, other: User): Int {
             var totalCost = 0.0
-            val defaultAddCost = MAX_VALUE / (countImportantPreferences(user.preferences))
+            val importantPreferencesCount = countImportantPreferences(user.preferences)
+            val defaultAddCost = MAX_VALUE / if (importantPreferencesCount == 0) 1 else importantPreferencesCount
 
             if(user.preferences.sleepScheduleMatters) {
                 val userSleepStart = parseSleepHours(user.info.sleepSchedule.first)
