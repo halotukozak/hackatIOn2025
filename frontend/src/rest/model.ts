@@ -1,7 +1,7 @@
 export interface User {
   email: string;
   info: Info;
-  preferences: NullablePreferences;
+  preferences: Preferences;
 }
 
 export interface Info {
@@ -19,7 +19,7 @@ export interface Info {
   relationshipStatus: number;
 }
 
-export interface NullablePreferences {
+export interface Preferences {
   sleepScheduleMatters: boolean;
   hobbiesMatters: boolean;
   smokingImportance: number | null;
@@ -71,17 +71,6 @@ export enum Hobby {
   cooking = "cooking",
   painting = "painting",
   photography = "photography",
-}
-
-export interface Preferences {
-  sleepScheduleMatters: boolean;
-  hobbiesMatters: boolean;
-  smokingImportance: number;
-  drinkImportance: number;
-  personalityTypeImportance: number;
-  yearOfStudyMatters: boolean;
-  facultyMatters: boolean;
-  relationshipStatusImportance: number;
 }
 
 export interface AdditionalInfoRequest {

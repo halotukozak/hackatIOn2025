@@ -39,8 +39,8 @@ object FakeUserGenerator {
         )
     }
 
-    private fun generateFakePreferences(): NullablePreferences {
-        return NullablePreferences(
+    private fun generateFakePreferences(): Preferences {
+        return Preferences(
             sleepScheduleMatters = Random.nextBoolean(),
             hobbiesMatters = Random.nextBoolean(),
             smokingImportance = if (Random.nextBoolean() ) Random.nextInt(0, 3) else null,

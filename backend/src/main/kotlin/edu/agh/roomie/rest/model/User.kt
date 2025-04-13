@@ -7,13 +7,13 @@ import kotlinx.serialization.Serializable
 data class User(
   val email: String,
   val info: Info,
-  val preferences: NullablePreferences
+  val preferences: Preferences
 )
 
 fun UserService.UserEntity.toShared() = User(
   email = this.email,
   info = this.info?.toShared() ?: throw IllegalStateException("UserEntity.info is null"),
-  preferences = this.preferences?.toNullableShared() ?: NullablePreferences(
+  preferences = this.preferences?.toShared() ?: Preferences(
     sleepScheduleMatters = false,
     hobbiesMatters = false,
     smokingImportance = null,
