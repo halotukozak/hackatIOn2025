@@ -1,4 +1,5 @@
 export interface User {
+  id: number;
   email: string;
   info: Info;
   preferences: Preferences;
@@ -95,4 +96,15 @@ export interface RegisterRequest {
 
 export interface DeleteRequest {
   userId: number;
+}
+
+export interface Match {
+  user: User;
+  score: number;
+}
+
+export enum MatchStatus {
+  ACK = "ACK",
+  NACK = "NACK",
+  NONE = "NONE",
 }

@@ -26,12 +26,15 @@ class UserService(database: Database) {
   class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserEntity>(UsersTable) {
       fun findByEmail(email: String): UserEntity? = find { UsersTable.email eq email }.singleOrNull()
+      fun findByIds(ids: List<EntityID<Int>>): List<UserEntity> = find { UsersTable.id inList ids }.toList()
     }
 
     var email by UsersTable.email
     var password by UsersTable.password
     var preferences by PreferencesService.PreferencesEntity optionalReferencedOn UsersTable.preferences
     var info by InfoService.InfoEntity optionalReferencedOn UsersTable.info
+
+//    val matches by MatchService.MatchEntity via MatchService.MatchesTable
   }
 
   object UsersTable : IntIdTable() {
