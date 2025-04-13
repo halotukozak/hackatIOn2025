@@ -1,5 +1,7 @@
+import {base_url} from "./base.ts";
+
 export async function register(email: string, password: string): Promise<void> {
-  const res = await fetch("http://localhost:8080/auth/register", {
+  const res = await fetch(base_url() + "/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
@@ -14,7 +16,7 @@ export async function register(email: string, password: string): Promise<void> {
 }
 
 export async function login(email: string, password: string): Promise<void> {
-  const res = await fetch("http://localhost:8080/auth/login", {
+  const res = await fetch(base_url() + "/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
@@ -29,7 +31,7 @@ export async function login(email: string, password: string): Promise<void> {
 }
 
 export async function logout(): Promise<void> {
-  const res = await fetch("http://localhost:8080/auth/logout", {
+  const res = await fetch(base_url() + "/auth/logout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
@@ -42,7 +44,7 @@ export async function logout(): Promise<void> {
 }
 
 export const deleteAccount = async (userId: number): Promise<void> => {
-  const res = await fetch("http://0.0.0.0:8080/auth/unregister", {
+  const res = await fetch(base_url() + "/auth/unregister", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
