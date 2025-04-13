@@ -16,17 +16,17 @@ class MatchService(database: Database) {
 
   class InvitationEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<InvitationEntity>(InvitationTable) {
-      fun findMatchesForUser(userId: Int) = find {
+      fun findMatchesForUser(userId: Int): List<EntityID<Int>> = find {
         (InvitationTable.userId eq userId) and (InvitationTable.requestStatus eq MatchStatus.ACK) and (InvitationTable.responseStatus eq MatchStatus.ACK)
-      }.toList().map { it.matchedUserId }
+      }.map { it.matchedUserId }
 
-      fun findRequestReceivedForUser(userId: Int) = find {
+      fun findRequestReceivedForUser(userId: Int): List<EntityID<Int>> = find {
         (InvitationTable.matchedUserId eq userId) and (InvitationTable.responseStatus eq MatchStatus.NONE) and (InvitationTable.requestStatus eq MatchStatus.ACK)
-      }.toList().map { it.userId }
+      }.map { it.userId }
 
-      fun findResponseSentForUser(userId: Int) = find {
-        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NACK)
-      }.toList()
+      fun findPendingSentRequestsForUser(userId: Int): List<EntityID<Int>> = find {
+        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus eq MatchStatus.ACK) and (InvitationTable.responseStatus eq MatchStatus.NONE)
+      }.map { it.matchedUserId }
     }
 
     var userId by InvitationTable.userId
@@ -51,47 +51,46 @@ class MatchService(database: Database) {
   }
 
   fun getResultsForUser(userId: Int): MatchResultResponse = transaction {
-    val user = UserService.UserEntity.findById(userId)!!.toShared()
+    val user = UserService.UserEntity.findById(userId)?.toShared() ?: throw IllegalArgumentException("User not found")
 
     val matches = InvitationEntity.findMatchesForUser(userId)
-    val sentRequests =
-      InvitationEntity.findResponseSentForUser(userId)
-        .filter { it.requestStatus == MatchStatus.ACK && it.responseStatus == MatchStatus.NONE }
-        .map { it.matchedUserId }
+    val sentRequests = InvitationEntity.findPendingSentRequestsForUser(userId)
     val receivedRequests = InvitationEntity.findRequestReceivedForUser(userId)
-    val allUsers = UserService.UserEntity.findByIds(
-      matches + sentRequests + receivedRequests
-    )
+
+    val allUserIds = (matches + sentRequests + receivedRequests).distinct()
+    val allUsers = UserService.UserEntity.findByIds(allUserIds).associateBy { it.id }
 
     MatchResultResponse(
-      allUsers.filter { it.id in matches }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
-      allUsers.filter { it.id in sentRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) },
-      allUsers.filter { it.id in receivedRequests }.map { Match(it.toShared(), countScore(it.toShared(), user)) })
+      matches = matches.mapNotNull { allUsers[it] }
+        .map { Match(it.toShared(), countScore(it.toShared(), user)) },
+      sentRequests = sentRequests.mapNotNull { allUsers[it] }
+        .map { Match(it.toShared(), countScore(it.toShared(), user)) },
+      receivedRequests = receivedRequests.mapNotNull { allUsers[it] }
+        .map { Match(it.toShared(), countScore(it.toShared(), user)) })
   }
 
   fun getAvailableMatchesForUser(userId: Int): List<User> = transaction {
-    val requestsSent =
-      InvitationEntity.find {
-        (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NONE)
-      }.toList().map { it.matchedUserId }
+    val requestsSent = InvitationEntity.find {
+      (InvitationTable.userId eq userId) and (InvitationTable.requestStatus neq MatchStatus.NONE)
+    }.map { it.matchedUserId }
 
+    // Find users who:
+    // 1. Are not the current user
+    // 2. Haven't been swiped on by the current user
+    // 3. Have completed their profile (have info and preferences)
     UserService.UserEntity.find {
       (UsersTable.id neq userId) and (UsersTable.id notInList requestsSent) and (UsersTable.info neq null) and (UsersTable.preferences neq null)
     }.map { it.toShared() }
   }
 
   fun getRequestReceivedForUser(userId: Int): List<User> = transaction {
-    val requests = InvitationEntity.findRequestReceivedForUser(userId)
-    UserService.UserEntity.findByIds(requests).map { it.toShared() }
+    val requestUserIds = InvitationEntity.findRequestReceivedForUser(userId)
+    UserService.UserEntity.findByIds(requestUserIds).map { it.toShared() }
   }
 
   fun registerSwipe(thisUserId: Int, swipedUserId: Int, status: MatchStatus): MatchStatus = transaction {
-    val thisUser = UserService.UserEntity.findById(thisUserId)
-    val swipedUser = UserService.UserEntity.findById(swipedUserId)
-
-    if (thisUser == null || swipedUser == null) {
-      throw IllegalArgumentException("User not found")
-    }
+    val thisUser = UserService.UserEntity.findById(thisUserId) ?: throw IllegalArgumentException("User not found")
+    val swipedUser = UserService.UserEntity.findById(swipedUserId) ?: throw IllegalArgumentException("User not found")
 
     val invitation = InvitationEntity.find {
       (InvitationTable.userId eq thisUser.id) and (InvitationTable.matchedUserId eq swipedUser.id)
