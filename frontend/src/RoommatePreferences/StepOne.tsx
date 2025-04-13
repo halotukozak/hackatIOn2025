@@ -3,7 +3,7 @@ type StepOneProps = {
         matchYear: boolean;
         matchDepartment: boolean;
         matchSleepSchedule: boolean;
-        MatchHobbies: boolean;
+        matchHobbies: boolean;
         relationshipPreference: string;
     };
     onChange: (field: string, value: boolean | string) => void;
@@ -69,8 +69,8 @@ export default function StepOne({ form, onChange, onNext }: StepOneProps) {
                         onChange={(e) => onChange("relationshipPreference", e.target.value)}
                     >
                         <option value="">Don't care</option>
-                        <option value="Single">Single</option>
-                        <option value="In a relationship">In a relationship</option>
+                        <option value="1">Single</option>
+                        <option value="2">In a relationship</option>
                     </select>
                 </label>
             </div>
