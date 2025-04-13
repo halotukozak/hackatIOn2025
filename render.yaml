@@ -16,7 +16,7 @@ services:
     runtime: node
     plan: free
     buildCommand: npm install && npm run build
-    startCommand: npx serve -s build
+    startCommand: npx serve -s dist -l 80
     rootDir: frontend
     envVars:
       - key: NODE_VERSION

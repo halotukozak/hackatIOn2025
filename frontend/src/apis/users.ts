@@ -6,6 +6,7 @@ import {
   RelationshipStatus,
 } from "../types/user";
 import { User } from "../rest/model";
+import {base_url} from "./base.ts";
 
 export function parseUserFromBackend(raw: User): UserShow {
   return {
@@ -34,7 +35,7 @@ export function parseUserFromBackend(raw: User): UserShow {
 // Fetch and parse a fake user from backend
 export const getFakeUser = async (userId: number): Promise<UserShow> => {
   try {
-    const res = await fetch(`http://0.0.0.0:8080/user/${userId}`);
+    const res = await fetch(base_url() + `/user/${userId}`);
 
     if (!res.ok) {
       throw new Error(`Failed to fetch user: ${res.status}`);
