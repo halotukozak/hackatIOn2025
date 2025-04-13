@@ -4,7 +4,7 @@ import {
 } from "./types/user";
 import Navbar from "./Navbar";
 import { MatchStatus } from "./types/match.ts";
-import {getAllUsers } from "./apis/users";
+import {getAllMatches} from "./apis/users";
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,10 +25,10 @@ export default function MatchesPage() {
       else{
     const fetchUser = async () => {
       try {
-        const fetchedUser = await getAllUsers();
-        setReceivedList(fetchedUser.slice(0, 2));
-        setSendList(fetchedUser.slice(0, 3));
-        setMatchList(fetchedUser.slice(0, 1));
+        const [fetchMatches, fetchSend, fetchReceived] = await getAllMatches(Number(userId));
+        setReceivedList(fetchMatches);
+        setSendList(fetchSend);
+        setMatchList(fetchReceived);
       } catch (err) {
         setError("Failed to load user");
         console.error(err);
@@ -43,16 +43,16 @@ export default function MatchesPage() {
         return null;
   if (loading)
     return (
-        <div>
+        <div className="min-h-screen bg-base-200">
           <Navbar />
-          <p className="text-gray-700 text-sm">Loading...</p>
+          <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">Loading...</p>
         </div>
     );
   if (error)
     return (
-        <div>
+        <div className="min-h-screen bg-base-200">
           <Navbar />
-          <p className="text-gray-700 text-sm">{error}</p>
+          <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">{error}</p>
         </div>
     );
 
@@ -68,7 +68,7 @@ export default function MatchesPage() {
             matchList.map((user) => (
                 <ListComponent key={user.id} user={user} match={MatchStatus.ContactInfo} />
             ))
-        )};
+        )}
       </div>
       <div className="pt-10 text-left ml-0 pl-4">
         <h1 className="text-2xl font-bold mb-4 ">Sent Requests</h1>
@@ -78,7 +78,7 @@ export default function MatchesPage() {
             sendList.map((user) => (
                 <ListComponent key={user.id} user={user} match={MatchStatus.Send} />
             ))
-        )};
+        )}
       </div>
       <div className="pt-10 text-left ml-0 pl-4">
         <h1 className="text-2xl font-bold mb-4 ">Received Requests</h1>
@@ -88,7 +88,7 @@ export default function MatchesPage() {
             receivedList.map((user) => (
                 <ListComponent key={user.id} user={user} match={MatchStatus.Received} />
             ))
-        )};
+        )}
       </div>
     </div>
   );

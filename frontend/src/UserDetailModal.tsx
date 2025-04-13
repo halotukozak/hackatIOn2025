@@ -63,7 +63,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             </p>
           </div>
           <span className="bg-green-200 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-            87% Match
+            {user.match}% Match
           </span>
         </div>
 

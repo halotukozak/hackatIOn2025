@@ -24,6 +24,7 @@ fun main(args: Array<String>) {
             DeleteRequest.serializer(),
             Match.serializer(),
             MatchStatus.serializer(),
+            MatchResultResponse.serializer(),
         ),
     )
     val tsGenerator = KxsTsGenerator()

@@ -59,7 +59,7 @@ const ListComponent: React.FC<ViewProps> = ({ user, match }) => {
             </div>
           </div>
           <div className="badge whitespace-nowrap text-nowrap bg-green-200 text-green-700 justify-end">
-            87% Match
+            {user.match}% Match
           </div>
         </div>
 
