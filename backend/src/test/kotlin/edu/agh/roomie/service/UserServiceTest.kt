@@ -80,7 +80,7 @@ class UserServiceTest {
     // Create info and preferences for the user
     val info = createTestInfo()
     val preferences = createTestPreferences()
-    userService.upsertUserAdditionalData(userId, info)
+    userService.upsertUserInfo(userId, info)
     userService.upsertUserPreferences(userId, preferences)
 
     // When
@@ -94,7 +94,7 @@ class UserServiceTest {
   }
 
   @Test
-  fun testUpsertUserAdditionalData() = runBlocking {
+  fun testUpsertUserInfo() = runBlocking {
     // Given
     val email = "additionaldata@example.com"
     val password = "password123"
@@ -105,7 +105,7 @@ class UserServiceTest {
     val preferences = createTestPreferences()
 
     // When
-    userService.upsertUserAdditionalData(userId, info)
+    userService.upsertUserInfo(userId, info)
     userService.upsertUserPreferences(userId, preferences)
 
     // Then
@@ -173,7 +173,7 @@ class UserServiceTest {
       // Add info and preferences to the user
       val info = createTestInfo()
       val preferences = createTestPreferences()
-      userService.upsertUserAdditionalData(userId, info)
+      userService.upsertUserInfo(userId, info)
       userService.upsertUserPreferences(userId, preferences)
 
       // Verify user exists before deletion
@@ -201,7 +201,7 @@ class UserServiceTest {
       // Add additional data
       val info = createTestInfo()
       val preferences = createTestPreferences()
-      userService.upsertUserAdditionalData(userId, info)
+      userService.upsertUserInfo(userId, info)
       userService.upsertUserPreferences(userId, preferences)
 
       // Verify user and additional data exist before deletion

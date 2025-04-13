@@ -67,7 +67,7 @@ class UserService(database: Database) {
     UserEntity.findById(id)?.toShared()
   }
 
-  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) = dbQuery {
+  suspend fun upsertUserInfo(id: Int, info: Info) = dbQuery {
     UserEntity.findByIdAndUpdate(id) { user ->
       user.info?.delete()
       user.info = InfoService.InfoEntity.new {
@@ -88,7 +88,7 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun upsertUserPreferences(id: Int, preferences: Preferences) = newSuspendedTransaction {
+  suspend fun upsertUserPreferences(id: Int, preferences: Preferences) = dbQuery {
     UserEntity.findByIdAndUpdate(id) { user ->
       user.preferences?.delete()
       user.preferences = PreferencesService.PreferencesEntity.new {
@@ -108,7 +108,7 @@ class UserService(database: Database) {
     UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 
-  suspend fun getAllUsers() = newSuspendedTransaction {
+  suspend fun getAllUsers() = dbQuery {
     UserEntity.all().map { it.toShared() }
   }
 }
