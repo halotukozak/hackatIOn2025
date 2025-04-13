@@ -18,7 +18,53 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "OK"
+                  value: "User additional data updated successfully"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Failed to update user additional data"
+  /registration/available-departments:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_Faculty"
+  /registration/available-hobbies:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  enum:
+                  - "basketball"
+                  - "football"
+                  - "volleyball"
+                  - "swimming"
+                  - "running"
+                  - "cycling"
+                  - "hiking"
+                  - "climbing"
+                  - "skiing"
+                  - "music"
+                  - "dance"
+                  - "cooking"
+                  - "painting"
+                  - "photography"
   /auth/login:
     post:
       description: ""
@@ -209,7 +255,82 @@ paths:
                   - "cooking"
                   - "painting"
                   - "photography"
-  /matches/notifications/{userId}:
+  /matches/swipe/{userId}/{swipedUserId}:
+    post:
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      - name: "swipedUserId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      - name: "status"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user IDs"
+                Example#2:
+                  value: "Missing status parameter"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                - "ACK"
+                - "NACK"
+                - "NONE"
+  /user/{userId}:
+    get:
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid user ID format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User not found"
+  /user/{userId}/discover:
     get:
       description: ""
       parameters:
@@ -235,17 +356,12 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: "#/components/schemas/MatchResponse"
-  /matches/swipe/{userId}/{swipedUserId}:
-    post:
+                  $ref: "#/components/schemas/Match"
+  /user/{userId}/matches:
+    get:
       description: ""
       parameters:
       - name: "userId"
-        in: "path"
-        required: true
-        schema:
-          type: "integer"
-      - name: "swipedUserId"
         in: "path"
         required: true
         schema:
@@ -259,22 +375,25 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "Invalid user IDs"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "One or both users not found"
+                  value: "Invalid user ID"
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/SwipeResponse"
+                $ref: "#/components/schemas/MatchResultResponse"
+  /users:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/User"
   /user/{userId}:
     get:
       description: ""
@@ -455,6 +574,17 @@ components:
       required:
       - "userId"
       - "info"
+    AdditionalInfoRequest:
+      type: "object"
+      properties:
+        userId:
+          type: "integer"
+          format: "int32"
+        info:
+          $ref: "#/components/schemas/Info"
+      required:
+      - "userId"
+      - "info"
     Preferences:
       type: "object"
       properties:
@@ -483,7 +613,8 @@ components:
       - "hobbiesMatters"
       - "yearOfStudyMatters"
       - "facultyMatters"
-    AdditionalPreferencesRequest:
+      - "relationshipStatusImportance"
+    AdditionalInfoRequest:
       type: "object"
       properties:
         userId:
@@ -509,7 +640,20 @@ components:
           type: "string"
       required:
       - "userId"
-      - "fullName"
+    MatchResponse:
+      type: "object"
+      properties:
+        userId:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        surname:
+          type: "string"
+      required:
+      - "userId"
+      - "name"
+      - "surname"
     SwipeResponse:
       type: "object"
       properties:
@@ -517,16 +661,3 @@ components:
           type: "string"
       required:
       - "message"
-    User:
-      type: "object"
-      properties:
-        email:
-          type: "string"
-        info:
-          $ref: "#/components/schemas/Info"
-        preferences:
-          $ref: "#/components/schemas/Preferences"
-      required:
-      - "email"
-      - "info"
-      - "preferences"
