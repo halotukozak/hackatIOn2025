@@ -21,7 +21,7 @@ export default function DiscoverPage() {
       else{
     const fetchUser = async () => {
       try {
-        const fetchedUser = await getAllUsers();
+        const fetchedUser = await getAllUsers(Number(userId));
         setDiscoverList(fetchedUser);
       } catch (err) {
         setError("Failed to load user");
@@ -35,16 +35,16 @@ export default function DiscoverPage() {
   },  [navigate, userId]);
     if (!userId)  return null;
   if (loading)
-      return (<div className="pt-20 text-left ml-0 pl-4">
+      return (<div className="min-h-screen bg-base-200">
           <Navbar />
-          <p className="text-gray-700 text-sm">Loading...</p>
+          <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">Loading...</p>
       </div>
       );
   if (error)
     return (
-        <div className="pt-20 text-left ml-0 pl-4">
+        <div className="min-h-screen bg-base-200">
           <Navbar />
-          <p className="text-gray-700 text-sm">{error}</p>
+          <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">{error}</p>
         </div>
     );
 

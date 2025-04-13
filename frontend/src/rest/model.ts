@@ -108,3 +108,9 @@ export enum MatchStatus {
   NACK = "NACK",
   NONE = "NONE",
 }
+
+export interface MatchResultResponse {
+  matches: Match[];
+  sentRequests: Match[];
+  receivedRequests: Match[];
+}
