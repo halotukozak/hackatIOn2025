@@ -1,5 +1,5 @@
 import React from "react";
-import { XMarkIcon, HeartIcon } from "@heroicons/react/24/solid";
+import {XMarkIcon, HeartIcon, UserIcon} from "@heroicons/react/24/solid";
 import {
   UserShow,
   smokeLabels,
@@ -69,7 +69,9 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
         {/* Image Placeholder */}
         <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
-          <span className="text-gray-400">[Image Placeholder]</span>
+          <span className="text-gray-400">
+            <UserIcon className="w-40 h-40 grow rounded-full border-2 border-neutral-content justify-stretch" />
+          </span>
         </div>
 
         {/* Info Grid */}
