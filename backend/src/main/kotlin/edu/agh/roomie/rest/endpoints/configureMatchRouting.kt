@@ -53,8 +53,7 @@ fun Application.configureMatchRouting() = routing {
         userService.getUserById(matchedUserId)?.let { user ->
           MatchResponse(
             userId = matchedUserId,
-            name = user.info.name,
-            surname = user.info.surname,
+            fullName = user.info.fullName
           )
         }
       }

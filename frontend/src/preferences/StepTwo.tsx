@@ -1,5 +1,7 @@
+import {Faculty} from "../rest/model.auth.ts";
+
 type StepTwoProps = {
-    departments: string[]
+    departments: Faculty[]
     form: {
         year: string;
         department: string;
@@ -33,7 +35,7 @@ export default function StepTwo({ form, departments, onChange, onNext, onBack }:
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-                    <option value="5+">5+</option>
+                    <option value="5">5+</option>
                 </select>
             </label>
 
@@ -48,7 +50,7 @@ export default function StepTwo({ form, departments, onChange, onNext, onBack }:
                 >
                     <option value="">Select department</option>
                     {Object.entries(departments).map(([abbr, name]) => (
-                        <option value={abbr}>{name}</option>
+                        <option key={abbr} value={abbr}>{name}</option>
                     ))}
                 </select>
             </label>

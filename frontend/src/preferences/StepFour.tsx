@@ -21,14 +21,14 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
             {/* Smoking Habits */}
             <div className="form-control">
                 <span className="label-text mb-2 block">Smoking Habits</span>
-                {['Non smoker', 'Occasional smoker', 'Regular smoker'].map((option) => (
+                {Object.entries({0: 'Non smoker', 1: 'Occasional smoker', 2: 'Regular smoker'}).map(([v, option]) => (
                     <label key={option} className="label cursor-pointer block">
                         <input
                             type="radio"
                             name="smoking"
                             className="radio mr-2"
-                            value={option}
-                            checked={form.smoking === option}
+                            value={v}
+                            checked={form.smoking === v}
                             onChange={(e) => onChange("smoking", e.target.value)}
                         />
                         <span className="label-text">{option}</span>
@@ -39,14 +39,14 @@ export default function StepFour({ form, onChange, onNext, onBack }: StepFourPro
             {/* Drinking Habits */}
             <div className="form-control">
                 <span className="label-text mb-2 block">Drinking Habits</span>
-                {['Non drinker', 'Social drinker', 'Regular drinker'].map((option) => (
+                {Object.entries({0: 'Non drinker', 1: 'Social drinker', 2: 'Regular drinker'}).map(([v, option]) => (
                     <label key={option} className="label cursor-pointer block">
                         <input
                             type="radio"
                             name="drinking"
                             className="radio mr-2"
-                            value={option}
-                            checked={form.drinking === option}
+                            value={v}
+                            checked={form.drinking === v}
                             onChange={(e) => onChange("drinking", e.target.value)}
                         />
                         <span className="label-text">{option}</span>
