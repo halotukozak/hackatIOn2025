@@ -9,7 +9,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.security.MessageDigest
 
@@ -48,14 +47,14 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun register(request: RegisterRequest) = newSuspendedTransaction {
+  suspend fun register(request: RegisterRequest) = dbQuery {
     UserEntity.new {
       this.email = request.email
       this.password = hashPassword(request.password)
     }.id.value
   }
 
-  suspend fun authenticate(email: String, password: String): Int? = newSuspendedTransaction {
+  suspend fun authenticate(email: String, password: String): Int? = dbQuery {
     val user = UserEntity.findByEmail(email)
     if (user != null && verifyPassword(password, user.password)) {
       user.id.value
@@ -64,8 +63,11 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun getUserById(id: Int): User? = newSuspendedTransaction { UserEntity.findById(id)?.toShared() }
-  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) = newSuspendedTransaction {
+  suspend fun getUserById(id: Int): User? = dbQuery { 
+    UserEntity.findById(id)?.toShared() 
+  }
+
+  suspend fun upsertUserAdditionalData(id: Int, info: Info, preferences: Preferences) = dbQuery {
     UserEntity.findByIdAndUpdate(id) { user ->
       user.info?.delete()
       user.info = InfoService.InfoEntity.new {
@@ -97,8 +99,7 @@ class UserService(database: Database) {
     }
   }
 
-  suspend fun removeUser(id: Int) = newSuspendedTransaction {
+  suspend fun removeUser(id: Int) = dbQuery {
     UserEntity.findById(id)?.delete() ?: throw IllegalStateException("User with id $id not found")
   }
 }
-
