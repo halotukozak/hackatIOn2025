@@ -1,4 +1,4 @@
-import MatchListView from "./MatchListView";
+import ListComponent from "./ListComponent.tsx";
 import {
     User,
     Smoke,
@@ -58,8 +58,8 @@ export default function MatchesPage() {
                 </h1>
             </div>
             <div className="flex flex-col justify-center px-2 space-y-4">
-                <MatchListView user={user2} match={MatchStatus.ContactInfo} />
-                <MatchListView user={user1} match={MatchStatus.ContactInfo}/>
+                <ListComponent user={user2} match={MatchStatus.ContactInfo} />
+                <ListComponent user={user1} match={MatchStatus.ContactInfo}/>
             </div>
             <div className="pt-10 text-left ml-0 pl-4">
                 <h1 className="text-2xl font-bold mb-4 ">
@@ -67,8 +67,8 @@ export default function MatchesPage() {
                 </h1>
             </div>
             <div className="flex flex-col justify-center px-2 space-y-4">
-                <MatchListView user={user2} match={MatchStatus.Send}/>
-                <MatchListView user={user1} match={MatchStatus.Send}/>
+                <ListComponent user={user2} match={MatchStatus.Send}/>
+                <ListComponent user={user1} match={MatchStatus.Send}/>
             </div>
             <div className="pt-10 text-left ml-0 pl-4">
                 <h1 className="text-2xl font-bold mb-4 ">
@@ -76,8 +76,8 @@ export default function MatchesPage() {
                 </h1>
             </div>
             <div className="flex flex-col justify-center px-2 space-y-4">
-                <MatchListView user={user2} match={MatchStatus.Received} />
-                <MatchListView user={user1} match={MatchStatus.Received}/>
+                <ListComponent user={user2} match={MatchStatus.Received} />
+                <ListComponent user={user1} match={MatchStatus.Received}/>
             </div>
         </div>
     );

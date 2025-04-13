@@ -1,4 +1,4 @@
-import ListView from "./ListView";
+import ListComponent from "./ListComponent.tsx";
 import {
   User,
   Smoke,
@@ -7,6 +7,7 @@ import {
   RelationshipStatus,
 } from "./types/user";
 import Navbar from "./Navbar";
+import {MatchStatus} from "./types/match.ts";
 
 const user1: User = {
   name: "Emmalongname",
@@ -56,11 +57,11 @@ export default function DiscoverPage() {
         </h1>
       </div>
       <div className="flex flex-col justify-center px-2 space-y-4">
-        <ListView user={user2} />
-        <ListView user={user1} />
-        <ListView user={user1} />
-        <ListView user={user2} />
-        <ListView user={user1} />
+        <ListComponent user={user2} match={MatchStatus.View}/>
+        <ListComponent user={user1} match={MatchStatus.View}/>
+        <ListComponent user={user1} match={MatchStatus.View}/>
+        <ListComponent user={user2} match={MatchStatus.View}/>
+        <ListComponent user={user1} match={MatchStatus.View}/>
       </div>
     </div>
   );
