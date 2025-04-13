@@ -34,9 +34,12 @@ fun Application.module() {
     }
 
     val user = userService.register(RegisterRequest("admin@admin.pl", "admin"))
-
     userService.upsertUserInfo(user, FakeUserGenerator.generateFakeInfo())
     userService.upsertUserPreferences(user, FakeUserGenerator.generateFakePreferences())
+
+    val user2 = userService.register(RegisterRequest("admin2@admin.pl", "admin"))
+    userService.upsertUserInfo(user2, FakeUserGenerator.generateFakeInfo())
+    userService.upsertUserPreferences(user2, FakeUserGenerator.generateFakePreferences())
 
     configureHTTP()
     configureRouting()
