@@ -16,8 +16,8 @@ type ViewProps = {
 const ListComponent: React.FC<ViewProps> = ({user, match}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
-            <div className=" w-full" onClick={() => {if (!isModalOpen) setIsModalOpen(true);}}>
-                <div className="w-full bg-white shadow-lg rounded-lg flex flex-col p-2">
+            <div className=" w-full">
+                <div className="w-full bg-white shadow-lg rounded-lg flex flex-col p-2" onClick={() => {if (!isModalOpen) setIsModalOpen(true);}}>
                     <div className="flex justify-between">
                         <div className="flex space-x-4 flex-col">
                             <div className="flex items-start space-x-4">
