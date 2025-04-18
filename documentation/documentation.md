@@ -50,6 +50,43 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 ## Uruchamianie aplikacji TODO
 - instrukcję uruchomienia aplikacji - będziemy chcieli to zweryfikować u siebie i może to wpłynąć na ocenę za efekt końcowy, więc sprawdźcie czy faktycznie działa!
 
+
+Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa Docker Daemon jest uruchomiona. Szczegółowe instrukcje znajdziesz w oficjalnej dokumentacji: [Uruchamianie Docker Daemon](https://docs.docker.com/engine/daemon/start/).
+#### Uruchamianie w kontenerach
+1. **Backend**:  
+   ```bash
+   cd backend
+   docker build -t backend-app .
+   docker run -p 8080:8080 backend-app
+   ```
+2. **Frontend**:  
+   ```bash
+   cd frontend
+   docker build -t frontend-app .
+   docker run -p 5173:5173 frontend-app
+   ```
+
+#### Uruchamianie lokalnie
+1. **Backend**:  
+   ```bash
+   cd backend
+   ./gradlew build
+   ./gradlew run
+   ```
+2. **Frontend**:  
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+#### Dostęp do aplikacji
+Po uruchomieniu aplikacji frontendowej, otwórz przeglądarkę i przejdź pod adres:  
+[http://localhost:5173/](http://localhost:5173/)  
+Tam znajdziesz działającą aplikację webową.
+
+
+
 ## Proces powstawania projektu TODO
 - opis procesu powstawania projektu - może być to w formie np. "dziennika wydarzeń", grunt by opisywało chronologicznie Wasze doświadczenia
 ### Piątek (11.04)
@@ -65,7 +102,11 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 - **(Frontend)** zaprojektowanie formularza do zbierania preferencji i cech osobowości (pierwsze połączenie z backendem - lista hobby i dostępnych wydziałów)
 - **(Frontend)** widok listy powiadomień
 - **(Frontend)** widok profilu użytkownika
-
+- **(Backend)** Integracja z in-memory bazą danych H2
+- **(Backend)** Implementacja systemu oraz endpointów obsługujących rejestrację i logowanie użytkowników.
+- **(Backend)** Opracowanie modelu danych przechowującego informacje o preferencjach oraz szczegółach użytkowników.
+- **(Backend)** Wdrożenie systemu autentykacji użytkowników, zapewniającego bezpieczeństwo dostępu.
+- **(Backend)** Stworzenie endpointów zwracających listę dostępnych wydziałów oraz hobby do wyboru.
 
 ### Niedziela (13.04)
 - **(Frontend)** umożliwienie logowanie użytkownika
@@ -75,7 +116,12 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 - **(Frontend)** wyświetlanie powiadomień pobranych z backendu
 - **(Frontend)** dodanie funkcjonalności zaproszenia i odrzucenia potencjalnego współlokatora (wysyłanie informacji na backend)
 - **(Frontend)** możliwość wylogowania użytkownika
-
+- **(Backend)** integracja modelu danych z danymi przesyłanymi przez frontend, zapewniająca spójność i poprawność informacji.
+- **(Backend)** implementacja endpointów umożliwiających dodawanie informacji o użytkownikach oraz ich preferencji.
+- **(Backend)** stworzenie mechanizmu oraz endpointów odpowiedzialnych za dopasowywanie użytkowników na podstawie ich preferencji.
+- **(Backend)** implementacja endpointów obsługujących powiadomienia o wychodzących i przychodzących dopasowaniach.
+- **(Backend)** opracowanie algorytmu obliczającego metrykę podobieństwa między użytkownikami, uwzględniającego ich preferencje i cechy.
+- **(Backend)** Deployment i integracja z bazą danych PostgreSQL
 
 
 ## Wyzwania i probelmy TODO
