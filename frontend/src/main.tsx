@@ -5,13 +5,13 @@ import "./index.css";
 
 import HomePage from "./HomePage.tsx";
 
-import DiscoverPage from "./DiscoverPage.tsx";
+import DiscoverPage from "./MainApp/DiscoverPage.tsx";
 import LoginPage from "./authentication/LoginPage.tsx";
 import PreferencesPage from "./preferences/PreferencesPage.tsx";
 import RegisterPage from "./authentication/RegisterPage.tsx";
 import RoommateReferencesPage from "./RoommatePreferences/RoommatePreferencesPage.tsx";
-import MatchesPage from "./MatchesPage.tsx";
-import ProfilePage from "./ProfilePage.tsx";
+import MatchesPage from "./MainApp/MatchesPage.tsx";
+import ProfilePage from "./MainApp/ProfilePage.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { CheckIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { personalityLabels, UserShow } from "./types/user";
+import { personalityLabels, UserShow } from "../types/user.ts";
 import UserDetailModal from "./UserDetailModal.tsx";
-import { MatchStatus } from "./types/match.ts";
-import { swipeAck, swipeNack } from "./apis/matches.ts";
+import { MatchStatus } from "../types/match.ts";
+import { swipeAck, swipeNack } from "../apis/matches.ts";
 
 type ViewProps = {
   user: UserShow;
