@@ -44,8 +44,51 @@ Większe różnice w kwestii palenia lub picia alkoholu powodują mniejszą wart
 Profile potencjalnych współlokatorów sortowane są według obliczonej wartości dopasowania. W pierwszej kolejności prezentowane są osoby o najwięszym stopniu zgodności.
 
 
-## Zastosowane technologie TODO
-(opis zastosowanych technologii)
+## Zastosowane technologie
+
+### Backend
+
+- **Kotlin**  
+  Główny język używany do programowania backendu. W projekcie wykorzystujemy `context receivers` do zarządzania zależnościami w sposób idiomatyczny i przejrzysty.
+
+- **Ktor**  
+  Asynchroniczny framework webowy stworzony używany jako główny serwer HTTP, obsługuje routing, autoryzację oraz middleware.
+
+- **PostgreSQL**  
+  Stabilna i wydajna relacyjna baza danych, wykorzystywana do przechowywania danych aplikacji.
+
+- **Exposed**  
+  Kotlinowy framework ORM do pracy z bazą danych. Korzystamy zarówno z DSL (Domain Specific Language), jak i DAO (Data Access Objects) w celu wygodnego i typowanego zarządzania encjami.
+
+- **Testcontainers**  
+  Biblioteka umożliwiająca uruchamianie izolowanych instancji PostgreSQL w kontenerach Dockerowych w trakcie testów integracyjnych.
+
+- **Docker + Render**  
+  Deployment aplikacji realizowany w podejściu *Infrastructure as Code* z użyciem kontenerów Dockerowych oraz platformy Render do hostowania backendu.
+
+- **Eksport modeli REST do TypeScript**  
+  Automatyczne generowanie typów TypeScript z modeli Kotlinowych w celu zapewnienia spójności danych między backendem a frontendem.
+
+- **Swagger / OpenAPI**  
+  Backend automatycznie generuje dokumentację API w formacie OpenAPI, udostępnianą w formie interaktywnego Swagger UI.
+
+- **Faker**  
+  Biblioteka służąca do generowania losowych danych wykorzystywanych podczas testowania i developmentu.
+  
+### Frontend
+
+- **React + TypeScript**  
+  React jako biblioteka do budowy interfejsu użytkownika, w połączeniu z TypeScriptem zapewnia typowanie i lepsze bezpieczeństwo kodu.
+
+- **Tailwind CSS**  
+  Framework CSS, umożliwiający szybkie tworzenie nowoczesnych i responsywnych interfejsów użytkownika bez potrzeby pisania własnych klas CSS.
+
+- **DaisyUI**  
+  Biblioteka komponentów UI zbudowana na Tailwind CSS, dostarczająca gotowe do użycia komponenty.
+
+- **v0**  
+  Narzędzie do generowania makiet UI i inspiracji wizualnych, które przyspieszyło proces projektowania interfejsu.
+
 
 ## Uruchamianie aplikacji TODO
 - instrukcję uruchomienia aplikacji - będziemy chcieli to zweryfikować u siebie i może to wpłynąć na ocenę za efekt końcowy, więc sprawdźcie czy faktycznie działa!
