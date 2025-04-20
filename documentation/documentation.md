@@ -201,7 +201,9 @@ Tam znajdziesz działającą aplikację webową.
 
 - można też wykorzytać metryki zgromadzone przez githuba (zakłada Insights i wkleić screeny + komentarz do nich.
 
-![Flow Chart](assets/flow_chart.svg)
+<p align="center">
+<img src="assets/flow_chart.svg" alt="Flow Chart" width="300"/>
+</p>
 
 ## BACKEND TODO
 
