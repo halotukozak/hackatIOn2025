@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 
-import HomePage from "./HomePage.tsx";
+import HomePage from "./home/HomePage.tsx";
 
 import DiscoverPage from "./MainApp/DiscoverPage.tsx";
 import LoginPage from "./authentication/LoginPage.tsx";

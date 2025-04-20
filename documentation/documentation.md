@@ -1,34 +1,41 @@
 # HackatIOn 2025 - Dokumentacja
-* **Data:** 11-13.04.2025
-* **Skład zespołu:** Bartosz Buczek, Berard Gawor, Bartłomiej Kozak, Magdalena Pabisz, Olgierd Smyka, Bartłomiej Stylski
-* **Nazwa zespołu:** 4BOM
-* **Nazwa projektu:** Roomie
+
+- **Data:** 11-13.04.2025
+- **Skład zespołu:** Bartosz Buczek, Berard Gawor, Bartłomiej Kozak, Magdalena Pabisz, Olgierd Smyka, Bartłomiej Stylski
+- **Nazwa zespołu:** 4BOM
+- **Nazwa projektu:** Roomie
 
 ## Opis projektu
+
 Naszym celem było stworzenie aplikacji, pomagającej studentom w znajdowaniu współlokatora do akademika. Inspirowaliśmy się koncepcją wykorzystywaną w popularnych aplikacjach randkowych, takich jak Tinder. Podczas rejestrecji użytkownik wypełnia szczegółowy formularz, aby określić swoje preferencje i cechy osobowości. Pomaga to zapewnić lepsze dopasowanie między potencjalnymi współlokatorami. Formularz obejmuje następujące aspekty:
+
 ### Informacje o użytkowniku
-* harmonogram snu (godzina zasypiania i wstawanie)
-* zainteresowania i hobby (wybierane z listy)
-* palenie papierosów (tak/nie/okazjonalnie)
-* picie alkoholu (tak/nie/okazjonalnie)
-* typ osobowości (skala: introwertyk – ekstrawertyk)
-* rok studiów
-* wydział (wybór z listy)
-* status związku (tak/nie/to skomplikowane)
+
+- harmonogram snu (godzina zasypiania i wstawanie)
+- zainteresowania i hobby (wybierane z listy)
+- palenie papierosów (tak/nie/okazjonalnie)
+- picie alkoholu (tak/nie/okazjonalnie)
+- typ osobowości (skala: introwertyk – ekstrawertyk)
+- rok studiów
+- wydział (wybór z listy)
+- status związku (tak/nie/to skomplikowane)
+
 ### Preferencje
-* harmonogram snu (ma znaczenie lub nie)
-* zainteresowania i hobby (ma znaczenie lub nie)
-* palenie papierosów (tak/nie/okazjonalnie)
-* picie alkoholu (tak/nie/okazjonalnie)
-* typ osobowości (skala: introwertyk – ekstrawertyk)
-* rok studiów (ma znaczenie lub nie)
-* wydział (ma znaczenie lub nie)
-* status związku (ma znaczenie lub nie)
+
+- harmonogram snu (ma znaczenie lub nie)
+- zainteresowania i hobby (ma znaczenie lub nie)
+- palenie papierosów (tak/nie/okazjonalnie)
+- picie alkoholu (tak/nie/okazjonalnie)
+- typ osobowości (skala: introwertyk – ekstrawertyk)
+- rok studiów (ma znaczenie lub nie)
+- wydział (ma znaczenie lub nie)
+- status związku (ma znaczenie lub nie)
 
 Użytkownik może przeglądać profile innych osób, które zawierają kluczowe informację i wartość zgodności dopasowanie. Pierwotny pomysł zakładał interfejs użytkownika w styku podobnym do aplikacji randkowej, gdzie przesunięcie w prawo to nawiązanie interakcji z daną osobą, a przesunięcie w lewo oznacza pominięcie profilu. Pomysłu tego nie udało się jednak zrealizować. W aktualnej wersji dostępne są przyciski o takiej samej funkcjonalności. \
 Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane są ich dane kontaktowe, umożliwiając dalszą interakcję i rozmowę (poza naszą aplikają). Użytkownik mogże również w każdej chwili usunąć się z systemu, jeśli nie jest już zainteresowany poszukiwaniem współlokatora.
 
 ### Kluczowe funkcje aplikacji
+
 - rejestracja i logowanie
 - szczegółowy formularz startowy zbierający informacje o preferencjach i cechach użytkownika
 - system oceniający dopasowanie potencjalnych współlokatorów
@@ -38,11 +45,11 @@ Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane s�
 - podgląd danych użytkownika (swoich i innych osób)
 
 ### Algorytm sortujący
+
 Aplikacja wykorzystuje funkcję kosztu do obliczania wartości dopasowania użytkowników. Algortym analizuje różnice w preferencjach i cechach, przypisując wagę każdemu aspektowi w zależności od opcji zaznaczonych przez użytkownika. Na przykład:\
 Mniejsze różnice w harmonogramach snu powodują lepsze dopasowanie.\
 Większe różnice w kwestii palenia lub picia alkoholu powodują mniejszą wartość dopasowania.\
 Profile potencjalnych współlokatorów sortowane są według obliczonej wartości dopasowania. W pierwszej kolejności prezentowane są osoby o najwięszym stopniu zgodności.
-
 
 ## Zastosowane technologie
 
@@ -64,7 +71,7 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
   Biblioteka umożliwiająca uruchamianie izolowanych instancji PostgreSQL w kontenerach Dockerowych w trakcie testów integracyjnych.
 
 - **Docker + Render**  
-  Deployment aplikacji realizowany w podejściu *Infrastructure as Code* z użyciem kontenerów Dockerowych oraz platformy Render do hostowania backendu.
+  Deployment aplikacji realizowany w podejściu _Infrastructure as Code_ z użyciem kontenerów Dockerowych oraz platformy Render do hostowania backendu.
 
 - **Eksport modeli REST do TypeScript**  
   Automatyczne generowanie typów TypeScript z modeli Kotlinowych w celu zapewnienia spójności danych między backendem a frontendem.
@@ -74,7 +81,7 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 
 - **Faker**  
   Biblioteka służąca do generowania losowych danych wykorzystywanych podczas testowania i developmentu.
-  
+
 ### Frontend
 
 - **React + TypeScript**  
@@ -89,20 +96,21 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 - **v0**  
   Narzędzie do generowania makiet UI i inspiracji wizualnych, które przyspieszyło proces projektowania interfejsu.
 
-
 ## Uruchamianie aplikacji TODO
+
 - instrukcję uruchomienia aplikacji - będziemy chcieli to zweryfikować u siebie i może to wpłynąć na ocenę za efekt końcowy, więc sprawdźcie czy faktycznie działa!
 
-
 Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa Docker Daemon jest uruchomiona. Szczegółowe instrukcje znajdziesz w oficjalnej dokumentacji: [Uruchamianie Docker Daemon](https://docs.docker.com/engine/daemon/start/).
+
 #### Uruchamianie w kontenerach
-1. **Backend**:  
+
+1. **Backend**:
    ```bash
    cd backend
    docker build -t backend-app .
    docker run -p 8080:8080 backend-app
    ```
-2. **Frontend**:  
+2. **Frontend**:
    ```bash
    cd frontend
    docker build -t frontend-app .
@@ -110,13 +118,14 @@ Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa
    ```
 
 #### Uruchamianie lokalnie
-1. **Backend**:  
+
+1. **Backend**:
    ```bash
    cd backend
    ./gradlew build
    ./gradlew run
    ```
-2. **Frontend**:  
+2. **Frontend**:
    ```bash
    cd frontend
    npm install
@@ -124,19 +133,23 @@ Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa
    ```
 
 #### Dostęp do aplikacji
+
 Po uruchomieniu aplikacji frontendowej, otwórz przeglądarkę i przejdź pod adres:  
 [http://localhost:5173/](http://localhost:5173/)  
 Tam znajdziesz działającą aplikację webową.
 
-
-
 ## Proces powstawania projektu TODO
+
 - opis procesu powstawania projektu - może być to w formie np. "dziennika wydarzeń", grunt by opisywało chronologicznie Wasze doświadczenia
+
 ### Piątek (11.04)
+
 - określenie tematu i funkcjonalności aplikacji
 - podział na podzespoły (frontend/backend)
 - inicjalizacja repozytorium, projektów
+
 ### Sobota (12.04)
+
 - **(Frontend)** zaprojektowanie makiet UI
 - **(Frontend)** przygotowanie formularza do logowania i rejestracji
 
@@ -152,6 +165,7 @@ Tam znajdziesz działającą aplikację webową.
 - **(Backend)** Stworzenie endpointów zwracających listę dostępnych wydziałów oraz hobby do wyboru.
 
 ### Niedziela (13.04)
+
 - **(Frontend)** umożliwienie logowanie użytkownika
 - **(Frontend)** wyświetlanie informacji o użykowniku pobranej z backendu
 - **(Frontend)** wyświetlanie listy kandydatów pobranej z backendu
@@ -166,21 +180,131 @@ Tam znajdziesz działającą aplikację webową.
 - **(Backend)** opracowanie algorytmu obliczającego metrykę podobieństwa między użytkownikami, uwzględniającego ich preferencje i cechy.
 - **(Backend)** Deployment i integracja z bazą danych PostgreSQL
 
-
 ## Wyzwania i probelmy TODO
+
 (główne wyzwania i problemy oraz jak sobie z nimi poradziliście (można wykorzystać wnioski z retrospektywy))
+
 1. **Trudności w nauce nowych technologi**
-Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować porzeba narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
+   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować porzeba narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
 2. **Problemy komunikacyjne między frontendem a backendem**  
    Brak jasnych ustaleń dotyczących kontraktów API i niedoprecyzowane wymagania skutkowały opóźnieniami i nieporozumieniami. Rozwiązanie polegało na oddelegowaniu dwóch osób (jedej z backendu i jedej z frontendu), aby wspólnie ustaliły potrzebne informacje.
 3. **Nierównomierne tempo prac – backend wolniejszy niż frontend**  
    Z powodu większej złożoności oraz problemów z wdrożeniem technologii backendowych, ta część rozwijała się wolniej.
 4. **Rozwiązywanie merge conflictów**
-W trakcie rozwoju aplikacji pojawiały się konflikty, staraliśmy się więc nie dopuszczać do sytuacji, w której dwie osoby wprowadzają duże modyfikacje w tym samym pliku. Pozwoliło nam to zaoszczędzić czas na rozwiązywaniu potencjalnych konflików.
+   W trakcie rozwoju aplikacji pojawiały się konflikty, staraliśmy się więc nie dopuszczać do sytuacji, w której dwie osoby wprowadzają duże modyfikacje w tym samym pliku. Pozwoliło nam to zaoszczędzić czas na rozwiązywaniu potencjalnych konflików.
 
 ## Dokumentacja techniczna
+
 - elementy technicznej dokumentacji - np. architektura systemu, opis komponentów czy zastosowanych pomysłów/wzorców. Warto umieścić tu diagramy (np. klas, przepływu sterowania)
 
-## 
+##
 
 - można też wykorzytać metryki zgromadzone przez githuba (zakłada Insights i wkleić screeny + komentarz do nich.
+
+![Flow Chart](assets/flow_chart.svg)
+
+## BACKEND TODO
+
+## Frontend
+
+### Struktura projektu
+
+```
+src/
+├── apis/
+├── authentication/
+├── home/
+├── MainApp/
+├── preferences/
+├── rest/
+├── RoommatePreferences/
+├── types/
+└── App.tsx
+```
+
+### `./apis`
+
+Zawiera logikę komunikacji z API:
+
+- **authentication.ts** – obsługuje logowanie, rejestrację i wylogowanie użytkownika.
+- **base.ts** – definiuje bazowy URL do zapytań API.
+- **matches.ts** – zarządza zapytaniami dotyczącymi dopasowań (np. przesuwanie profili).
+- **preferences.ts** – obsługuje zapytania związane z preferencjami i dodatkowymi informacjami użytkownika.
+- **users.ts** – pobiera dane użytkowników i przetwarza odpowiedzi API związane z użytkownikami.
+
+### `./authentication`
+
+Zawiera strony związane z uwierzytelnianiem:
+
+- **LoginPage.tsx** – formularz logowania użytkownika.
+- **RegisterPage.tsx** – formularz rejestracji nowych użytkowników.
+
+### `./home`
+
+Zawiera stronę startową:
+
+- **HomePage.tsx** – główna strona powitalna aplikacji.
+
+### `./MainApp`
+
+Zawiera kluczowe komponenty aplikacji:
+
+- **DiscoverPage.tsx** – wyświetla potencjalnych współlokatorów do dopasowania.
+- **ListComponent.tsx** – wielokrotnego użytku komponent listy użytkowników.
+- **MatchesPage.tsx** – pokazuje dopasowanych użytkowników i oczekujące zaproszenia.
+- **Navbar.tsx** – pasek nawigacyjny aplikacji.
+- **ProfilePage.tsx** – prezentuje profil użytkownika i jego preferencje.
+- **UserDetailModal.tsx** – modal z rozszerzonymi informacjami o użytkowniku.
+
+### `./preferences`
+
+Zawiera wieloetapowy formularz preferencji:
+
+- **PreferencesPage.tsx** – główny komponent zarządzający logiką formularza; łączy poszczególne kroki i umożliwia wprowadzanie preferencji przez użytkownika.
+- **StepN.tsx** – komponent odpowiadający za pojedynczy krok formularza, w którym użytkownik podaje konkretne informacje.
+
+### `./rest`
+
+Zawiera współdzielone modele danych generowane automatycznie przez backend:
+
+- **model.auth.ts** – modele żądań i odpowiedzi związanych z uwierzytelnianiem.
+- **model.ts** – modele danych użytkownika, preferencji i dopasowań.
+
+### `./RoommatePreferences`
+
+Zawiera formularze preferencji współlokatorów:
+
+- **RoommatePreferencesPage.tsx** – główna strona ustawiania preferencji współlokatora.
+- **StepOne.tsx** – formularz ogólnych preferencji (np. hobby, rok studiów).
+- **StepTwo.tsx** – formularz preferencji związanych ze stylem życia.
+
+### `./types`
+
+Zawiera definicje typów TypeScript:
+
+- **match.ts** – typy związane z dopasowaniami i ich statusami.
+- **user.ts** – typy związane z danymi użytkownika i jego preferencjami.
+
+### Zastosowane pomysły i wzorce projektowe
+
+- **TypeScript**
+
+  Dzięki typowaniu statycznemu minimalizujemy błędy w trakcie developmentu i zapewniamy większą czytelność kodu.
+
+- **Responsive Design**
+
+  Aplikacja została zaprojektowana z użyciem Tailwind CSS, co zapewnia responsywność i łatwość w dostosowywaniu stylów.
+
+- **Reusable Styles with Tailwind CSS + DaisyUI**
+
+  Wykorzystano DaisyUI, czyli bibliotekę komponentów opartą na Tailwind CSS, co pozwoliło na szybkie tworzenie spójnego interfejsu użytkownika.
+
+## Co można było zrobić lepiej
+
+- **Spójna architektura frontendu**
+
+  Ze względu na charakter wydarzenia, który wymagał szybkiego dostarczenia działającego rozwiązania, nie została ustalona wspólna wizja struktury projektu ani jednolity sposób jego implementacji. W rezultacie poszczególne części aplikacji zostały zaimplementowane w oparciu o różne podejścia i wzorce, co negatywnie wpłynęło na spójność oraz czytelność ogólnej architektury projektu.
+
+- **Szersze wykorzystanie wzorców projektowych**
+
+  Podczas tworzenia frontendu warto było w większym stopniu zastosować sprawdzone wzorce projektowe – m.in. podział na małe, wielokrotnego użytku komponenty oraz wyraźne rozgraniczenie komponentów prezentacyjnych i kontenerowych. Taka struktura ułatwiłaby dalszy rozwój aplikacji, zwiększyła czytelność kodu i ograniczyła jego powielanie poprzez ponowne wykorzystanie istniejących elementów.
