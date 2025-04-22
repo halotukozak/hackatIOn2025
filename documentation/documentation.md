@@ -7,11 +7,11 @@
 
 ## Opis projektu
 
-Naszym celem było stworzenie aplikacji, pomagającej studentom w znajdowaniu współlokatora do akademika. Inspirowaliśmy się koncepcją wykorzystywaną w popularnych aplikacjach randkowych, takich jak Tinder. Podczas rejestrecji użytkownik wypełnia szczegółowy formularz, aby określić swoje preferencje i cechy osobowości. Pomaga to zapewnić lepsze dopasowanie między potencjalnymi współlokatorami. Formularz obejmuje następujące aspekty:
+Naszym celem było stworzenie aplikacji, pomagającej studentom w znalezieniu współlokatora do akademika. Czerpaliśmy inspirację z popularnych aplikacjach randkowych, takich jak Tinder. Podczas rejestrecji użytkownik wypełnia szczegółowy formularz, który pozwla określić jego cechy osobowości i preferencje. Dzięki temu zapewniamy lepsze dopasowanie między potencjalnymi współlokatorami. Formularz obejmuje następujące aspekty:
 
 ### Informacje o użytkowniku
 
-- harmonogram snu (godzina zasypiania i wstawanie)
+- harmonogram snu (godzina zasypiania i wstawania)
 - zainteresowania i hobby (wybierane z listy)
 - palenie papierosów (tak/nie/okazjonalnie)
 - picie alkoholu (tak/nie/okazjonalnie)
@@ -31,8 +31,8 @@ Naszym celem było stworzenie aplikacji, pomagającej studentom w znajdowaniu ws
 - wydział (ma znaczenie lub nie)
 - status związku (ma znaczenie lub nie)
 
-Użytkownik może przeglądać profile innych osób, które zawierają kluczowe informację i wartość zgodności dopasowanie. Pierwotny pomysł zakładał interfejs użytkownika w styku podobnym do aplikacji randkowej, gdzie przesunięcie w prawo to nawiązanie interakcji z daną osobą, a przesunięcie w lewo oznacza pominięcie profilu. Pomysłu tego nie udało się jednak zrealizować. W aktualnej wersji dostępne są przyciski o takiej samej funkcjonalności. \
-Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane są ich dane kontaktowe, umożliwiając dalszą interakcję i rozmowę (poza naszą aplikają). Użytkownik może również w każdej chwili usunąć się z systemu, jeśli nie jest już zainteresowany poszukiwaniem współlokatora.
+Użytkownik może przeglądać profile innych osób, które zawierają kluczowe informację i wartość zgodności dopasowanie. Pierwotny pomysł zakładał interfejs użytkownika w stylu aplikacji randkowej, gdzie przesunięcie w prawo to nawiązanie interakcji z daną osobą, a przesunięcie w lewo oznacza pominięcie profilu. Pomysłu tego nie zdążyliśmy niestety w pełni zrealizować. W aktualnej wersji dostępne są przyciski pełniące te same funkcje. \
+Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane są ich dane kontaktowe, umożliwiając dalszą rozmowę poza naszą aplikają. Użytkownik ma także możliwość w każdej chwili usunięcia swojego konta z systemu, jeśli nie jest już zainteresowany poszukiwaniem współlokatora.
 
 ### Kluczowe funkcje aplikacji
 
@@ -40,16 +40,16 @@ Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane s�
 - szczegółowy formularz startowy zbierający informacje o preferencjach i cechach użytkownika
 - system oceniający dopasowanie potencjalnych współlokatorów
 - możliwość wysyłania zapytań do potencjalnych współlokatorów
-- udostępnaianie danych kontaktowych w przypadku zainteresowania dwóch osób
+- udostępnaianie danych kontaktowych w przypadku wzajemnego zainteresowania
 - podgląd powiadomień
 - podgląd danych użytkownika (swoich i innych osób)
 
 ### Algorytm sortujący
 
-Aplikacja wykorzystuje funkcję kosztu do obliczania wartości dopasowania użytkowników. Algortym analizuje różnice w preferencjach i cechach, przypisując wagę każdemu aspektowi w zależności od opcji zaznaczonych przez użytkownika. Na przykład:\
+Do obliczania wartości dopasowania aplikacja wykorzystuje funkcję kosztu. Algortym analizuje różnice w preferencjach użytkownika oraz cechach potensjalnych współlokatorów, uwzględniając wagę każdego aspektu w zależności od opcji zaznaczonych przez użytkownika. Na przykład:\
 Mniejsze różnice w harmonogramach snu powodują lepsze dopasowanie.\
-Większe różnice w kwestii palenia lub picia alkoholu powodują mniejszą wartość dopasowania.\
-Profile potencjalnych współlokatorów sortowane są według obliczonej wartości dopasowania. W pierwszej kolejności prezentowane są osoby o najwięszym stopniu zgodności.
+Większe różnice w kwestii palenia lub picia alkoholu powodują obniżenie wartośi funkcji dopasowania.\
+Profile potencjalnych współlokatorów są sortowane według obliczonej w ten sposób wartości. W pierwszej kolejności prezentowane są osoby o najwięszym stopniu zgodności.
 
 ## Zastosowane technologie
 
@@ -85,7 +85,7 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 ### Frontend
 
 - **React + TypeScript**  
-  React jako biblioteka do budowy interfejsu użytkownika, w połączeniu z TypeScriptem zapewnia typowanie i lepsze bezpieczeństwo kodu.
+  React jako biblioteka do budowy interfejsu użytkownika, w połączeniu z TypeScriptem który zapewnia silne typowanie a w konsekwencji większe bezpieczeństwo kodu.
 
 - **Tailwind CSS**  
   Framework CSS, umożliwiający szybkie tworzenie nowoczesnych i responsywnych interfejsów użytkownika bez potrzeby pisania własnych klas CSS.
@@ -96,10 +96,7 @@ Profile potencjalnych współlokatorów sortowane są według obliczonej wartoś
 - **v0**  
   Narzędzie do generowania makiet UI i inspiracji wizualnych, które przyspieszyło proces projektowania interfejsu.
 
-## Uruchamianie aplikacji TODO
-
-- instrukcję uruchomienia aplikacji - będziemy chcieli to zweryfikować u siebie i może to wpłynąć na ocenę za efekt końcowy, więc sprawdźcie czy faktycznie działa!
-
+## Uruchamianie aplikacji
 Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa Docker Daemon jest uruchomiona. Szczegółowe instrukcje znajdziesz w oficjalnej dokumentacji: [Uruchamianie Docker Daemon](https://docs.docker.com/engine/daemon/start/).
 
 #### Uruchamianie w kontenerach
@@ -138,24 +135,22 @@ Po uruchomieniu aplikacji frontendowej, otwórz przeglądarkę i przejdź pod ad
 [http://localhost:5173/](http://localhost:5173/)  
 Tam znajdziesz działającą aplikację webową.
 
-## Proces powstawania projektu TODO
-
-- opis procesu powstawania projektu - może być to w formie np. "dziennika wydarzeń", grunt by opisywało chronologicznie Wasze doświadczenia
+## Proces powstawania projektu
 
 ### Piątek (11.04)
 
 - określenie tematu i funkcjonalności aplikacji
 - podział na podzespoły (frontend/backend)
-- inicjalizacja repozytorium, projektów
+- stworzenie repozytorium i projektów
 
 ### Sobota (12.04)
 
-- **(Frontend)** zaprojektowanie makiet UI
+- **(Frontend)** projektowanie makiet UI
 - **(Frontend)** przygotowanie formularza do logowania i rejestracji
 
 - **(Frontend)** widok listy potencjalnych współlokatorów
 
-- **(Frontend)** zaprojektowanie formularza do zbierania preferencji i cech osobowości (pierwsze połączenie z backendem - lista hobby i dostępnych wydziałów)
+- **(Frontend)** projektowanie formularza do zbierania preferencji i cech osobowości (pierwsze połączenie z backendem - lista hobby i dostępnych wydziałów)
 - **(Frontend)** widok listy powiadomień
 - **(Frontend)** widok profilu użytkownika
 - **(Backend)** Integracja z in-memory bazą danych H2
@@ -169,7 +164,7 @@ Tam znajdziesz działającą aplikację webową.
 - **(Frontend)** umożliwienie logowanie użytkownika
 - **(Frontend)** wyświetlanie informacji o użykowniku pobranej z backendu
 - **(Frontend)** wyświetlanie listy kandydatów pobranej z backendu
-- **(Frontend)** umożliwienie rejestracji uzytkownika (wysłanie informacji na backend)
+- **(Frontend)** umożliwienie rejestracji użytkownika (wysłanie informacji na backend)
 - **(Frontend)** wyświetlanie powiadomień pobranych z backendu
 - **(Frontend)** dodanie funkcjonalności zaproszenia i odrzucenia potencjalnego współlokatora (wysyłanie informacji na backend)
 - **(Frontend)** możliwość wylogowania użytkownika
@@ -180,26 +175,18 @@ Tam znajdziesz działającą aplikację webową.
 - **(Backend)** opracowanie algorytmu obliczającego metrykę podobieństwa między użytkownikami, uwzględniającego ich preferencje i cechy.
 - **(Backend)** Deployment i integracja z bazą danych PostgreSQL
 
-## Wyzwania i probelmy TODO
-
-(główne wyzwania i problemy oraz jak sobie z nimi poradziliście (można wykorzystać wnioski z retrospektywy))
+## Wyzwania i probelmy
 
 1. **Trudności w nauce nowych technologi**
-   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować potrzebne narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
+   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować potrzebne narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić przy rozwiązywaniu problemów.
 2. **Problemy komunikacyjne między frontendem a backendem**  
    Brak jasnych ustaleń dotyczących kontraktów API i niedoprecyzowane wymagania skutkowały opóźnieniami i nieporozumieniami. Rozwiązanie polegało na oddelegowaniu dwóch osób (jedej z backendu i jedej z frontendu), aby wspólnie ustaliły potrzebne informacje.
 3. **Nierównomierne tempo prac – backend wolniejszy niż frontend**  
-   Z powodu większej złożoności oraz problemów z wdrożeniem technologii backendowych, ta część rozwijała się wolniej.
+   Z powodu większej złożoności oraz problemów z wdrożeniem technologii backendowych, ta część rozwijała się nieco wolniej.
 4. **Rozwiązywanie merge conflictów**
    W trakcie rozwoju aplikacji pojawiały się konflikty, staraliśmy się więc nie dopuszczać do sytuacji, w której dwie osoby wprowadzają duże modyfikacje w tym samym pliku. Pozwoliło nam to zaoszczędzić czas na rozwiązywaniu potencjalnych konflików.
 
 ## Dokumentacja techniczna
-
-- elementy technicznej dokumentacji - np. architektura systemu, opis komponentów czy zastosowanych pomysłów/wzorców. Warto umieścić tu diagramy (np. klas, przepływu sterowania)
-
-##
-
-- można też wykorzytać metryki zgromadzone przez githuba (zakłada Insights i wkleić screeny + komentarz do nich.
 
 <p align="center">
 <img src="assets/flow_chart.svg" alt="Flow Chart" width="300"/>
@@ -388,12 +375,12 @@ Zawiera stronę startową:
 
 Zawiera kluczowe komponenty aplikacji:
 
-- **DiscoverPage.tsx** – wyświetla potencjalnych współlokatorów do dopasowania.
-- **ListComponent.tsx** – wielokrotnego użytku komponent listy użytkowników.
-- **MatchesPage.tsx** – pokazuje dopasowanych użytkowników i oczekujące zaproszenia.
-- **Navbar.tsx** – pasek nawigacyjny aplikacji.
-- **ProfilePage.tsx** – prezentuje profil użytkownika i jego preferencje.
-- **UserDetailModal.tsx** – modal z rozszerzonymi informacjami o użytkowniku.
+- **DiscoverPage.tsx** – potencjalni współlokatorzy do dopasowania.
+- **ListComponent.tsx** – komponent listy użytkowników wielokrotnego użytku.
+- **MatchesPage.tsx** – dopasowani użytkownicy i oczekujące zaproszenia.
+- **Navbar.tsx** – pasek nawigacji.
+- **ProfilePage.tsx** – profil użytkownika i jego preferencje.
+- **UserDetailModal.tsx** – modal ze szczegółowymi informacjami o użytkowniku.
 
 ### `./preferences`
 
