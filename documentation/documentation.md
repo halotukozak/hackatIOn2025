@@ -32,7 +32,7 @@ Naszym celem było stworzenie aplikacji, pomagającej studentom w znajdowaniu ws
 - status związku (ma znaczenie lub nie)
 
 Użytkownik może przeglądać profile innych osób, które zawierają kluczowe informację i wartość zgodności dopasowanie. Pierwotny pomysł zakładał interfejs użytkownika w styku podobnym do aplikacji randkowej, gdzie przesunięcie w prawo to nawiązanie interakcji z daną osobą, a przesunięcie w lewo oznacza pominięcie profilu. Pomysłu tego nie udało się jednak zrealizować. W aktualnej wersji dostępne są przyciski o takiej samej funkcjonalności. \
-Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane są ich dane kontaktowe, umożliwiając dalszą interakcję i rozmowę (poza naszą aplikają). Użytkownik mogże również w każdej chwili usunąć się z systemu, jeśli nie jest już zainteresowany poszukiwaniem współlokatora.
+Gdy dwie osoby wzajemnie wyrażą chęć zamieszkania ze sobą, udostępniane są ich dane kontaktowe, umożliwiając dalszą interakcję i rozmowę (poza naszą aplikają). Użytkownik może również w każdej chwili usunąć się z systemu, jeśli nie jest już zainteresowany poszukiwaniem współlokatora.
 
 ### Kluczowe funkcje aplikacji
 
@@ -185,7 +185,7 @@ Tam znajdziesz działającą aplikację webową.
 (główne wyzwania i problemy oraz jak sobie z nimi poradziliście (można wykorzystać wnioski z retrospektywy))
 
 1. **Trudności w nauce nowych technologi**
-   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować porzebne narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
+   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować potrzebne narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
 2. **Problemy komunikacyjne między frontendem a backendem**  
    Brak jasnych ustaleń dotyczących kontraktów API i niedoprecyzowane wymagania skutkowały opóźnieniami i nieporozumieniami. Rozwiązanie polegało na oddelegowaniu dwóch osób (jedej z backendu i jedej z frontendu), aby wspólnie ustaliły potrzebne informacje.
 3. **Nierównomierne tempo prac – backend wolniejszy niż frontend**  
@@ -321,6 +321,28 @@ Testy jednostkowe warstwy serwisów:
 - **MatchServiceTest.kt**
 - **PreferencesServiceTest.kt**
 - **UserServiceTest.kt**
+
+### Zastosowane pomysły i wzorce projektowe
+- **Separation of Concerns**
+  
+  Logika aplikacyjna została oddzielona od warstwy dostępu do danych i obsługi HTTP. Dzięki temu każda warstwa (serwisy, endpointy, modele) ma jasno określoną odpowiedzialność.
+
+- **Dependency Injection**  
+
+  Wstrzykiwanie zależności do serwisów i warstwy HTTP odbywa się poprzez context receivers oraz ręczne przekazywanie instancji w `Dependencies.kt`, co ułatwia testowanie i modularność.
+
+- **Strategia obliczania dopasowania**  
+
+  Funkcja `countScore.kt` realizuje strategię przypisywania wag i porównywania cech użytkowników. Dzięki enkapsulacji logiki oceny dopasowania w jednej funkcji łatwiej ją modyfikować lub rozszerzać.
+
+- **Modularny routing**
+
+  Routing został podzielony na pliki tematyczne (`configureAuthRouting`, `configureMatchRouting` itd.), co ułatwia orientację w kodzie i umożliwia łatwe zarządzanie punktami końcowymi.
+
+- **Infrastructure as Code**
+
+  Wdrożenie backendu oparte jest na kontenerach Docker i platformie Render. Podejście to zapewnia przenośność środowiska oraz spójność konfiguracji między lokalnym developmentem a produkcją.
+
 
 ## Frontend
 
