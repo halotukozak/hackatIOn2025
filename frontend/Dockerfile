@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:slim
 WORKDIR /app
 COPY . .
 RUN npm install
