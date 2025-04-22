@@ -185,7 +185,7 @@ Tam znajdziesz działającą aplikację webową.
 (główne wyzwania i problemy oraz jak sobie z nimi poradziliście (można wykorzystać wnioski z retrospektywy))
 
 1. **Trudności w nauce nowych technologi**
-   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować porzeba narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
+   Niektóre osoby początkowo miały problemy z przyswojeniem nowych narzędzi. Między innymi, mało kto w zespole miał doświadczenie z technologiami frontendowymi. Udało nam się jednak sprawnie opanować porzebne narzędzia, a osoby bardziej doświadczone technicznie potrafiły skutecznie pokierować pracami i doradzić gdy osoby potrafiące mniej miały problemy.
 2. **Problemy komunikacyjne między frontendem a backendem**  
    Brak jasnych ustaleń dotyczących kontraktów API i niedoprecyzowane wymagania skutkowały opóźnieniami i nieporozumieniami. Rozwiązanie polegało na oddelegowaniu dwóch osób (jedej z backendu i jedej z frontendu), aby wspólnie ustaliły potrzebne informacje.
 3. **Nierównomierne tempo prac – backend wolniejszy niż frontend**  
@@ -205,7 +205,122 @@ Tam znajdziesz działającą aplikację webową.
 <img src="assets/flow_chart.svg" alt="Flow Chart" width="300"/>
 </p>
 
-## BACKEND TODO
+## Backend
+
+### Struktura projektu
+
+```
+src/
+├───main
+│   ├───kotlin
+│   │   └───edu.agh.roomie
+│   │       ├───rest
+│   │       │   ├───endpoints
+│   │       │   └───model
+│   │       ├───scripts
+│   │       └───service
+│   └───resources
+│       └───openapi
+└───test
+    └───kotlin
+        └───edu.agh.roomie
+            ├───rest.endpoints
+            └───service
+```
+
+### `./main/kotlin/edu.agh.roomie`
+
+Główny pakiet kodu źródłowego. 
+
+- **Application.kt** – punkt wejścia aplikacji
+- **Databases.kt** – konfiguruje bazę (H2 lokalnie, PostgreSQL w produkcji), zawiera funkcję do generowania danych testowych
+
+### `./main/kotlin/edu.agh.roomie.rest`
+
+Zawiera konfigurację zależności, routingu oraz ustawień HTTP:
+
+- **Dependencies.kt** – klasa przechowująca zależności (Services oraz Database)
+- **HTTP.kt** – konfiguruje kompresję i CORS
+- **Routing.kt** – konfiguruje obsługę błędów, negocjację treści, routing oraz integrację ze Swaggerem
+
+### `./main/kotlin/edu.agh.roomie.rest.endpoints`
+
+Zawiera definicje endpointów REST:
+
+- **configureAuthRouting.kt** – konfiguruje endpointy związane z uwierzytelnianiem użytkowników (logowanie, rejestracja, wylogowanie, usuwanie konta)
+- **configureInitialRouting.kt** – konfiguruje endpointy do rejestracji użytkowników, zarządzania ich preferencjami i dodatkowymi informacjami
+- **configureMatchRouting.kt** – konfiguruje endpoint obsługujący odrzucanie i akceptowanie użytkowników
+- **configureUserRouting.kt** – konfiguruje endpointy związane z użytkownikami (dane użytkownika, dopasowania, dostępne dopasowania)
+
+### `./main/kotlin/edu.agh.roomie.rest.model`
+
+Modele danych oraz funkcje wspierające logikę dopasowań użytkowników:
+
+- **Auth.kt** – modele danych dla zapytań i odpowiedzi służące przesyłaniu danych pomiędzy frontend i backend
+- **countScore.kt** – funkcja obliczająca dopasowanie między użytkownikami na podstawie ich preferencji i danych
+- **Faculty.kt** - enum reprezentujący różne wydziały uczelni
+- **Hobby.kt** - enum reprezentujący dostepne hobby
+- **Info.kt** - przechowuje dane użytkownika, takie jak imię, wiek, preferencje itp.
+- **Match.kt** - przechowuje dane dotyczące dopasowania użytkowników
+- **Preferences.kt** - definiuje preferencje użytkownika
+- **User.kt** - definiuje klasę danych użytkownika, konwertuje jego dane z formatu bazy danych do modelu aplikacji
+
+### `./main/kotlin/edu.agh.roomie.scripts`
+
+Skrypty pomocnicze:
+
+- **exportRestModels.kt** - generuje typy TypeScript z klas danych Kotlin
+
+### `./main/kotlin/edu.agh.roomie.service`
+
+Logika biznesowa aplikacji, obsługa użytkowników, preferencji i dopasowań:
+
+- **AuthService.kt** - generuje, weryfikuje i usuwa tokeny, przechowując je w mapie
+- **FakeUserGenerator.kt** - generator testowych użytkowników wraz z ich danymi i preferencjami
+- **InfoService.kt** - obsługuje operacje na tabeli InfosTable
+- **MatchService.kt** - zarządza zaproszeniami do dopasowania użytkowników
+- **PreferencesService.kt** - zarządza przechowywaniem preferencji użytkowników w PreferencesTable
+- **UserService.kt** - zarządza użytkownikami w tabeli UsersTable 
+
+### `./main/resources`
+
+Zasoby konfiguracyjne aplikacji:
+
+- **application.yaml** - plik konfiguracyjny aplikacji
+- **logback.yaml** - plik konfiguracyjny logowania (Logback)
+
+### `./main/resources/openapi`
+
+Zawiera specyfikację OpenAPI dla wygenerowanej dokumentacji API:
+
+- **documentation.yaml** - specyfikacja OpenAPI
+
+### `./test/kotlin/edu.agh.roomie`
+
+Pakiet pomocniczy do testów weryfikujących funkcjonalności aplikacji:
+
+- **TestUtils.kt**
+
+### `./test/kotlin/edu.agh.roomie.rest.endpoints`
+
+Testy jednostkowe zdefiniowanych endpointów REST:
+
+- **AuthRoutingTest.kt**
+- **InitialRoutingTest.kt**
+- **MatchRoutingTest.kt**
+- **TestUtils.kt**
+- **UserRoutingTest.kt**
+
+### `./test/kotlin/edu.agh.roomie.rest.service`
+
+Testy jednostkowe warstwy serwisów:
+
+- **AuthServiceTest.kt**
+- **FakeUserGeneratorTest.kt**
+- **InfoServiceTest.kt**
+- **MatchServiceTest.kt**
+- **PreferencesServiceTest.kt**
+- **UserServiceTest.kt**
 
 ## Frontend
 
