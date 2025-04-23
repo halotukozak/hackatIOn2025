@@ -74,10 +74,10 @@ Profile potencjalnych współlokatorów są sortowane według obliczonej w ten s
   Deployment aplikacji realizowany w podejściu _Infrastructure as Code_ z użyciem kontenerów Dockerowych oraz platformy Render do hostowania backendu.
 
 - **Eksport modeli REST do TypeScript**  
-  Automatyczne generowanie typów TypeScript z modeli Kotlinowych w celu zapewnienia spójności danych między backendem a frontendem.
+  Automatyczne generowanie interface'ów TypeScript z modeli Kotlinowych w celu zapewnienia spójności danych między backendem a frontendem.
 
 - **Swagger / OpenAPI**  
-  Backend automatycznie generuje dokumentację API w formacie OpenAPI, udostępnianą w formie interaktywnego Swagger UI.
+  Dokumentacja API generowana jest za pomocą wtyczki do IntelliJ w formacie OpenAPI, a następnie udostępniana w formie interaktywnego Swagger UI.
 
 - **Faker**  
   Biblioteka służąca do generowania losowych danych wykorzystywanych podczas testowania i developmentu.
@@ -97,6 +97,7 @@ Profile potencjalnych współlokatorów są sortowane według obliczonej w ten s
   Narzędzie do generowania makiet UI i inspiracji wizualnych, które przyspieszyło proces projektowania interfejsu.
 
 ## Uruchamianie aplikacji
+
 Przed rozpoczęciem upewnij się, że masz zainstalowany Docker oraz że usługa Docker Daemon jest uruchomiona. Szczegółowe instrukcje znajdziesz w oficjalnej dokumentacji: [Uruchamianie Docker Daemon](https://docs.docker.com/engine/daemon/start/).
 
 #### Uruchamianie w kontenerach
@@ -217,7 +218,7 @@ src/
 
 ### `./main/kotlin/edu.agh.roomie`
 
-Główny pakiet kodu źródłowego. 
+Główny pakiet kodu źródłowego.
 
 - **Application.kt** – punkt wejścia aplikacji
 - **Databases.kt** – konfiguruje bazę (H2 lokalnie, PostgreSQL w produkcji), zawiera funkcję do generowania danych testowych
@@ -267,7 +268,7 @@ Logika biznesowa aplikacji, obsługa użytkowników, preferencji i dopasowań:
 - **InfoService.kt** - obsługuje operacje na tabeli InfosTable
 - **MatchService.kt** - zarządza zaproszeniami do dopasowania użytkowników
 - **PreferencesService.kt** - zarządza przechowywaniem preferencji użytkowników w PreferencesTable
-- **UserService.kt** - zarządza użytkownikami w tabeli UsersTable 
+- **UserService.kt** - zarządza użytkownikami w tabeli UsersTable
 
 ### `./main/resources`
 
@@ -310,15 +311,16 @@ Testy jednostkowe warstwy serwisów:
 - **UserServiceTest.kt**
 
 ### Zastosowane pomysły i wzorce projektowe
+
 - **Separation of Concerns**
-  
+
   Logika aplikacyjna została oddzielona od warstwy dostępu do danych i obsługi HTTP. Dzięki temu każda warstwa (serwisy, endpointy, modele) ma jasno określoną odpowiedzialność.
 
-- **Dependency Injection**  
+- **Dependency Injection**
 
   Wstrzykiwanie zależności do serwisów i warstwy HTTP odbywa się poprzez context receivers oraz ręczne przekazywanie instancji w `Dependencies.kt`, co ułatwia testowanie i modularność.
 
-- **Strategia obliczania dopasowania**  
+- **Strategia obliczania dopasowania**
 
   Funkcja `countScore.kt` realizuje strategię przypisywania wag i porównywania cech użytkowników. Dzięki enkapsulacji logiki oceny dopasowania w jednej funkcji łatwiej ją modyfikować lub rozszerzać.
 
@@ -329,7 +331,6 @@ Testy jednostkowe warstwy serwisów:
 - **Infrastructure as Code**
 
   Wdrożenie backendu oparte jest na kontenerach Docker i platformie Render. Podejście to zapewnia przenośność środowiska oraz spójność konfiguracji między lokalnym developmentem a produkcją.
-
 
 ## Frontend
 
