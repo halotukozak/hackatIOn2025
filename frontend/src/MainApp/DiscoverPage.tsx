@@ -1,8 +1,8 @@
 import ListComponent from "./ListComponent.tsx";
-import { UserShow } from "./types/user";
-import Navbar from "./Navbar";
-import { MatchStatus } from "./types/match.ts";
-import { getAllUsers } from "./apis/users";
+import { UserShow } from "../types/user.ts";
+import Navbar from "./Navbar.tsx";
+import { MatchStatus } from "../types/match.ts";
+import { getAllUsers } from "../apis/users.ts";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

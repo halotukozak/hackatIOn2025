@@ -1,13 +1,13 @@
 import React from "react";
-import {XMarkIcon, HeartIcon, UserIcon} from "@heroicons/react/24/solid";
+import { XMarkIcon, HeartIcon, UserIcon } from "@heroicons/react/24/solid";
 import {
   UserShow,
   smokeLabels,
   drinkLabels,
   personalityLabels,
   relationshipLabels,
-} from "./types/user";
-import { MatchStatus } from "./types/match.ts";
+} from "../types/user.ts";
+import { MatchStatus } from "../types/match.ts";
 
 type UserDetailModalProps = {
   user: UserShow;

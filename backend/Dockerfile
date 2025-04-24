@@ -8,6 +8,6 @@ RUN gradle assemble --no-daemon
 FROM openjdk:17-slim
 ENV DEPLOYMENT=DEPLOYMENT
 WORKDIR /backend
-COPY --from=build /backend/build/libs/*.jar app.jar
+COPY --from=build /backend/build/libs/roomie-all.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

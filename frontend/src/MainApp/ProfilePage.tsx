@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { deleteAccount, logout } from "./apis/authentication";
+import { deleteAccount, logout } from "../apis/authentication";
 import { useNavigate } from "react-router-dom";
 
-import Navbar from "./Navbar";
+import Navbar from "../MainApp/Navbar";
 import {
   UserShow,
   personalityLabels,
   drinkLabels,
   smokeLabels,
   relationshipLabels,
-} from "./types/user";
+} from "../types/user";
 import { Link } from "react-router-dom";
-import { getUserById } from "./apis/users";
+import { getUserById } from "../apis/users";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<UserShow | null>(null);
@@ -81,40 +81,47 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    if (!userId) {navigate("/"); return;}
-    else{
-    const fetchUser = async () => {
-      try {
-        // const userId = localStorage.getItem("user_id");
-        console.log(userId);
-        if (!userId) {
-          throw new Error("User ID not found in localStorage");
+    if (!userId) {
+      navigate("/");
+      return;
+    } else {
+      const fetchUser = async () => {
+        try {
+          // const userId = localStorage.getItem("user_id");
+          console.log(userId);
+          if (!userId) {
+            throw new Error("User ID not found in localStorage");
+          }
+          const fetchedUser = await getUserById(Number(userId));
+          setUser(fetchedUser);
+        } catch (err) {
+          setError("Failed to load user");
+          console.error(err);
+        } finally {
+          setLoading(false);
         }
-        const fetchedUser = await getUserById(Number(userId));
-        setUser(fetchedUser);
-      } catch (err) {
-        setError("Failed to load user");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchUser();}
-  },  [navigate, userId]);
-  if (!userId)  return null;
+      fetchUser();
+    }
+  }, [navigate, userId]);
+  if (!userId) return null;
   if (loading)
     return (
       <div className="min-h-screen bg-base-200">
         <Navbar />
-        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">Loading...</p>
+        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">
+          Loading...
+        </p>
       </div>
     );
   if (error)
     return (
       <div className="min-h-screen bg-base-200">
         <Navbar />
-        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">{error}</p>
+        <p className="text-gray-700 text-sm pt-20 text-left ml-0 pl-4">
+          {error}
+        </p>
       </div>
     );
   return (
